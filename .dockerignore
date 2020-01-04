@@ -1,0 +1,15 @@
+.gitlab/
+.idea/
+Debug/
+obj/
+
+*.csproj
+*.cs
+*.md
+*.sln
+*.yml
+
+.dockerignore
+.gitignore
+Dockerfile
+LICENSE
