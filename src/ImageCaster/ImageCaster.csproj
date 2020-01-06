@@ -6,11 +6,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Magick.NET-Q8-x64" Version="7.15.0" />
       <PackageReference Include="NLog" Version="4.6.8" />
 
       <Content Include="nlog.config">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+
+      <PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20054.1" />
+
+      <PackageReference Include="YamlDotNet" Version="8.0.0" />
     </ItemGroup>
 
 </Project>
