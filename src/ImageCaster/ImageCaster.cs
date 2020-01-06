@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.DragonFruit;
 using System.CommandLine.Invocation;
 using System.Reflection;
 using System.Threading.Tasks;
 using ImageCaster.Commands;
-using ImageCaster.Configuration;
 using NLog;
-using YamlDotNet.Serialization;
 
 namespace ImageCaster
 {

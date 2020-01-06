@@ -3,7 +3,7 @@ using YamlDotNet.Serialization;
 
 namespace ImageCaster.Configuration
 {
-    public class ArgumentConfig
+    public class ConfigArgument
     {
         /// <summary>NLog logger.</summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
