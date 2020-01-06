@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using YamlDotNet.Serialization;
 
 namespace ImageCaster.Configuration
 {
@@ -12,11 +13,13 @@ namespace ImageCaster.Configuration
         /// <summary>
         /// The optional mask to use when modifying images.
         /// </summary>
+        [YamlMember(Alias = "mask")]
         public FileInfo Mask { get; set; }
         
         /// <summary>
         /// A list of all colors to export the image as.
         /// </summary>
+        [YamlMember(Alias = "colors")]
         public List<ColorConfig> Colors { get; set; }
     }
 }

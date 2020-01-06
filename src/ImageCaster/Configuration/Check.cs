@@ -7,13 +7,13 @@ namespace ImageCaster.Configuration
     public enum Check
     {
         /// <summary>
-        /// Check that the resolution of the mask matches the resolution of the input.
-        /// </summary>
-        MaskResolutionMatches,
-        
-        /// <summary>
         /// Check that if the source file exists, if a respective target file may exist.
         /// </summary>
-        FileExists
+        FileExists,
+        
+        /// <summary>
+        /// Check that the resolution of the mask matches the resolution of the input.
+        /// </summary>
+        MaskResolutionMatches
     }
 }

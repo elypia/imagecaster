@@ -6,7 +6,7 @@
   This is pre-filled with example values, feel free to
   remove them before populating the template.
   
-  If you feel a heading is irrelevent, just remove it.
+  If you feel a heading is irrelevant, just remove it.
 -->
 
 ## Description

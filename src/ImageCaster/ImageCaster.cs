@@ -1,10 +1,14 @@
-﻿using System.CommandLine;
+﻿using System;
+using System.Collections.Generic;
+using System.CommandLine;
 using System.CommandLine.DragonFruit;
 using System.CommandLine.Invocation;
 using System.Reflection;
 using System.Threading.Tasks;
 using ImageCaster.Commands;
+using ImageCaster.Configuration;
 using NLog;
+using YamlDotNet.Serialization;
 
 namespace ImageCaster
 {
@@ -18,7 +22,6 @@ namespace ImageCaster
         public static async Task<int> Main(string[] args)
         {
             Logger.Info("Initializing ImageCaster");
-
             RootCommand command = new RootCommand("Perform aggregate tasks against a collection of images.");
             
             Command check = new Command("check", "Validate that the project structure and standards are maintained.");
@@ -35,7 +38,7 @@ namespace ImageCaster
             command.AddCommand(montage);
 
             Logger.Info("Finished initializing ImageCaster");
-
+            
             return await command.InvokeAsync(args);
         }
     }
