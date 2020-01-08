@@ -10,15 +10,11 @@ namespace ImageCaster.Configuration
     /// </summary>
     public class Dimensions
     {
-        /// <summary>
-        /// The height of the output image.
-        /// </summary>
+        /// <summary>The height of the output image.</summary>
         [YamlMember(Alias = "height")]
         public uint Height { get; set; }
         
-        /// <summary>
-        /// The width of the output image.
-        /// </summary>
+        /// <summary>The width of the output image.</summary>
         [YamlMember(Alias = "width")]
         public uint Width { get; set; }
     }

@@ -37,10 +37,14 @@ namespace ImageCaster.Collectors
             return resolvedFiles;
         }
 
-        public FileInfo Find(ResolvedFile file, string target)
+        /// <summary>Find another file using tokens from the
+        /// <param name="resolvedFile">The file that was initially resolved.</param>
+        /// <param name="pattern">The pattern for the new file, using tokens from the previously resolved file.</param>
+        /// <returns></returns>
+        public FileInfo Resolve(ResolvedFile resolvedFile, string pattern)
         {
-            string name = file.FileInfo.Name;
-            string path = Path.Combine(target, name);
+            string name = resolvedFile.Tokens[0];
+            string path = Path.Combine(pattern, name);
             return new FileInfo(path);
         }
     }

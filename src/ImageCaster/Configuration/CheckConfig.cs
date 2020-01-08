@@ -13,6 +13,6 @@ namespace ImageCaster.Configuration
         public CheckInfo Name { get; set; }
         
         [YamlMember(Alias = "args")]
-        public List<ConfigArgument> Args { get; set; }
+        public Dictionary<string, string> Args { get; set; }
     }
 }

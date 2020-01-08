@@ -30,8 +30,8 @@ namespace ImageCaster.Interfaces
         /// which might be where the masks are located.
         /// </summary>
         /// <param name="resolvedFile">The file that was resolved in <see cref="Collect"/></param>
-        /// <param name="target">A pattern matching the file required."/></param>
+        /// <param name="pattern">A pattern matching the file required."/></param>
         /// <returns>The file matching the pattern, or null if no such file exists.</returns>
-        FileInfo Find(ResolvedFile resolvedFile, string target);
+        FileInfo Resolve(ResolvedFile resolvedFile, string pattern);
     }
 }

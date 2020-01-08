@@ -9,15 +9,11 @@ namespace ImageCaster.Configuration
     /// </summary>
     public class ExifTagConfig
     {
-        /// <summary>
-        /// The name of the valid EXIF tag according to the 2.31 standard.
-        /// </summary>
+        /// <summary>The name of the valid EXIF tag according to the 2.31 standard.</summary>
         [YamlMember(Alias = "tag")]
         public string Tag { get; set; }
         
-        /// <summary>
-        /// The value to assign to this EXIF tag.
-        /// </summary>
+        /// <summary>The value to assign to this EXIF tag.</summary>
         [YamlMember(Alias = "value")]
         public string Value { get; set; }
     }

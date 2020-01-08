@@ -12,7 +12,7 @@ namespace ImageCaster.Collectors
             throw new NotImplementedException();
         }
         
-        public FileInfo Find(ResolvedFile resolvedFile, string target)
+        public FileInfo Resolve(ResolvedFile resolvedFile, string pattern)
         {
             throw new NotImplementedException();
         }

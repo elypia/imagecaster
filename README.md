@@ -12,8 +12,8 @@ to dynamically generate images to display on the project README.
 * Instead of scripting, define a declarative configuration that describes the output you want.
 * Quicker consecutive builds, ImageCaster will manage if changes occured and if re-exported again is required.
 * Set [EXIF] data for output, for example the `Copyright` or `Artist` tag.
-* Define [patterns] to match images and create montages to display to users.
-* Define [patterns] to to match images and archive images for download.
+* Define patterns (directory/[glob]/[regex]) to match images and create montages to display to users.
+* Define patterns (directory/[glob]/[regex]) to to match images and archive images for download.
 * Define checks to ensure your repository standards are maintained and to avoid mistakes like mismatching names.
 
 ## Example
@@ -24,24 +24,22 @@ export:
     - tag: "Artist"
       value: "Elypia CIC and Contributors"
   sizes:
-    units: "px"
     dimensions:
       - height: 512
       - height: 128
-  color:
+  colors:
     mask: "src/static/masks/panda$1.mask.png"
-    colors:
+    modulate:
       - name: "blue"
-        modulate: "100,100,0"
+        hue: 0
       - name: "violet"
-        modulate: "100,70,50"
+        saturation: 70
+        hue: 50
 checks:
   - name: "file-exists"
     args:
-      - name: "source"
-        value: "src/static/panda(.+).png"
-      - name: "target"
-        value: "src/static/projects/panda$1.psd"
+      source: "src/static/panda(.+).png"
+      target: "src/static/projects/panda$1.psd"
 ```
 > First we define a pattern which matches all of our input images.
 > For each image we add the EXIF tag, `Artist`, and export 6 versions of each image to 
@@ -66,7 +64,8 @@ are reserved by Elypia CIC.**
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
 [Elypia Emotes]: https://gitlab.com/Elypia/elypia-emotes "Elypia Emotes"
 [EXIF]: https://en.wikipedia.org/wiki/Exif "EXIF on Wikipedia"
-[patterns]: https://en.wikipedia.org/wiki/Regular_expression "Regular Expression on Wikipedia"
+[glob]: https://en.wikipedia.org/wiki/Glob_(programming) "Glob on Wikipedia"
+[regex]: https://en.wikipedia.org/wiki/Regular_expression "Regular Expression on Wikipedia"
 [GNU General Public License]: https://www.gnu.org/licenses/gpl-3.0.en.html "AGPL"
 [TL;DR]: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3) "TLDR of AGPL"
 

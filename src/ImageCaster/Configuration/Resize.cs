@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using YamlDotNet.Serialization;
 
 namespace ImageCaster.Configuration
@@ -13,6 +14,7 @@ namespace ImageCaster.Configuration
         /// The unit all dimensions are relative to.
         /// </summary>
         [YamlMember(Alias = "units")]
+        [DefaultValue("px")]
         public UnitInfo Units { get; set; }
         
         /// <summary>

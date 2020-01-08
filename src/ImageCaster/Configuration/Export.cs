@@ -23,7 +23,7 @@ namespace ImageCaster.Configuration
         public Resize Resize { get; set; }
         
         /// <summary>A list of desired colors to export the image as.</summary>
-        [YamlMember(Alias = "color")]
-        public ColorsConfig Colors { get; set; }
+        [YamlMember(Alias = "colors")]
+        public Colors Colors { get; set; }
     }
 }
