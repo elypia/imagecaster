@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using DotNet.Globbing;
 using NLog;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;

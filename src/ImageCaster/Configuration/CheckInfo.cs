@@ -14,8 +14,10 @@ namespace ImageCaster.Configuration
 
         public static readonly CheckInfo MaskResolutionMatches = new CheckInfo(Check.MaskResolutionMatches, true, "mask-resolution-matches");
 
+        public static readonly CheckInfo NamingConvention = new CheckInfo(Check.NamingConvention, false, "naming-convention");
+        
         public static readonly List<CheckInfo> All = new List<CheckInfo>{
-            FileExists, MaskResolutionMatches
+            FileExists, MaskResolutionMatches, NamingConvention
         };
 
         /// <summary>The Check (enum) value this is additional information for.</summary>

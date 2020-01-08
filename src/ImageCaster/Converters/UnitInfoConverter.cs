@@ -1,5 +1,4 @@
 using System;
-using DotNet.Globbing;
 using ImageCaster.Configuration;
 using NLog;
 using YamlDotNet.Core;

@@ -7,7 +7,7 @@ namespace ImageCaster.Configuration
     /// Define the units and a list of dimenions
     /// to export the image as.
     /// </summary>
-    public class SizesConfig
+    public class Resize
     {
         /// <summary>
         /// The unit all dimensions are relative to.

@@ -4,22 +4,22 @@ ImageCaster is a small CLI application that can be used to manage exporting imag
 It's primary use case is for CI/CD where a repository that has a set of images as a source
 and programatically produces images as a result of a build.
 
-An example, and motivation for this is the Elypia Emotes repository where we have
+An example, and motivation for this is the [Elypia Emotes] repository where we have
 many images, which we'd like exported in many different sizes and colors, as well as
 to dynamically generate images to display on the project README.
 
 ## Features
 * Instead of scripting, define a declarative configuration that describes the output you want.
 * Quicker consecutive builds, ImageCaster will manage if changes occured and if re-exported again is required.
-* Set EXIF data for output, for example the `Copyright` or `Artist` tag.
-* Define globs to create montages to display to users.
-* Define globs to archive images for download.
+* Set [EXIF] data for output, for example the `Copyright` or `Artist` tag.
+* Define [patterns] to match images and create montages to display to users.
+* Define [patterns] to to match images and archive images for download.
 * Define checks to ensure your repository standards are maintained and to avoid mistakes like mismatching names.
 
 ## Example
 ```yml
 export:
-  input: "src/static/panda*.png"
+  input: "src/static/panda(.+).png"
   exif:
     - tag: "Artist"
       value: "Elypia CIC and Contributors"
@@ -37,10 +37,13 @@ export:
         modulate: "100,70,50"
 checks:
   - name: "file-exists"
-    source: "src/static/mask/panda*.mask.png"
-    target: "src/static/panda$1.png"
+    args:
+      - name: "source"
+        value: "src/static/panda(.+).png"
+      - name: "target"
+        value: "src/static/projects/panda$1.psd"
 ```
-> First we define a glob which matches all of our input images.
+> First we define a pattern which matches all of our input images.
 > For each image we add the EXIF tag, `Artist`, and export 6 versions of each image to 
 > accomodate original, blue, and violet colors, in 512px, and 128px sizes.
 > Doing `imagecaster build` will do all of this for you.  
@@ -61,6 +64,9 @@ are reserved by Elypia CIC.**
 [discord]: https://discordapp.com/invite/hprGMaM "Discord Invite"
 [gitlab]: https://gitlab.com/Elypia/imagecaster/commits/master "Repository on GitLab"
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
+[Elypia Emotes]: https://gitlab.com/Elypia/elypia-emotes "Elypia Emotes"
+[EXIF]: https://en.wikipedia.org/wiki/Exif "EXIF on Wikipedia"
+[patterns]: https://en.wikipedia.org/wiki/Regular_expression "Regular Expression on Wikipedia"
 [GNU General Public License]: https://www.gnu.org/licenses/gpl-3.0.en.html "AGPL"
 [TL;DR]: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3) "TLDR of AGPL"
 

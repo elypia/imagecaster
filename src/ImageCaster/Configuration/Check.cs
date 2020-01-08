@@ -14,6 +14,11 @@ namespace ImageCaster.Configuration
         /// <summary>
         /// Check that the resolution of the mask matches the resolution of the input.
         /// </summary>
-        MaskResolutionMatches
+        MaskResolutionMatches,
+        
+        /// <summary>
+        /// Ensure that all images found matching the specified naming convention.
+        /// </summary>
+        NamingConvention
     }
 }

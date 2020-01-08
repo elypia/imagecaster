@@ -10,9 +10,7 @@ namespace ImageCaster
 {
     public class ImageCaster
     {
-        /// <summary>
-        /// Instance of the NLog logger for this class.
-        /// </summary>
+        /// <summary>Instance of the NLog logger for this class.</summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
         public static async Task<int> Main(string[] args)
@@ -20,8 +18,8 @@ namespace ImageCaster
             Logger.Info("Initializing ImageCaster");
             RootCommand command = new RootCommand("Perform aggregate tasks against a collection of images.");
             
-            Command check = new Command("check", "Validate that the project structure and standards are maintained.");
-            MethodInfo checkMethod = typeof(CheckCommand).GetMethod("Check");
+            Command check = new Command("test", "Validate that the project structure and standards are maintained.");
+            MethodInfo checkMethod = typeof(TestCommand).GetMethod("Test");
             check.ConfigureFromMethod(checkMethod);
             command.AddCommand(check);
             

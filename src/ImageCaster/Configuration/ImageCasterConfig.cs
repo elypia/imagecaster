@@ -15,10 +15,10 @@ namespace ImageCaster.Configuration
         private static readonly string DefaultConfigPath = Path.Combine(".", DefaultConfigFileName);
         
         [YamlMember(Alias = "export")]
-        public ExportConfig Export { get; set; }
+        public Export Export { get; set; }
 
         [YamlMember(Alias = "montages")] 
-        public List<MontageConfig> Montage { get; set; }
+        public List<PatternConfig> Montages { get; set; }
 
         [YamlMember(Alias = "checks")]
         public List<CheckConfig> Checks { get; set; }
@@ -29,7 +29,7 @@ namespace ImageCaster.Configuration
             IDeserializer deserializer = new DeserializerBuilder()
                 .WithTypeConverter(new CheckInfoConverter())
                 .WithTypeConverter(new FileInfoConverter())
-                .WithTypeConverter(new GlobConverter())
+                .WithTypeConverter(new RegexConverter())
                 .WithTypeConverter(new UnitInfoConverter())
                 .Build();
             

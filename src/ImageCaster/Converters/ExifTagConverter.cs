@@ -1,5 +1,4 @@
 using System;
-using DotNet.Globbing;
 using ImageMagick;
 using NLog;
 using YamlDotNet.Core;
