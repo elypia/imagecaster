@@ -20,9 +20,10 @@ to dynamically generate images to display on the project README.
 ```yml
 export:
   input: "src/static/panda(.+).png"
-  exif:
-    - tag: "Artist"
-      value: "Elypia CIC and Contributors"
+  metadata:
+    exif:
+      - tag: "Artist"
+        value: "Elypia CIC and Contributors"
   sizes:
     dimensions:
       - height: 512
@@ -36,10 +37,9 @@ export:
         saturation: 70
         hue: 50
 checks:
-  - name: "file-exists"
-    args:
-      source: "src/static/panda(.+).png"
-      target: "src/static/projects/panda$1.psd"
+  file-exists:
+    source: "src/static/panda(.+).png"
+    target: "src/static/projects/panda$1.psd"
 ```
 > First we define a pattern which matches all of our input images.
 > For each image we add the Exif tag, `Artist`, and export 6 versions of each image to 
