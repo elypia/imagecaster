@@ -1,6 +1,6 @@
 using System;
 
-namespace ImageCaster.Utilities
+namespace ImageCaster.Extensions
 {
     /// <summary>
     /// Add utility extension methods to all types.
@@ -16,7 +16,9 @@ namespace ImageCaster.Utilities
         public static T RequireNonNull<T>(this T o, string message = "must not be null")
         {
             if (o == null)
+            {
                 throw new ArgumentNullException(message);
+            }
 
             return o;
         }

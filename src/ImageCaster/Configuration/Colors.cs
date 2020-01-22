@@ -11,11 +11,9 @@ namespace ImageCaster.Configuration
     public class Colors
     {
         /// <summary>The optional mask to use when modifying images.</summary>
-        [YamlMember(Alias = "mask")]
         public string Mask { get; set; }
         
         /// <summary>A list of all colors to export the image as.</summary>
-        [YamlMember(Alias = "modulate")]
-        public List<Modulate> Modulation { get; set; }
+        public List<Modulate> Modulate { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace ImageCaster.Interfaces
+namespace ImageCaster.Api
 {
     /// <summary>
     /// Interface to determine how files are collected.

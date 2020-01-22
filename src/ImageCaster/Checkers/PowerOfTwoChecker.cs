@@ -1,5 +1,8 @@
-using System.IO;
-using ImageCaster.Interfaces;
+using System.Collections.Generic;
+using ImageCaster.Configuration.Checkers;
+using ImageCaster.Api;
+using ImageCaster.Extensions;
+using ImageMagick;
 
 namespace ImageCaster.Checks
 {
@@ -11,14 +14,49 @@ namespace ImageCaster.Checks
     /// </summary>
     public class PowerOfTwoChecker : IChecker
     {
-        public bool Check(FileInfo fileInfo)
+        public ICollector Collector { get; }
+        public List<PowerOfTwoConfig> Config { get; }
+        
+        public PowerOfTwoChecker(ICollector collector, List<PowerOfTwoConfig> config)
         {
-            throw new System.NotImplementedException();
+            this.Collector = collector.RequireNonNull();
+            this.Config = config.RequireNonNull();
+        }
+        
+        public List<Failure> Check()
+        {
+            List<Failure> failures = new List<Failure>();
+            
+            foreach (PowerOfTwoConfig config in Config)
+            {
+                List<ResolvedFile> resolvedFiles = Collector.Collect(config.Source);
+
+                foreach (ResolvedFile resolvedFile in resolvedFiles)
+                {
+                    using (MagickImage magickImage = new MagickImage(resolvedFile.FileInfo))
+                    {
+                        if (!IsPowerOfTwo((uint) magickImage.Height, (uint) magickImage.Width))
+                        {
+                            failures.Add(new Failure(resolvedFile, "dimensions are not powers of 2"));
+                        }
+                    }
+                }
+            }
+
+            return failures;
         }
 
-        public Failure FailureMessage(ResolvedFile resolvedFile)
+        private bool IsPowerOfTwo(params uint[] values)
         {
-            throw new System.NotImplementedException();
+            foreach (uint value in values)
+            {
+                if ((value & value - 1) == 0 && value != 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

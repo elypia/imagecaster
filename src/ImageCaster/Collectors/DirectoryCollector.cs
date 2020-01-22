@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using ImageCaster.Interfaces;
-using ImageCaster.Utilities;
+using ImageCaster.Api;
+using ImageCaster.Extensions;
 using NLog;
 
 namespace ImageCaster.Collectors
@@ -22,7 +22,9 @@ namespace ImageCaster.Collectors
             DirectoryInfo dir = new DirectoryInfo(pattern);
 
             if (!dir.Exists)
+            {
                 throw new ArgumentException("The directory specified doesn't exist.");
+            }
 
             FileInfo[] files = dir.GetFiles();
 

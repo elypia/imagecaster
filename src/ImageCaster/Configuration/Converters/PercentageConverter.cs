@@ -24,7 +24,7 @@ namespace ImageCaster.Converters
         {
             Scalar scalar = parser.Consume<Scalar>();
             string value = scalar.Value;
-            Logger.Debug("Found configuration value for percentage: {0}", value);
+            Logger.Trace("Found configuration value for percentage: {0}", value);
             Double.TryParse(value, out double valueNumber);
             Percentage percentage = new Percentage(valueNumber);
             return percentage;

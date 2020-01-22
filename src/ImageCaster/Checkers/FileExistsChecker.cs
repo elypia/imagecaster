@@ -1,22 +1,52 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using ImageCaster.Interfaces;
+using ImageCaster.Configuration.Checkers;
+using ImageCaster.Api;
+using ImageCaster.Extensions;
 using NLog;
 
 namespace ImageCaster.Checks
-{
+{        
+    /// <summary>
+    /// Check that if the source file exists, if a respective target file may exist.
+    /// </summary>
     public class FileExistsChecker : IChecker
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public bool Check(FileInfo fileInfo)
+        public ICollector Collector { get; }
+        public List<FileExistsConfig> Config { get; }
+        
+        public FileExistsChecker(ICollector collector, List<FileExistsConfig> config)
         {
-            return true;
+            this.Collector = collector.RequireNonNull();
+            this.Config = config.RequireNonNull();
         }
-
-        public Failure FailureMessage(ResolvedFile resolvedFile)
+        
+        public List<Failure> Check()
         {
-            throw new NotImplementedException();
+            List<Failure> failures = new List<Failure>();
+            
+            foreach (FileExistsConfig config in Config)
+            {
+                List<ResolvedFile> resolvedFiles = Collector.Collect(config.Source);
+
+                foreach (ResolvedFile resolvedFile in resolvedFiles)
+                {
+                    foreach (string pattern in config.Patterns)
+                    {
+                        FileInfo fileInfo = Collector.Resolve(resolvedFile, pattern);
+                        
+                        if (!fileInfo.Exists)
+                        {
+                            failures.Add(new Failure(resolvedFile, $"{fileInfo} does not exist"));
+                        }
+                    }
+                }
+            }
+
+            return failures;
         }
     }
 }

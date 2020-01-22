@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 using ImageCaster.Configuration;
-using ImageCaster.Interfaces;
-using ImageCaster.Utilities;
+using ImageCaster.Configuration.Checkers;
+using ImageCaster.Api;
+using ImageCaster.Extensions;
+using ImageMagick;
 using NLog;
 
 namespace ImageCaster.Checks
@@ -17,32 +18,35 @@ namespace ImageCaster.Checks
         /// <summary>Logging with NLog.</summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        /// <summary>
-        /// The pattern all input files must adhere to, the check fails if this doesn't match.
-        /// </summary>
-        public Regex Regex { get; }
-
-        public NamingConventionChecker(string pattern) : this(new Regex(pattern))
+        public ICollector Collector { get; }
+        public List<NamingConventionConfig> Config { get; }
+        
+        public NamingConventionChecker(ICollector collector, List<NamingConventionConfig> config)
         {
-            // Do nothing
+            this.Collector = collector.RequireNonNull();
+            this.Config = config.RequireNonNull();
         }
         
-        /// <param name="regex">The regular expression to match against when checking images.</param>
-        public NamingConventionChecker(Regex regex)
+        public List<Failure> Check()
         {
-            this.Regex = regex.RequireNonNull();
-        }
-        
-        public bool Check(FileInfo fileInfo)
-        {
-            return Regex.IsMatch(fileInfo.Name);
-        }
+            List<Failure> failures = new List<Failure>();
+            
+            foreach (NamingConventionConfig config in Config)
+            {
+                List<ResolvedFile> resolvedFiles = Collector.Collect(config.Source);
 
-        public Failure FailureMessage(ResolvedFile resolvedFile)
-        {
-            FileInfo fileInfo = resolvedFile.FileInfo;
-            string message = $"filename does not adhere to the pattern /{Regex}/.";
-            return new Failure(Configuration.Check.NamingConvention, fileInfo, message);
+                foreach (ResolvedFile resolvedFile in resolvedFiles)
+                {
+                    Regex regex = config.Pattern;
+                    
+                    if (!regex.IsMatch(resolvedFile.FileInfo.Name))
+                    {
+                        failures.Add(new Failure(resolvedFile, $"filename doesn't adhere to the naming convention (pattern) /{regex}/."));
+                    }
+                }
+            }
+
+            return failures;
         }
     }
 }

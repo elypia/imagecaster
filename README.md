@@ -1,4 +1,4 @@
-# ImageCaster [![discord-members]][discord] [![gitlab-build]][gitlab] [![gitlab-coverage]][gitlab] [![donate-shield]][elypia-donate]
+# ImageCaster [![matrix-members]][matrix] [![discord-members]][discord] [![gitlab-build]][gitlab] [![gitlab-coverage]][gitlab] [![donate-shield]][elypia-donate]
 ## About
 ImageCaster is a small CLI application that can be used to manage exporting images.
 It's primary use case is for CI/CD where a repository that has a set of images as a source
@@ -11,7 +11,7 @@ to dynamically generate images to display on the project README.
 ## Features
 * Instead of scripting, define a declarative configuration that describes the output you want.
 * Quicker consecutive builds, ImageCaster will manage if changes occured and if re-exported again is required.
-* Set [EXIF] data for output, for example the `Copyright` or `Artist` tag.
+* Set [Exif] data for output, for example the `Copyright` or `Artist` tag.
 * Define patterns (directory/[glob]/[regex]) to match images and create montages to display to users.
 * Define patterns (directory/[glob]/[regex]) to to match images and archive images for download.
 * Define checks to ensure your repository standards are maintained and to avoid mistakes like mismatching names.
@@ -42,10 +42,10 @@ checks:
       target: "src/static/projects/panda$1.psd"
 ```
 > First we define a pattern which matches all of our input images.
-> For each image we add the EXIF tag, `Artist`, and export 6 versions of each image to 
+> For each image we add the Exif tag, `Artist`, and export 6 versions of each image to 
 > accomodate original, blue, and violet colors, in 512px, and 128px sizes.
 > Doing `imagecaster build` will do all of this for you.  
-> You may wish to use `imagecaster test` first to perform all checks, in this case
+> You may wish to use `imagecaster check` first to perform all checks, in this case
 > only one check is defined which states if a mask exists, then an image must also exist
 > with the respective name.
 
@@ -59,16 +59,18 @@ use or derive work from this source code!
 animations such as gifs, are not under the aforementioned license; all rights
 are reserved by Elypia CIC.** 
 
+[matrix]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
 [discord]: https://discordapp.com/invite/hprGMaM "Discord Invite"
 [gitlab]: https://gitlab.com/Elypia/imagecaster/commits/master "Repository on GitLab"
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
 [Elypia Emotes]: https://gitlab.com/Elypia/elypia-emotes "Elypia Emotes"
-[EXIF]: https://en.wikipedia.org/wiki/Exif "EXIF on Wikipedia"
+[Exif]: https://en.wikipedia.org/wiki/Exif "Exif on Wikipedia"
 [glob]: https://en.wikipedia.org/wiki/Glob_(programming) "Glob on Wikipedia"
 [regex]: https://en.wikipedia.org/wiki/Regular_expression "Regular Expression on Wikipedia"
 [GNU General Public License]: https://www.gnu.org/licenses/gpl-3.0.en.html "AGPL"
 [TL;DR]: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3) "TLDR of AGPL"
 
+[matrix-members]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
 [discord-members]: https://discordapp.com/api/guilds/184657525990359041/widget.png "Discord Shield"
 [gitlab-build]: https://gitlab.com/Elypia/imagecaster/badges/master/pipeline.svg "GitLab Build Shield"
 [gitlab-coverage]: https://gitlab.com/Elypia/imagecaster/badges/master/coverage.svg "GitLab Coverage Shield"

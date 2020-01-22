@@ -13,14 +13,11 @@ namespace ImageCaster.Configuration
         /// <summary>
         /// The unit all dimensions are relative to.
         /// </summary>
-        [YamlMember(Alias = "units")]
-        [DefaultValue("px")]
         public UnitInfo Units { get; set; }
         
         /// <summary>
         /// The different dimensions required to export.
         /// </summary>
-        [YamlMember(Alias = "dimensions")]
         public List<Dimensions> Dimensions { get; set; }
     }
 }

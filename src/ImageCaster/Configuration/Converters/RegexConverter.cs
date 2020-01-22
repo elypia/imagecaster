@@ -1,5 +1,5 @@
 using System;
-using ImageMagick;
+using System.Text.RegularExpressions;
 using NLog;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -7,7 +7,7 @@ using YamlDotNet.Serialization;
 
 namespace ImageCaster.Converters
 {
-    public class ExifTagConverter : IYamlTypeConverter
+    public class RegexConverter : IYamlTypeConverter
     {
         /// <summary>
         /// Instance of the NLog logger for this class.
@@ -16,16 +16,16 @@ namespace ImageCaster.Converters
         
         public bool Accepts(Type type)
         {
-            return type == typeof(ExifTag);
+            return type == typeof(Regex);
         }
 
         public object ReadYaml(IParser parser, Type type)
         {
             Scalar scalar = parser.Consume<Scalar>();
             string value = scalar.Value;
-            Logger.Debug("Found configuration value for EXIF: {0}", value);
-            ExifTag tag = ExifTag.Acceleration;
-            return tag;
+            Logger.Trace("Found configuration value for pattern: {0}", value);
+            Regex regex = new Regex(value);
+            return regex;
         }
 
         public void WriteYaml(IEmitter emitter, object value, Type type)

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using ImageCaster.Interfaces;
+using ImageCaster.Api;
 
 namespace ImageCaster.Collectors
 {

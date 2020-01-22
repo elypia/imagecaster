@@ -1,33 +1,40 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ImageCaster.Converters;
-using ImageCaster.Utilities;
+using ImageCaster.Extensions;
+using NLog;
 using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace ImageCaster.Configuration
 {
     public class ImageCasterConfig
     {
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+        
         /// <summary>The default file name for the configuration.</summary>
         private const string DefaultConfigFileName = "imagecaster.yml";
-
-        /// <summary>The default file location of the configuration.</summary>
-        private static readonly string DefaultConfigPath = Path.Combine(".", DefaultConfigFileName);
         
-        [YamlMember(Alias = "export")]
         public Export Export { get; set; }
 
-        [YamlMember(Alias = "montages")] 
         public List<PatternConfig> Montages { get; set; }
 
-        [YamlMember(Alias = "checks")]
-        public List<CheckConfig> Checks { get; set; }
+        public Checks Checks { get; set; }
 
         /// <summary>Overload of <see cref="Load"/> that loads a file.</summary>
         /// <param name="path">The path to the file which represents the configuration.</param>
         /// <returns>A data object that represents the configuration passed.</returns>
         public static ImageCasterConfig LoadFromFile(string path = DefaultConfigFileName)
         {
+            FileInfo fileInfo = new FileInfo(path);
+
+            if (!fileInfo.Exists)
+            {
+                Logger.Fatal("No configuration file found or specified.");
+                Environment.Exit((int)ExitCode.NoConfig);
+            }
+            
             using (StreamReader reader = new StreamReader(path))
             {
                 return Load(reader);
@@ -52,8 +59,9 @@ namespace ImageCaster.Configuration
         {
             reader.RequireNonNull();
             IDeserializer deserializer = new DeserializerBuilder()
-                .WithTypeConverter(new CheckInfoConverter())
+                .WithNamingConvention(HyphenatedNamingConvention.Instance)
                 .WithTypeConverter(new FileInfoConverter())
+                .WithTypeConverter(new ModulateConverter())
                 .WithTypeConverter(new PercentageConverter())
                 .WithTypeConverter(new RegexConverter())
                 .WithTypeConverter(new UnitInfoConverter())

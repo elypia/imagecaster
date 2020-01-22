@@ -11,13 +11,11 @@ namespace ImageCaster.Configuration
         /// <summary>
         /// The name of this collection of files.
         /// </summary>
-        [YamlMember(Alias = "name")]
         public string Name { get; set; }
         
         /// <summary>
         /// The pattern pattern to match all required files.
         /// </summary>
-        [YamlMember(Alias = "pattern")]
         public string Pattern { get; set; }
     }
 }

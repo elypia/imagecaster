@@ -1,12 +1,12 @@
 ﻿using System.CommandLine;
-using System.CommandLine.DragonFruit;
+using System.CommandLine.Builder;
 using System.CommandLine.Invocation;
-using System.Reflection;
 using System.Threading.Tasks;
+using ImageCaster.Api;
 using ImageCaster.Collectors;
 using ImageCaster.Commands;
 using ImageCaster.Configuration;
-using ImageCaster.Interfaces;
+using ImageCaster.Middleware;
 using NLog;
 
 namespace ImageCaster
@@ -18,31 +18,29 @@ namespace ImageCaster
         
         public static async Task<int> Main(string[] args)
         {
-            Logger.Info("Initializing ImageCaster");
-
             ICollector collector = new RegexCollector();
             ImageCasterConfig config = ImageCasterConfig.LoadFromFile();
             
-            RootCommand command = new RootCommand("Perform aggregate tasks against a collection of images.");
+            RootCommand command = new RootCommand("Perform aggregate tasks against a collection of images")
+            {               
+                new BuildCommand(collector, config).Configure(),
+                new CheckCommand(collector, config.Checks).Configure(),
+                new MontageCommand().Configure()
+            };
 
-            TestCommand test = new TestCommand(collector, config);
-            Command testCommand = new Command("test", "Validate that the project structure and standards are maintained.");
-            MethodInfo checkMethod = typeof(TestCommand).GetMethod("Test");
-            testCommand.ConfigureFromMethod(checkMethod, test);
-            command.AddCommand(testCommand);
-
-            BuildCommand build = new BuildCommand(collector, config);
-            Command buildCommand = new Command("build", "Export the output images from the source.");
-            MethodInfo buildMethod = typeof(BuildCommand).GetMethod("Build");
-            buildCommand.ConfigureFromMethod(buildMethod, build);
-            command.AddCommand(buildCommand);
-
-            Command montage = new Command("montage", "Export a single image comprised of all matching output images.");
-            command.AddCommand(montage);
-
-            Logger.Info("Finished initializing ImageCaster");
+            CommandLineBuilder commandLineBuilder = new CommandLineBuilder(command)
+            {
+                EnableDirectives = false
+            };
             
-            return await command.InvokeAsync(args);
+            // Default middlewares we want to add to our console application.
+            commandLineBuilder.UseVersionOption().UseHelp().UseTypoCorrections().UseParseErrorReporting().CancelOnProcessTermination();
+            
+            // These are our own defined middlewares.
+            commandLineBuilder.UseLogger().UseLicense().UseImageCaster();
+
+            Parser parser = commandLineBuilder.Build();
+            return await parser.InvokeAsync(args);
         }
     }
 }

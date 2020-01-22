@@ -9,10 +9,10 @@ namespace ImageCasterTest
         [Fact]
         public void TestToString()
         {
-            FileInfo fileInfo = new FileInfo("emotes/pandaAww.png");
-            ResolvedFile resolvedFile = new ResolvedFile(fileInfo, "emotes/panda(.+).png", "Aww");
+            FileInfo fileInfo = new FileInfo("src/emoteHappy.png");
+            ResolvedFile resolvedFile = new ResolvedFile(fileInfo, "src/emote(.+).png", "Happy");
 
-            const string expected = "emotes/pandaAww.png resolved from emotes/panda(.+).png with tokens: Aww";
+            const string expected = "src/emoteHappy.png resolved from src/emote(.+).png with tokens: Happy";
             string actual = resolvedFile.ToString();
 
             Assert.Equal(expected, actual);

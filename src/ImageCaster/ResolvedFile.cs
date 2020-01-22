@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ImageCaster.Utilities;
+using ImageCaster.Extensions;
 
 namespace ImageCaster
 {

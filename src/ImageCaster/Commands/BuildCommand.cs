@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.CommandLine;
+using System.CommandLine.Invocation;
 using System.IO;
-using System.Security.Cryptography;
 using ImageCaster.Configuration;
-using ImageCaster.Interfaces;
-using ImageCaster.Utilities;
+using ImageCaster.Api;
+using ImageCaster.BuildSteps;
+using ImageCaster.Extensions;
 using ImageMagick;
 using NLog;
-using NLog.Fluent;
+using ICommand = ImageCaster.Api.ICommand;
 
 namespace ImageCaster.Commands
 {
@@ -16,7 +17,7 @@ namespace ImageCaster.Commands
     /// Using the <see cref="Export"/> configuration to export the input
     /// in all desired ouput images.
     /// </summary>
-    public class BuildCommand
+    public class BuildCommand : ICommand
     {
         /// <summary>Logging with NLog.</summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -26,7 +27,7 @@ namespace ImageCaster.Commands
         
         /// <summary>The user defined configuration to export images.</summary>
         public ImageCasterConfig Config { get; }
-
+        
         /// <param name="collector"><see cref="Collector"/></param>
         /// <param name="config"><see cref="Config"/></param>
         public BuildCommand(ICollector collector, ImageCasterConfig config)
@@ -34,82 +35,66 @@ namespace ImageCaster.Commands
             this.Collector = collector.RequireNonNull();
             this.Config = config.RequireNonNull();
         }
+
+        public Command Configure()
+        {
+            return new Command("build", "Export the output images from the source")
+            {
+                Handler = CommandHandler.Create(Execute)
+            };
+        }
         
         /// <summary>Start building all images.</summary>
         /// <exception cref="InvalidOperationException">If the configuration is malformed.</exception>
-        public void Build()
+        public int Execute()
         {
-            Logger.Info("Executed build command, started working.");
+            Logger.Trace("Executed build command, started working.");
 
             Export export = Config.Export;
 
             if (export == null)
             {
                 Logger.Warn("Build command was called, but no export configuration was defined, doing nothing.");
-                return;
+                return (int)ExitCode.Normal;
             }
             
             string input = export.Input;
 
             if (input == null)
-                throw new InvalidOperationException("export.input configuration is required to export images.");
+            {
+                Logger.Fatal("Build command was called but export.input configuration was not specified, this is required.");
+                return (int)ExitCode.MissingConfigField;
+            }
             
             List<ResolvedFile> resolvedFiles = Collector.Collect(input);
-            Logger.Info("Found {0} files matching collection pattern.", resolvedFiles.Count);
+            Logger.Debug("Found {0} files matching collection pattern.", resolvedFiles.Count);
+            
+
+            List<IBuildStep> pipeline = new List<IBuildStep>()
+            {
+                new ExifBuildStep(),
+                new ModulateBuildStep(),
+                new ResizeBuildStep(),
+                new WriteBuildStep()
+            };
+            
+            foreach (IBuildStep step in pipeline)
+            {
+                step.Configure(Collector, Config);
+            }
 
             foreach (ResolvedFile resolvedFile in resolvedFiles)
             {
                 FileInfo fileInfo = resolvedFile.FileInfo;
-                
+                PipelineContext context = new PipelineContext(pipeline, resolvedFile);
+
                 using (MagickImage magickImage = new MagickImage(fileInfo))
                 {
-                    IExifProfile exifProfile = magickImage.GetExifProfile();
-
-                    if (exifProfile == null)
-                        Logger.Warn("Resolved file {0} does not have an EXIF profile.", resolvedFile.FileInfo);
-                    
-                    Colors colors = export.Colors;
-
-                    if (colors != null)
-                    {
-                        string maskPattern = colors.Mask;
-                        FileInfo maskFileInfo = Collector.Resolve(resolvedFile, maskPattern);
-
-                        if (maskFileInfo != null && maskFileInfo.Exists)
-                        {
-                            using (MagickImage maskMagickImage = new MagickImage(maskFileInfo))
-                            {
-                                magickImage.SetWriteMask(maskMagickImage);
-                            }
-                        }
-
-                        foreach (Modulate modulate in colors.Modulation)
-                        {
-                            magickImage.Modulate(modulate.Brightness, modulate.Saturation, modulate.Hue);
-                            magickImage.RemoveWriteMask();
-                            
-                            using (IMagickImage modulatedMagickImage = magickImage.Clone())
-                            {
-                                Resize resize  = export.Resize;
-                                string units = resize.Units.Aliases[0];
-
-                                foreach (Dimensions dimensions in resize.Dimensions)
-                                {
-                                    modulatedMagickImage.Resize((int)dimensions.Height, (int)dimensions.Height);
-                                    
-                                    string outputPath = Path.Combine("build", modulate.Name, "@" + dimensions.Height + units, fileInfo.Name);
-                                    FileInfo output = new FileInfo(outputPath);
-                                    
-                                    output.Directory.Create();
-                                    
-                                    magickImage.Write(output);
-                                    Logger.Info("Written file to: {0}", output);
-                                }                                
-                            }
-                        }
-                    }
+                    context.Next(magickImage);
                 }
             }
+
+            return (int)ExitCode.Normal;
         }
     }
 }

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using ImageCaster.Interfaces;
-using ImageCaster.Utilities;
+using ImageCaster.Api;
+using ImageCaster.Extensions;
 using NLog;
 
 namespace ImageCaster.Collectors
@@ -23,10 +23,10 @@ namespace ImageCaster.Collectors
             
             DirectoryInfo dir = new DirectoryInfo(".");
             FileInfo[] files = dir.GetFiles("*", SearchOption.AllDirectories);
-            Logger.Info("Collecting from directory with {0} fies.", files.Length);
+            Logger.Debug("Collecting from directory with {0} files.", files.Length);
 
             List<ResolvedFile> resolvedFiles = new List<ResolvedFile>();
-            Logger.Info("Checking while of the files match the regex: /{0}/.", regex);
+            Logger.Debug("Checking which of the files match the regex: /{0}/.", regex);
             
             foreach (FileInfo file in files)
             {
@@ -62,7 +62,7 @@ namespace ImageCaster.Collectors
                 resolution = resolution.Replace("$" + (i + 1), token);
             }
 
-            Logger.Debug("Resolved file: {0}", resolution);
+            Logger.Trace("Resolved file: {0}", resolution);
             return new FileInfo(resolution);
         }
     }
