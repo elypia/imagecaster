@@ -1,9 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Authors>Elypia CIC</Authors>
+        
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <IsPackable>false</IsPackable>
         <LangVersion>latest</LangVersion>
+
+        <Platforms>x64</Platforms>
+        <PlatformTarget>x64</PlatformTarget>
+        <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI</Configurations>
     </PropertyGroup>
 
     <ItemGroup>
