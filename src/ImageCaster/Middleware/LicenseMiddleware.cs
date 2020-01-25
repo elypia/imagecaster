@@ -6,12 +6,11 @@ using NLog;
 namespace ImageCaster.Middleware
 {
     /// <summary>
-    /// A middleware for System.CommandLine to have a --license or -L option
-    /// that shows the softwares license.
+    /// A middleware for System.CommandLine to have an option that shows the softwares license.
     /// </summary>
     public static class LicenseMiddleware
     {
-        private const string License = @" https://gitlab.com/Elypia/imagecaster
+        private const string License = @"https://gitlab.com/Elypia/imagecaster
 ImageCaster - Declaratively configure and build image repositories.
 Copyright (C) 2020-2020  Elypia CIC
 
