@@ -1,24 +1,30 @@
 using ImageCaster.Api;
 using ImageMagick;
 
-namespace ImageCaster.Sizers
+namespace ImageCaster.Resizers
 {
     public class PixelResizer : IResizer
     {
         public int SizeWidth(IMagickImage magickImage, int desiredHeight)
         {
-            int imageHeight = magickImage.Height;
-            int imageWidth = magickImage.Width;
-            int ratio = desiredHeight / imageHeight;
-            return imageWidth * ratio;
+            return SizeWidth(magickImage.Width, magickImage.Height, desiredHeight);
         }
-        
+
+        public int SizeWidth(int width, int height, int desiredHeight)
+        {
+            float ratio = (float)desiredHeight / height;
+            return (int)(width * ratio);
+        }
+
         public int SizeHeight(IMagickImage magickImage, int desiredWidth)
         {
-            int imageHeight = magickImage.Height;
-            int imageWidth = magickImage.Width;
-            int ratio = desiredWidth / imageWidth;
-            return imageHeight * ratio;
+            return SizeWidth(magickImage.Width, magickImage.Height, desiredWidth);
+        }
+
+        public int SizeHeight(int width, int height, int desiredWidth)
+        {
+            float ratio = (float)desiredWidth / width;
+            return (int)(height * ratio);
         }
 
         public void Resize(IMagickImage magickImage, int desiredWidth, int desiredHeight)

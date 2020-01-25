@@ -25,9 +25,11 @@ namespace ImageCaster
             {               
                 new BuildCommand(collector, config).Configure(),
                 new CheckCommand(collector, config.Checks).Configure(),
-                new MontageCommand().Configure()
+                new MontageCommand().Configure(),
             };
 
+            command.Name = "imagecaster";
+            
             CommandLineBuilder commandLineBuilder = new CommandLineBuilder(command)
             {
                 EnableDirectives = false

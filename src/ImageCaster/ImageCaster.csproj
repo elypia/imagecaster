@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <!-- UNIX is case sensitive and we want to be able to do commands in lowercase. -->
+        <AssemblyName>imagecaster</AssemblyName>
+        
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <LangVersion>latest</LangVersion>

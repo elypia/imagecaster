@@ -1,18 +1,28 @@
 using ImageCaster.Api;
 using ImageMagick;
 
-namespace ImageCaster.Sizers
+namespace ImageCaster.Resizers
 {
     public class PercentResizer : IResizer
     {
         public int SizeWidth(IMagickImage magickImage, int desiredHeight)
         {
-            return magickImage.Width * (desiredHeight / 100);
+            return SizeWidth(magickImage.Width, magickImage.Height, desiredHeight);
         }
-        
+
+        public int SizeWidth(int width, int height, int desiredHeight)
+        {
+            return (int)(width * ((float)desiredHeight / 100));
+        }
+
         public int SizeHeight(IMagickImage magickImage, int desiredWidth)
         {
-            return magickImage.Height * (desiredWidth / 100);
+            return SizeWidth(magickImage.Width, magickImage.Height, desiredWidth);
+        }
+
+        public int SizeHeight(int width, int height, int desiredWidth)
+        {
+            return (int)(height * ((float)desiredWidth / 100));
         }
 
         public void Resize(IMagickImage magickImage, int desiredWidth, int desiredHeight)

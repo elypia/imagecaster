@@ -1,7 +1,7 @@
 using System;
 using ImageCaster.Api;
 using ImageCaster.Configuration;
-using ImageCaster.Sizers;
+using ImageCaster.Resizers;
 using ImageMagick;
 using NLog;
 
@@ -23,8 +23,10 @@ namespace ImageCaster.BuildSteps
             {
                 return false;
             }
+
+            Unit unit = Config.Units?.Unit ?? Unit.Pixel;
             
-            switch (Config.Units.Unit)
+            switch (unit)
             {
                 case Unit.Pixel:
                     Resizer = new PixelResizer();
