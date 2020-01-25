@@ -1,6 +1,6 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Builder;
-using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
 using System.Threading.Tasks;
 using ImageCaster.Api;
 using ImageCaster.Collectors;
@@ -36,7 +36,7 @@ namespace ImageCaster
             };
             
             // Default middlewares we want to add to our console application.
-            commandLineBuilder.UseVersionOption().UseHelp().UseTypoCorrections().UseParseErrorReporting().CancelOnProcessTermination();
+            commandLineBuilder.UseVersionOption().UseHelp().UseParseErrorReporting().CancelOnProcessTermination();
             
             // These are our own defined middlewares.
             commandLineBuilder.UseLogger().UseLicense().UseImageCaster();

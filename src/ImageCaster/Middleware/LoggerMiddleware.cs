@@ -2,9 +2,8 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Invocation;
-using System.IO;
+using System.CommandLine.Parsing;
 using System.Linq;
-using ImageMagick;
 using NLog;
 
 namespace ImageCaster.Middleware
@@ -20,12 +19,12 @@ namespace ImageCaster.Middleware
         {
             commandLineBuilder.AddOption(new Option(new[] {"--level", "-l"}, "The minimum logging level use during runtime")
             {
-                Argument = new Argument<string>("level", "Info")
+                Argument = new Argument<string>("level", () => "Info")
             });
 
             commandLineBuilder.AddOption(new Option(new[] {"--timestamp", "-t"}, "Include the timestamp when logging")
             {
-                Argument = new Argument<bool>("timestamp", false)
+                Argument = new Argument<bool>("timestamp", () => false)
             });
             
             commandLineBuilder.UseMiddleware(async (context, next) =>
@@ -49,7 +48,7 @@ namespace ImageCaster.Middleware
                 }
                 
                 await next(context);
-            });
+            }, MiddlewareOrder.Configuration);
 
             return commandLineBuilder;
         }

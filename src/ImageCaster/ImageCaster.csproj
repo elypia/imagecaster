@@ -51,8 +51,8 @@
         <PackageReference Include="$(MagickNetPackage)" Version="$(MagickNetVersion)" />
 
         <PackageReference Include="NLog" Version="4.6.8" />
-        <PackageReference Include="System.CommandLine" Version="0.3.0-alpha.20054.1" />
-        <PackageReference Include="YamlDotNet" Version="8.0.0" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20071.2" />
+        <PackageReference Include="YamlDotNet" Version="8.1.0" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
 using NLog;
 
 namespace ImageCaster.Middleware
@@ -33,7 +34,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.";
         {
             commandLineBuilder.AddOption(new Option(new[] {"--license", "-L"}, "Show the license of the software")
             {
-                Argument = new Argument<bool>("license", false)
+                Argument = new Argument<bool>("license", () => false)
             });
             
             commandLineBuilder.UseMiddleware(async (context, next) =>
@@ -50,7 +51,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.";
                 {
                     await next(context);
                 }
-            });
+            }, MiddlewareOrder.Configuration);
 
             return commandLineBuilder;
         }
