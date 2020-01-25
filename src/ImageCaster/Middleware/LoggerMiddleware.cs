@@ -10,8 +10,7 @@ using NLog;
 namespace ImageCaster.Middleware
 {
     /// <summary>
-    /// A middleware for System.CommandLine to have a --license or -L option
-    /// that shows the softwares license.
+    /// Add global arguments to the commandline for configuring the logger.
     /// </summary>
     public static class LoggerMiddleware
     {
