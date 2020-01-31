@@ -45,7 +45,8 @@ namespace ImageCaster.Commands
             {
                 BackgroundColor = MagickColors.None,
                 Geometry = new MagickGeometry(2, 2, 0, 0),
-                TileGeometry = new MagickGeometry(8, 0)
+                TileGeometry = new MagickGeometry(8, 0),
+                Font = "DejaVu-Sans-Mono-Bold",
             };
 
             MagickReadSettings magickSettings = new MagickReadSettings()

@@ -94,6 +94,8 @@ namespace ImageCaster.Commands
                 {
                     context.Next(magickImage);
                 }
+
+                Logger.Info("Finished all exports for {0}.", resolvedFile);
             }
 
             return (int)ExitCode.Normal;

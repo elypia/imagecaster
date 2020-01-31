@@ -4,7 +4,8 @@
     <PropertyGroup>
         <ImageCasterVersion>0.1.0</ImageCasterVersion>
         <MagickNetVersion>7.15.0</MagickNetVersion>
-        
+
+        <AssemblyName>imagecaster</AssemblyName>
         <Version>$(ImageCasterVersion)</Version>
         <AssemblyVersion>$(ImageCasterVersion)</AssemblyVersion>
         <FileVersion>$(ImageCasterVersion)</FileVersion>
@@ -28,19 +29,16 @@
 
     <!-- Configuration for Quantum Depth 8 -->
     <PropertyGroup Condition="$(Configuration.Contains('Q8'))">
-        <AssemblyName>imagecaster</AssemblyName>
         <MagickNetPackage>Magick.NET-Q8-x64</MagickNetPackage>
     </PropertyGroup>
 
     <!-- Configuration for Quantum Depth 16 without HDRI -->
     <PropertyGroup Condition="$(Configuration.Contains('Q16'))">
-        <AssemblyName>imagecaster16</AssemblyName>
         <MagickNetPackage>Magick.NET-Q16-x64</MagickNetPackage>
     </PropertyGroup>
 
     <!-- Configuration for Quantum Depth 16 with HDRI -->
     <PropertyGroup Condition="$(Configuration.Contains('Q16-HDRI'))">
-        <AssemblyName>imagecasterhdri</AssemblyName>
         <MagickNetPackage>Magick.NET-Q16-HDRI-x64</MagickNetPackage>
     </PropertyGroup>
 
