@@ -15,7 +15,7 @@ namespace ImageCaster
     /// For example, we might have a file that matches panda*.png, and require
     /// a mask for that image which matches panda$1.mask.png.
     /// </summary>
-    public class ResolvedFile
+    public class ResolvedFile : IComparable<ResolvedFile>
     {
         /// <summary>A file resolved from the configuration.</summary>
         public FileInfo FileInfo { get; }
@@ -50,6 +50,16 @@ namespace ImageCaster
             this.Tokens = tokens.RequireNonNull();
         }
 
+        /// <summary>
+        /// Sort the images alphabetically.
+        /// </summary>
+        /// <param name="other">The other resolved file to compare to.</param>
+        /// <returns>A number representing if other is greater than or less than this.</returns>
+        public int CompareTo(ResolvedFile other)
+        {
+            return String.Compare(this.FileInfo.Name, other.FileInfo.Name, StringComparison.Ordinal);
+        }
+        
         public override string ToString()
         {
             string tokens = String.Join(", ", Tokens);

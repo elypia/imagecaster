@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <!-- Custom Properties -->
+    <!-- Configuration for All Deployments -->
     <PropertyGroup>
         <ImageCasterVersion>1.0.0</ImageCasterVersion>
         <MagickNetVersion>7.15.0</MagickNetVersion>
-    </PropertyGroup>
-    
-    <PropertyGroup>       
+        
         <Version>$(ImageCasterVersion)</Version>
         <AssemblyVersion>$(ImageCasterVersion)</AssemblyVersion>
         <FileVersion>$(ImageCasterVersion)</FileVersion>
@@ -23,32 +21,41 @@
         <PlatformTarget>x64</PlatformTarget>
         
         <!-- Configuration per desired binary, per type of build. -->
-        <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI</Configurations>
+        <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI;Release-Q8-Docker;Release-Q16-Docker;Release-Q16-HDRI-Docker</Configurations>
         
         <OutputPath>bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$(Configuration.EndsWith('Q8'))">
+    <!-- Configuration for Quantum Depth 8 -->
+    <PropertyGroup Condition="$(Configuration.Contains('Q8'))">
         <AssemblyName>imagecaster</AssemblyName>
         <MagickNetPackage>Magick.NET-Q8-x64</MagickNetPackage>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$(Configuration.EndsWith('Q16'))">
+    <!-- Configuration for Quantum Depth 16 without HDRI -->
+    <PropertyGroup Condition="$(Configuration.Contains('Q16'))">
         <AssemblyName>imagecaster16</AssemblyName>
         <MagickNetPackage>Magick.NET-Q16-x64</MagickNetPackage>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$(Configuration.EndsWith('Q16-HDRI'))">
+    <!-- Configuration for Quantum Depth 16 with HDRI -->
+    <PropertyGroup Condition="$(Configuration.Contains('Q16-HDRI'))">
         <AssemblyName>imagecasterhdri</AssemblyName>
         <MagickNetPackage>Magick.NET-Q16-HDRI-x64</MagickNetPackage>
+    </PropertyGroup>
+
+    <!-- Configuration for Docker Releases -->
+    <PropertyGroup Condition="$(Configuration.Contains('-Docker'))">
+        <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+        <SelfContained>false</SelfContained>
     </PropertyGroup>
     
     <ItemGroup>
         <Content Include="NLog.config">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-
-        <PackageReference Include="$(MagickNetPackage)" Version="$(MagickNetVersion)" />
+        <PackageReference Include="Magick.NET-Q8-x64" Version="7.15.1" />
 
         <PackageReference Include="NLog" Version="4.6.8" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20071.2" />

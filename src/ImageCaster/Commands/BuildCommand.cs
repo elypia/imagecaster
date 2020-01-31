@@ -6,6 +6,7 @@ using System.IO;
 using ImageCaster.Configuration;
 using ImageCaster.Api;
 using ImageCaster.BuildSteps;
+using ImageCaster.Configuration.Checkers;
 using ImageCaster.Extensions;
 using ImageMagick;
 using NLog;
@@ -87,7 +88,8 @@ namespace ImageCaster.Commands
             {
                 FileInfo fileInfo = resolvedFile.FileInfo;
                 PipelineContext context = new PipelineContext(pipeline, resolvedFile);
-
+                context.AppendPath("export");
+                
                 using (MagickImage magickImage = new MagickImage(fileInfo))
                 {
                     context.Next(magickImage);

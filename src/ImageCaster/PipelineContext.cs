@@ -23,7 +23,7 @@ namespace ImageCaster
         /// Append directories to the path the images will be exported to.
         /// For example a build step that exports in many colors, may want to create
         /// a folder per color.
-        /// <code>build/red/@128px/emoteHappy.png</code>
+        /// <code>build/export/red/@128px/emoteHappy.png</code>
         /// </summary>
         public string[] Path { get; set; }
 

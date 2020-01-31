@@ -25,7 +25,7 @@ namespace ImageCaster
             {               
                 new BuildCommand(collector, config).Configure(),
                 new CheckCommand(collector, config.Checks).Configure(),
-                new MontageCommand().Configure(),
+                new MontageCommand(collector, config).Configure(),
             };
 
             command.Name = "imagecaster";

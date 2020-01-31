@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ImageCaster.Api;
 using ImageCaster.Configuration;
 using ImageCaster.Resizers;
@@ -63,6 +64,7 @@ namespace ImageCaster.BuildSteps
                         Environment.Exit((int)ExitCode.MalformedConfigFields);
                     }
 
+                    dimensionsMagickImage.FilterType = Config.Filter;
                     Resizer.Resize(dimensionsMagickImage, (int)dimensions.Width, (int)dimensions.Height);
                     
                     contextClone.Next(dimensionsMagickImage);

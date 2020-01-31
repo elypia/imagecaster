@@ -1,7 +1,14 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:3.1.0-alpine3.10
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1.1-bionic
 
-RUN adduser -u 1001 -Sh /home/imagecaster imagecaster && \
-    apk add --no-cache --update ttf-dejavu=2.37-r1
+ENV PATH="${PATH}:/usr/local/bin/imagecaster/"
+
+# Add imagecaster user, and install a generic font.
+RUN useradd -ms /bin/bash imagecaster && \
+    apt-get update                    && \
+    apt-get install -y ttf-dejavu     && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY ./src/ImageCaster/bin/Release-Q8-Docker/netcoreapp3.1/linux-x64/publish/ /usr/local/bin/imagecaster/
 
 USER imagecaster
 

@@ -18,10 +18,7 @@ and run CLI commands similar to the `package.json` with Node/NPM.
 
 ## Motivation
 <!--
-  Why is this a feature that should be implemented in Commandler
-  rather than in your own project using it?
-  What makes this fundamental, or reusable, or of demand to 
-  other developers?
+  Why is this a feature that should be implemented in ImageCaster?
 -->
 This leaves the full responsibility of running commands to the configuration
 instead of having to divide up parts like commands between the configuration
@@ -37,7 +34,7 @@ This is also good because ImageCaster is usable between systems, while something
 
 ## Interface
 <!--
-  In some cases you may wish to propose an interface or method names
+  In some cases you may wish to propose an interface
   to help describe how you'd want to use this, or for others to discuss
   and improve ahead of time before final implementation.
 -->
