@@ -1,14 +1,5 @@
 image: mcr.microsoft.com/dotnet/core/sdk:3.1.101-alpine3.10
 
-variables:
-  DOCKER_DRIVER: overlay2
-  
-stages:
-  - build
-  - test
-  - build-docker
-  - deploy
-  
 build:
   stage: build
   script: 
@@ -29,13 +20,3 @@ test:
     policy: pull
     paths:
       - src
-
-build-docker: 
-  except:
-    - tags
-  stage: build-docker
-  image: docker:19.03.5
-  services:
-    - docker:19.03.5-dind
-  script:
-    - docker build -t elypia/imagecaster

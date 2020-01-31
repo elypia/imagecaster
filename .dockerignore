@@ -1,5 +1,11 @@
 # We're using a whitelist for this build; exclude everything.
 **
 
-# Include binaries.
-!/src/ImageCaster/bin/Release-Q8-Docker/netcoreapp3.1/linux-x64/publish/
+# Include source code.
+!/src/
+
+# Exclude non-project files.
+.idea/
+
+# Exclude binaries as they could be dirty.
+bin/
