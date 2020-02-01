@@ -20,19 +20,14 @@ well as some management for consecutive builds and quality assurance.
 
 ## Docker Images
 There are 3 deployments of ImageCaster, each corresponding to builds of
-ImageMagick: Q8, Q16, and Q16-HDRI. By not specifying which you'll use
+ImageMagick: Q16-HDRI, Q16, and Q8. By not specifying which you'll use
 Q16-HDRI by default which should be good for most use cases, but using
 Q16, or Q8 can yield substantially quickly build times if your
 requirements allow it.
 
-### Q16-HDRI Builds
-`elypia/imagecaster:latest` `elypia/imagecaster:x` `elypia/imagecaster:x.y` `elypia/imagecaster:x.y.z` `elypia/imagecaster:latest-q16-hdri` `elypia/imagecaster:x-q16-hdri` `elypia/imagecaster:x.y-q16-hdri` `elypia/imagecaster:x.y.z-q16-hdri`
-
-### Q16 Builds
-`elypia/imagecaster:latest-q16` `elypia/imagecaster:x-q16` `elypia/imagecaster:x.y-q16` `elypia/imagecaster:x.y.z-q16`
-
-### Q8 Builds
-`elypia/imagecaster:latest-q8` `elypia/imagecaster:x-q8` `elypia/imagecaster:x.y-q8` `elypia/imagecaster:x.y.z-q8`
+* `x.y.z-q16-hdri`, `x.y-q16-hdri`, `x-q16-hdri`, `latest-q16-hdri`, `q16-hdri`, `x.y.z` `x.y`, `x`, `latest`
+* `x.y.z-q16`, `x.y-q16`, `x-q16`, `q16`
+* `x.y.z-q8`, `x.y-q8`, `x-q8`, `q8`
 
 ## Features
 * Instead of scripting, define a declarative configuration that
