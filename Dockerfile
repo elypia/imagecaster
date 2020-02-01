@@ -1,17 +1,14 @@
 # Build all files for deployment.
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1.101-alpine3.10 AS build
 
-# Variables to use across build.
-ENV BUILD_DIR="/home/dev/"
-
 # Build in our own little directory.
-WORKDIR ${BUILD_DIR}
+WORKDIR /home/dev/
 
 # Copy source-code over to our build directory.
-COPY ./ ${BUILD_DIR}
+COPY ./ ./
 
 # Build all docker releases.
-RUN cd ${BUILD_DIR}src/                       && \
+RUN ls && cd src/                             && \
     dotnet restore                            && \
     cd ImageCaster/                           && \
     dotnet publish -c Release-Q8-Docker       && \
