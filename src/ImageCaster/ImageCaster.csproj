@@ -2,7 +2,7 @@
 
     <!-- Configuration for All Deployments -->
     <PropertyGroup>
-        <ImageCasterVersion>0.1.5</ImageCasterVersion>
+        <ImageCasterVersion>0.1.6</ImageCasterVersion>
         <MagickNetVersion>7.15.0</MagickNetVersion>
 
         <AssemblyName>imagecaster</AssemblyName>

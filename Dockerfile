@@ -1,10 +1,10 @@
 # Build all files for deployment.
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1.101-alpine3.10 AS build
 
-# Build in our own little directory.
+# We'll move builds from here to the next image.
 WORKDIR /home/dev/
 
-# Copy source-code over to our build directory.
+# Copy source-code over to our container.
 COPY ./ ./
 
 # Build all docker releases.
@@ -20,16 +20,14 @@ FROM mcr.microsoft.com/dotnet/core/runtime:3.1.1-bionic
 
 LABEL maintainer="seth@elypia.org"
 
-ENV PATH="${PATH}:/usr/local/bin/imagecaster/"
-
 # Add imagecaster user, and install a generic font.
 RUN useradd -ms /bin/bash imagecaster && \
     apt-get update                    && \
     apt-get install -y ttf-dejavu     && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /home/dev/src/ImageCaster/bin/Release-Q8-Docker/netcoreapp3.1/linux-x64/publish/ /usr/local/bin/imagecaster/
-
 USER imagecaster
 
 WORKDIR /home/imagecaster
+
+COPY --from=build /home/dev/src/ImageCaster/bin/Release-Q8-Docker/netcoreapp3.1/linux-x64/publish/* /usr/local/bin/
