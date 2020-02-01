@@ -1,4 +1,4 @@
-# ImageCaster [![matrix-members]][matrix] [![discord-members]][discord] [![gitlab-build]][gitlab] [![gitlab-coverage]][gitlab] [![donate-shield]][elypia-donate]
+# ImageCaster [![matrix-members]][matrix] [![discord-members]][discord] [![docker-shield]][docker] [![gitlab-build]][gitlab] [![gitlab-coverage]][gitlab] [![donate-shield]][elypia-donate]
 ## About
 ImageCaster is a small CLI application that can be used to manage
 exporting images. It's primary use case is for CI/CD where a
@@ -78,6 +78,7 @@ are reserved by Elypia CIC.**
 
 [matrix]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
 [discord]: https://discordapp.com/invite/hprGMaM "Discord Invite"
+[docker]: https://hub.docker.com/r/elypia/imagecaster "ImageCaster on Docker"
 [gitlab]: https://gitlab.com/Elypia/imagecaster/commits/master "Repository on GitLab"
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
 [Elypia Emotes]: https://gitlab.com/Elypia/elypia-emotes "Elypia Emotes"
@@ -91,6 +92,7 @@ are reserved by Elypia CIC.**
 
 [matrix-members]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
 [discord-members]: https://discordapp.com/api/guilds/184657525990359041/widget.png "Discord Shield"
+[docker-shield]: https://img.shields.io/docker/pulls/elypia/imagecaster?logo=docker "Docker Shield"
 [gitlab-build]: https://gitlab.com/Elypia/imagecaster/badges/master/pipeline.svg "GitLab Build Shield"
 [gitlab-coverage]: https://gitlab.com/Elypia/imagecaster/badges/master/coverage.svg "GitLab Coverage Shield"
 [donate-shield]: https://img.shields.io/badge/Elypia-Donate-blueviolet "Donate Shield"

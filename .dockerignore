@@ -1,11 +1,16 @@
-# # We're using a whitelist for this build; exclude everything.
-# **
+# Exclude all root files in the directory.
+.github/
+.gitlab/
+.dockerignore
+.gitignore
+.gitlab-ci.yml
+Dockerfile
+LICENSE
+README.md
 
-# # Include source code.
-# !/src/
+# Exclude IDE files created in src.
+.idea/
 
-# # Exclude non-project files.
-# .idea/
-
-# # Exclude binaries as they could be dirty.
-# bin/
+# Exclude build artifacts.
+bin/
+obj/
