@@ -2,8 +2,7 @@
 
     <!-- Configuration for All Deployments -->
     <PropertyGroup>
-        <ImageCasterVersion>0.1.6</ImageCasterVersion>
-        <MagickNetVersion>7.15.0</MagickNetVersion>
+        <ImageCasterVersion>0.1.7</ImageCasterVersion>
 
         <AssemblyName>imagecaster</AssemblyName>
         <Version>$(ImageCasterVersion)</Version>
@@ -53,7 +52,7 @@
         <Content Include="NLog.config">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <PackageReference Include="Magick.NET-Q8-x64" Version="7.15.1" />
+        <PackageReference Include="$(MagickNetPackage)" Version="7.15.1" />
 
         <PackageReference Include="NLog" Version="4.6.8" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20071.2" />

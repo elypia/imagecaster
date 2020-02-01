@@ -30,4 +30,4 @@ USER imagecaster
 
 WORKDIR /home/imagecaster
 
-COPY --from=build /home/dev/src/ImageCaster/bin/Release-Q8-Docker/netcoreapp3.1/linux-x64/publish/* /usr/local/bin/
+COPY --from=build /home/dev/src/ImageCaster/bin/Release-Q16-HDRI-Docker/netcoreapp3.1/linux-x64/publish/* /usr/local/bin/

@@ -18,6 +18,22 @@ ImageCaster is an abstraction of the two to provide the features though
 a declarative configuration file instead for simpler CI/CD usage as
 well as some management for consecutive builds and quality assurance.
 
+## Docker Images
+There are 3 deployments of ImageCaster, each corresponding to builds of
+ImageMagick: Q8, Q16, and Q16-HDRI. By not specifying which you'll use
+Q16-HDRI by default which should be good for most use cases, but using
+Q16, or Q8 can yield substantially quickly build times if your
+requirements allow it.
+
+### Q16-HDRI Builds
+`elypia/imagecaster:latest` `elypia/imagecaster:x` `elypia/imagecaster:x.y` `elypia/imagecaster:x.y.z` `elypia/imagecaster:latest-q16-hdri` `elypia/imagecaster:x-q16-hdri` `elypia/imagecaster:x.y-q16-hdri` `elypia/imagecaster:x.y.z-q16-hdri`
+
+### Q16 Builds
+`elypia/imagecaster:latest-q16` `elypia/imagecaster:x-q16` `elypia/imagecaster:x.y-q16` `elypia/imagecaster:x.y.z-q16`
+
+### Q8 Builds
+`elypia/imagecaster:latest-q8` `elypia/imagecaster:x-q8` `elypia/imagecaster:x.y-q8` `elypia/imagecaster:x.y.z-q8`
+
 ## Features
 * Instead of scripting, define a declarative configuration that
 describes the output you want.
