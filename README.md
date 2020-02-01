@@ -2,11 +2,11 @@
 ## About
 ImageCaster is a small CLI application that can be used to manage
 exporting images. It's primary use case is for CI/CD where a
-repository that has a set of images as a source and programatically
+repository that has a set of images as a source and programmatically
 produces images as a result of a build.
 
-An example, and motivation for this is the [Elypia Emotes] repository
-where we have many images, which we'd like exported in many different
+An example and motivation for this is the [Elypia Emotes] repository
+where we have many images, which we'd like exported in many
 sizes and colors, as well as to dynamically generate montages to
 display on the project README.
 
@@ -22,12 +22,12 @@ well as some management for consecutive builds and quality assurance.
 * Instead of scripting, define a declarative configuration that
 describes the output you want.
 * Quicker consecutive builds, ImageCaster will manage if changes
-occured and if re-exported again is required.
+occurred and if re-exported again is required.
 * Set [Exif] data for output, for example the `Copyright` or `Artist`
 tag.
 * Define patterns (directory/[glob]/[regex]) to match images and create
 montages to display to users.
-* Define patterns (directory/[glob]/[regex]) to to match images and
+* Define patterns (directory/[glob]/[regex]) to match images and
 archive images for download.
 * Define checks to ensure your repository standards are maintained and
 to avoid mistakes like mismatching names.
@@ -60,7 +60,7 @@ checks:
 ```
 > First we define a pattern which matches all of our input images. For
 > each image we add the Exif tag, `Artist`, and export 6 versions of
-> each image to accomodate original, blue, and violet colors, in 512px,
+> each image to accommodate original, blue, and violet colors, in 512px,
 > and 128px sizes. Doing `imagecaster build` will do all of this for
 > you. You may wish to use `imagecaster check` first to perform all 
 > checks, in this case only one check is defined which states if a mask
@@ -73,7 +73,7 @@ you're allowed and not allowed to do along with any requirements if you
 want to use or derive work from this source code!  
 
 **All non-code files including videos, models, audio, bitmaps, vectors, and 
-animations such as gifs, are not under the aforementioned license; all rights
+animations such as GIFs, are not under the aforementioned license; all rights
 are reserved by Elypia CIC.** 
 
 [matrix]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
@@ -87,7 +87,7 @@ are reserved by Elypia CIC.**
 [glob]: https://en.wikipedia.org/wiki/Glob_(programming) "Glob on Wikipedia"
 [regex]: https://en.wikipedia.org/wiki/Regular_expression "Regular Expression on Wikipedia"
 [GNU General Public License]: https://www.gnu.org/licenses/gpl-3.0.en.html "AGPL"
-[TL;DR]: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3) "TLDR of AGPL"
+[TL;DR]: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3) "TL;DR of AGPL"
 
 [matrix-members]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
 [discord-members]: https://discordapp.com/api/guilds/184657525990359041/widget.png "Discord Shield"
