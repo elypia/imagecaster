@@ -1,11 +1,11 @@
-# We're using a whitelist for this build; exclude everything.
-**
+# # We're using a whitelist for this build; exclude everything.
+# **
 
-# Include source code.
-!/src/
+# # Include source code.
+# !/src/
 
-# Exclude non-project files.
-.idea/
+# # Exclude non-project files.
+# .idea/
 
-# Exclude binaries as they could be dirty.
-bin/
+# # Exclude binaries as they could be dirty.
+# bin/

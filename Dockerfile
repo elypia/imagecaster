@@ -8,7 +8,7 @@ WORKDIR /home/dev/
 COPY ./ ./
 
 # Build all docker releases.
-RUN ls && cd src/                             && \
+RUN cd src/                                   && \
     dotnet restore                            && \
     cd ImageCaster/                           && \
     dotnet publish -c Release-Q8-Docker       && \
