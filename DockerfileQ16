@@ -9,7 +9,7 @@ COPY ./ ./
 
 # Build all docker releases.
 RUN cd src/ImageCaster/ && \
-    dotnet publish -c Release-Q16-HDRI-Docker
+    dotnet publish -c Release-Q16-Docker
 
 # Start building our final image.
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1.1-bionic
