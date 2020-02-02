@@ -18,17 +18,6 @@ ImageCaster is an abstraction of the two to provide the features though
 a declarative configuration file instead for simpler CI/CD usage as
 well as some management for consecutive builds and quality assurance.
 
-## Docker Images
-There are 3 deployments of ImageCaster, each corresponding to builds of
-ImageMagick: Q16-HDRI, Q16, and Q8. By not specifying which you'll use
-Q16-HDRI by default which should be good for most use cases, but using
-Q16, or Q8 can yield substantially quickly build times if your
-requirements allow it.
-
-* [`x.y.z-q16-hdri`, `x.y-q16-hdri`, `x-q16-hdri`, `latest-q16-hdri`, `q16-hdri`, `x.y.z`, `x.y`, `x`, `latest`][q16-hdri]
-* [`x.y.z-q16`, `x.y-q16`, `x-q16`, `q16`][q16]
-* [`x.y.z-q8`, `x.y-q8`, `x-q8`, `q8`][q8]
-
 ## Features
 * Instead of scripting, define a declarative configuration that
 describes the output you want.
@@ -87,10 +76,6 @@ want to use or derive work from this source code!
 animations such as GIFs, are not under the aforementioned license; all rights
 are reserved by Elypia CIC.** 
 
-[q16-hdri]: https://gitlab.com/Elypia/imagecaster/blob/master/Dockerfile "Dockerfile for Q16-HDRI Builds"
-[q16]: https://gitlab.com/Elypia/imagecaster/blob/master/DockerfileQ16 "Dockerfile for Q16 Builds"
-[q8]: https://gitlab.com/Elypia/imagecaster/blob/master/DockerfileQ8 "Dockerfile for Q8 Builds"
-
 [matrix]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
 [discord]: https://discordapp.com/invite/hprGMaM "Discord Invite"
 [docker]: https://hub.docker.com/r/elypia/imagecaster "ImageCaster on Docker"
@@ -102,8 +87,8 @@ are reserved by Elypia CIC.**
 [Exif]: https://en.wikipedia.org/wiki/Exif "Exif on Wikipedia"
 [glob]: https://en.wikipedia.org/wiki/Glob_(programming) "Glob on Wikipedia"
 [regex]: https://en.wikipedia.org/wiki/Regular_expression "Regular Expression on Wikipedia"
-[GNU General Public License]: https://www.gnu.org/licenses/gpl-3.0.en.html "AGPL"
-[TL;DR]: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3) "TL;DR of AGPL"
+[GNU General Public License]: https://www.gnu.org/licenses/gpl-3.0.en.html "GPL"
+[TL;DR]: https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3) "TL;DR of GPL"
 
 [matrix-members]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
 [discord-members]: https://discordapp.com/api/guilds/184657525990359041/widget.png "Discord Shield"
