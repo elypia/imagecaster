@@ -87,9 +87,9 @@ want to use or derive work from this source code!
 animations such as GIFs, are not under the aforementioned license; all rights
 are reserved by Elypia CIC.** 
 
-[q16-hdri]: ./Dockerfile "Dockerfile for Q16-HDRI Builds"
-[q16]: ./DockerfileQ16 "Dockerfile for Q16 Builds"
-[q8]: ./DockerfileQ8 "Dockerfile for Q8 Builds"
+[q16-hdri]: https://gitlab.com/Elypia/imagecaster/blob/master/Dockerfile "Dockerfile for Q16-HDRI Builds"
+[q16]: https://gitlab.com/Elypia/imagecaster/blob/master/DockerfileQ16 "Dockerfile for Q16 Builds"
+[q8]: https://gitlab.com/Elypia/imagecaster/blob/master/DockerfileQ8 "Dockerfile for Q8 Builds"
 
 [matrix]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
 [discord]: https://discordapp.com/invite/hprGMaM "Discord Invite"
