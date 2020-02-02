@@ -32,7 +32,7 @@
     </PropertyGroup>
 
     <!-- Configuration for Quantum Depth 16 without HDRI -->
-    <PropertyGroup Condition="$(Configuration.Contains('Q16'))">
+    <PropertyGroup Condition="$(Configuration.Contains('Q16')) AND !$(Configuration.Contains('HDRI'))">
         <MagickNetPackage>Magick.NET-Q16-x64</MagickNetPackage>
     </PropertyGroup>
 
