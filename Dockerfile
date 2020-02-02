@@ -8,12 +8,15 @@ WORKDIR /home/dev/
 COPY ./ ./
 
 # Build all docker releases.
-RUN cd src/                                   && \
-    dotnet restore                            && \
-    cd ImageCaster/                           && \
-    dotnet publish -c Release-Q8-Docker       && \
-    dotnet publish -c Release-Q16-Docker      && \
-    dotnet publish -c Release-Q16-HDRI-Docker
+RUN cd src/ImageCaster/ && \
+    case ${DOCKER_TAG} in \
+        *q8) \
+            dotnet publish -c Release-Q8-Docker;; \
+        *q16) \
+            dotnet publish -c Release-Q16-Docker;; \
+        *) \
+            dotnet publish -c Release-Q16-HDRI-Docker;; \
+    esac
 
 # Start building our final image.
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1.1-bionic
@@ -30,4 +33,4 @@ USER imagecaster
 
 WORKDIR /home/imagecaster
 
-COPY --from=build /home/dev/src/ImageCaster/bin/Release-Q16-HDRI-Docker/netcoreapp3.1/linux-x64/publish/* /usr/local/bin/
+COPY --from=build /home/dev/src/ImageCaster/bin/Release-*-Docker/netcoreapp3.1/linux-x64/publish/* /usr/local/bin/

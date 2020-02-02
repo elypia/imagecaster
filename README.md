@@ -25,7 +25,7 @@ Q16-HDRI by default which should be good for most use cases, but using
 Q16, or Q8 can yield substantially quickly build times if your
 requirements allow it.
 
-* `x.y.z-q16-hdri`, `x.y-q16-hdri`, `x-q16-hdri`, `latest-q16-hdri`, `q16-hdri`, `x.y.z` `x.y`, `x`, `latest`
+* `x.y.z-q16-hdri`, `x.y-q16-hdri`, `x-q16-hdri`, `latest-q16-hdri`, `q16-hdri`, `x.y.z`, `x.y`, `x`, `latest`
 * `x.y.z-q16`, `x.y-q16`, `x-q16`, `q16`
 * `x.y.z-q8`, `x.y-q8`, `x-q8`, `q8`
 
