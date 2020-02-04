@@ -30,9 +30,14 @@ namespace ImageCaster.BuildSteps
                 exifProfile = new ExifProfile();
             }
 
-            exifProfile.SetValue(ExifTag.Software, "ImageCaster 0.2.0");
-            magickImage.AddProfile(exifProfile);
+            foreach (TagConfig tag in Config.Tags)
+            {
+                StringInterpolator interpolator = new StringInterpolator(context.ResolvedFile.FileInfo, magickImage);
+                string value = interpolator.Interpolate(tag.Value);
+                exifProfile.SetValue((ExifTag<string>)tag.Tag, value);
+            }
             
+            magickImage.AddProfile(exifProfile);
             context.Next(magickImage);
         }
     }

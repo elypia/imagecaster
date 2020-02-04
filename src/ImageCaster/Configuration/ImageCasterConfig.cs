@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ImageCaster.Configuration.Converters;
 using ImageCaster.Converters;
 using ImageCaster.Extensions;
 using NLog;
@@ -62,6 +63,7 @@ namespace ImageCaster.Configuration
             reader.RequireNonNull();
             IDeserializer deserializer = new DeserializerBuilder()
                 .WithNamingConvention(HyphenatedNamingConvention.Instance)
+                .WithTypeConverter(new ExifTagConverter())
                 .WithTypeConverter(new FileInfoConverter())
                 .WithTypeConverter(new ModulateConverter())
                 .WithTypeConverter(new PercentageConverter())

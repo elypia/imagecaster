@@ -2,7 +2,7 @@
 
     <!-- Configuration for All Deployments -->
     <PropertyGroup>
-        <ImageCasterVersion>0.2.0</ImageCasterVersion>
+        <ImageCasterVersion>0.2.1</ImageCasterVersion>
 
         <AssemblyName>imagecaster</AssemblyName>
         <Version>$(ImageCasterVersion)</Version>

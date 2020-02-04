@@ -1,23 +1,22 @@
 using System;
 using System.Collections.Generic;
-using ImageCaster.Configuration;
 using ImageMagick;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-namespace ImageCaster.Converters
+namespace ImageCaster.Configuration.Converters
 {
     public class ExifConfigConverter : IYamlTypeConverter
     {
         private static readonly List<TagConfig> DefaultExifTags = new List<TagConfig>
         {
-            new TagConfig(ExifTag.Software.ToString()         , "${IMAGECASTER}"   ),
-            new TagConfig(ExifTag.ExifVersion.ToString()      , "2.31"             ),
-            new TagConfig(ExifTag.ImageUniqueID.ToString()    , "${NAME}"          ),
-            new TagConfig(ExifTag.DocumentName.ToString()     , "${NAME}"          ),
-            new TagConfig(ExifTag.DateTime.ToString()         , "${NOW}"           ),
-            new TagConfig(ExifTag.DateTimeDigitized.ToString(), "${CREATION_TIME}" ),
-            new TagConfig(ExifTag.DateTimeOriginal.ToString() , "${CREATION_TIME}" )
+            new TagConfig(ExifTag.Software         , "${IMAGECASTER}"   ),
+//            new TagConfig(ExifTag.ExifVersion      , "2.31"             ),
+            new TagConfig(ExifTag.ImageUniqueID    , "${FILE_NAME}"     ),
+            new TagConfig(ExifTag.DocumentName     , "${FILE_NAME}"     ),
+            new TagConfig(ExifTag.DateTime         , "${NOW}"           ),
+            new TagConfig(ExifTag.DateTimeDigitized, "${CREATION_TIME}" ),
+            new TagConfig(ExifTag.DateTimeOriginal , "${CREATION_TIME}" )
         }; 
         
         public bool Accepts(Type type)

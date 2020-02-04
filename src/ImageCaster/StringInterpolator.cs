@@ -15,7 +15,7 @@ namespace ImageCaster
     /// This will take key/value pairs from the <see cref="FileInfo"/>, <see cref="IMagickImage"/>
     /// and process environment variables.
     /// </summary>
-    public class ImageStringInterpolator
+    public class StringInterpolator
     {
         /// <summary>A static list of all process environment variables.</summary>
         private static readonly IDictionary EnvironmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process);
@@ -32,7 +32,7 @@ namespace ImageCaster
         /// <summary>A list of variables this interpolator can write.</summary>
         public Dictionary<string, object> Variables { get; }
 
-        public ImageStringInterpolator(FileInfo fileInfo, IMagickImage magickImage = null)
+        public StringInterpolator(FileInfo fileInfo, IMagickImage magickImage = null)
         {
             FileInfo = fileInfo.RequireNonNull();
             MagickImage = magickImage;
@@ -41,11 +41,13 @@ namespace ImageCaster
 
             Variables = new Dictionary<string, object>();
 
-            Variables.Add("FILENAME", filename);
-            Variables.Add("NAME", Path.GetFileNameWithoutExtension(filename));
-            Variables.Add("DIR", fileInfo.DirectoryName);
-            Variables.Add("FORMAT", fileInfo.Extension);
-            Variables.Add("PATH", fileInfo.FullName);
+            Variables.Add("IMAGECASTER", "ImageCaster " + typeof(ImageCaster).Assembly.GetName().Version);
+            
+            Variables.Add("FILE_FULL_NAME", filename);
+            Variables.Add("FILE_NAME", Path.GetFileNameWithoutExtension(filename));
+            Variables.Add("PARENT_DIR", fileInfo.DirectoryName);
+            Variables.Add("FILE_FORMAT", fileInfo.Extension);
+            Variables.Add("FILE_PATH", fileInfo.FullName);
             Variables.Add("CREATION_TIME", fileInfo.CreationTimeUtc.ToString(DateFormat));
             Variables.Add("NOW", DateTime.UtcNow.ToString(DateFormat));
 
@@ -58,9 +60,9 @@ namespace ImageCaster
                 Variables.Add("LOOPS", magickImage.AnimationIterations);
             }
 
-            foreach (KeyValuePair<string, object> entry in EnvironmentVariables)
+            foreach (DictionaryEntry entry in EnvironmentVariables)
             {
-                Variables.Add(entry.Key, entry.Value);
+                Variables.Add(entry.Key.ToString(), entry.Value);
             }
         }
 
@@ -74,10 +76,15 @@ namespace ImageCaster
         public string Interpolate(string source)
         {
             string result = source;
-
-            foreach (KeyValuePair<string, object> entry in Variables)
+            
+            foreach ((string key, object value) in Variables)
             {
-                result = result.Replace(entry.Key, entry.Value.ToString());
+                if (String.IsNullOrWhiteSpace(key) || value == null)
+                {
+                    continue;
+                }
+                
+                result = result.Replace("${" + key + "}", value.ToString());
             }
 
             return result;

@@ -7,7 +7,7 @@ namespace ImageCaster.Configuration
     public enum WriteMode
     {
         /// <summary>Remove all existing tags before writing.</summary>
-        Scrap,
+        Truncate,
         
         /// <summary>Overwrite any existing tags is they already exist.</summary>
         Overwrite,

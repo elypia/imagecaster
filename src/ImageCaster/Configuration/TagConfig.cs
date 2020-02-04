@@ -1,4 +1,5 @@
 using ImageCaster.Extensions;
+using ImageMagick;
 using YamlDotNet.Serialization;
 
 namespace ImageCaster.Configuration
@@ -10,7 +11,7 @@ namespace ImageCaster.Configuration
     public class TagConfig
     {
         /// <summary>The name of the valid Exif tag according to the 2.31 standard.</summary>
-        public string Tag { get; set; }
+        public ExifTag Tag { get; set; }
         
         /// <summary>The value to assign to this Exif tag.</summary>
         public string Value { get; set; }
@@ -20,7 +21,7 @@ namespace ImageCaster.Configuration
             // Do nothing
         }
 
-        public TagConfig(string tag, string value = null)
+        public TagConfig(ExifTag tag, string value = null)
         {
             this.Tag = tag.RequireNonNull();
             this.Value = value;
