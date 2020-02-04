@@ -30,7 +30,7 @@ namespace ImageCaster.BuildSteps
                 exifProfile = new ExifProfile();
             }
 
-            exifProfile.SetValue(ExifTag.Software, "ImageCaster 0.1.10");
+            exifProfile.SetValue(ExifTag.Software, "ImageCaster 0.2.0");
             magickImage.AddProfile(exifProfile);
             
             context.Next(magickImage);
