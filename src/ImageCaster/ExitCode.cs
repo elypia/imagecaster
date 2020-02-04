@@ -38,6 +38,9 @@ namespace ImageCaster
         CantRead = 50,
         
         /// <summary>Unable to write files to disk.</summary>
-        CantWrite = 51
+        CantWrite = 51,
+        
+        /// <summary>Something went seriously wrong, some kind of internal error, or unexpected state.</summary>
+        InternalError = 127
     }
 }

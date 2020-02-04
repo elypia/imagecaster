@@ -2,9 +2,7 @@ using System;
 
 namespace ImageCaster.Extensions
 {
-    /// <summary>
-    /// Add utility extension methods to all types.
-    /// </summary>
+    /// <summary>Add utility extension methods to all types.</summary>
     public static class ObjectExtensions
     {
         /// <summary>Require a non-null argument, or throw an exception.</summary>

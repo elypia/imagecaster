@@ -23,6 +23,7 @@ namespace ImageCaster
             
             RootCommand command = new RootCommand("Perform aggregate tasks against a collection of images")
             {               
+                new ArchiveCommand(config).Configure(),
                 new BuildCommand(collector, config).Configure(),
                 new CheckCommand(collector, config.Checks).Configure(),
                 new MontageCommand(collector, config).Configure(),

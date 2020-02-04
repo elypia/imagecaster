@@ -15,12 +15,14 @@ namespace ImageCaster.Configuration
         
         /// <summary>The default file name for the configuration.</summary>
         private const string DefaultConfigFileName = "imagecaster.yml";
-        
+
         public Export Export { get; set; }
+
+        public Checks Checks { get; set; }
 
         public List<PatternConfig> Montages { get; set; }
 
-        public Checks Checks { get; set; }
+        public List<Archive> Archives { get; set; }
 
         /// <summary>Overload of <see cref="Load"/> that loads a file.</summary>
         /// <param name="path">The path to the file which represents the configuration.</param>
