@@ -35,28 +35,28 @@ to avoid mistakes like mismatching names.
 ## Example
 ```yml
 export:
-  input: "src/static/panda(.+).png"
+  input: src/static/panda(.+).png
   metadata:
     exif:
-      - tag: "Artist"
-        value: "Elypia CIC and Contributors"
+      - tag: Artist
+        value: Elypia CIC and Contributors
   sizes:
-    filter: "Catrom"
+    filter: Catrom
     dimensions:
       - 512
       - 128
   colors:
-    mask: "src/static/masks/panda$1.mask.png"
+    mask: src/static/masks/panda$1.mask.png
     modulate:
-      - name: "blue"
+      - name: blue
         hue: 0
-      - name: "violet"
+      - name: violet
         saturation: 70
         hue: 50
 checks:
   file-exists:
-    source: "src/static/panda(.+).png"
-    target: "src/static/projects/panda$1.psd"
+    source: src/static/panda(.+).png
+    target: src/static/projects/panda$1.ora
 ```
 > First we define a pattern which matches all of our input images. For
 > each image we add the Exif tag, `Artist`, and export 6 versions of
