@@ -43,8 +43,8 @@ export:
   sizes:
     filter: "Catrom"
     dimensions:
-      - height: 512
-      - height: 128
+      - 512
+      - 128
   colors:
     mask: "src/static/masks/panda$1.mask.png"
     modulate:
