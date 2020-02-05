@@ -83,7 +83,7 @@ namespace ImageCaster
                 variables.Add(key, value.Invoke());
             }
             
-            foreach ((string key, object value) in Variables)
+            foreach ((string key, object value) in variables)
             {
                 if (value != null)
                 {
