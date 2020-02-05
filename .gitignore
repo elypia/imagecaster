@@ -8,6 +8,11 @@ out/
 *.iws
 *.iml
 
+####################
+# xUnit / Coverlet #
+####################
+coverage.json
+
 ###############
 # ImageCaster #
 ###############

@@ -10,6 +10,8 @@
         <Platforms>x64</Platforms>
         <PlatformTarget>x64</PlatformTarget>
         <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI</Configurations>
+        
+        <CollectCoverage>true</CollectCoverage>
     </PropertyGroup>
 
     <ItemGroup>

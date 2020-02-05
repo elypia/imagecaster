@@ -1,22 +1,48 @@
 image: mcr.microsoft.com/dotnet/core/sdk:3.1.101-alpine3.10
 
-build:
+cache:
+  paths:
+    - src/*/bin/
+    - src/*/obj/
+
+build-q16-hdri:
   stage: build
   script: 
     - cd src
-    - dotnet restore
-    - dotnet build
-  cache:
-    policy: push
-    paths:
-      - src
+    - dotnet build --configuration Release-Q16-HDRI
 
-test:
+build-q16:
+  stage: build
+  script: 
+    - cd src
+    - dotnet build --configuration Release-Q16
+
+build-q8:
+  stage: build
+  script: 
+    - cd src
+    - dotnet build --configuration Release-Q8
+
+test-q16-hdri:
   stage: test
   script: 
     - cd src
-    - dotnet test /p:CollectCoverage=true /p:Exclude='[xunit*]*'
+    - dotnet test --configuration Release-Q16-HDRI /p:Exclude='[xunit*]*'
   cache:
     policy: pull
-    paths:
-      - src
+
+test-q16:
+  stage: test
+  script: 
+    - cd src
+    - dotnet test --configuration Release-Q16 /p:Exclude='[xunit*]*'
+  cache:
+    policy: pull
+
+test-q8:
+  stage: test
+  script: 
+    - cd src
+    - dotnet test --configuration Release-Q8 /p:Exclude='[xunit*]*'
+  cache:
+    policy: pull
