@@ -1,4 +1,4 @@
-image: mcr.microsoft.com/dotnet/core/sdk:3.1.101-alpine3.10
+image: mcr.microsoft.com/dotnet/core/sdk:3.1.101-bionic
 
 cache:
   paths:
@@ -27,7 +27,7 @@ test-q16-hdri:
   stage: test
   script: 
     - cd src
-    - dotnet test --configuration Release-Q16-HDRI /p:Exclude='[xunit*]*'
+    - dotnet test --configuration Release-Q16-HDRI
   cache:
     policy: pull
 
@@ -35,7 +35,7 @@ test-q16:
   stage: test
   script: 
     - cd src
-    - dotnet test --configuration Release-Q16 /p:Exclude='[xunit*]*'
+    - dotnet test --configuration Release-Q16
   cache:
     policy: pull
 
@@ -43,6 +43,6 @@ test-q8:
   stage: test
   script: 
     - cd src
-    - dotnet test --configuration Release-Q8 /p:Exclude='[xunit*]*'
+    - dotnet test --configuration Release-Q8
   cache:
     policy: pull

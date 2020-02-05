@@ -12,6 +12,7 @@
         <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI</Configurations>
         
         <CollectCoverage>true</CollectCoverage>
+        <Exclude>[xunit*]*</Exclude>
     </PropertyGroup>
 
     <ItemGroup>
