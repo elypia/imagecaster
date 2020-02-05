@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using ImageCaster.Configuration.Converters;
-using ImageCaster.Converters;
+using ImageCaster.Configuration.NodeDeserializers;
 using ImageCaster.Extensions;
 using NLog;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using YamlDotNet.Serialization.NodeDeserializers;
 
 namespace ImageCaster.Configuration
 {
@@ -63,12 +64,12 @@ namespace ImageCaster.Configuration
             reader.RequireNonNull();
             IDeserializer deserializer = new DeserializerBuilder()
                 .WithNamingConvention(HyphenatedNamingConvention.Instance)
+                .WithNodeDeserializer((inner) => new ValidationNodeDeseralizer(inner), s => s.InsteadOf<ObjectNodeDeserializer>())
                 .WithTypeConverter(new ExifTagConverter())
                 .WithTypeConverter(new FileInfoConverter())
+                .WithTypeConverter(new MagickGeometryConverter())
                 .WithTypeConverter(new ModulateConverter())
-                .WithTypeConverter(new PercentageConverter())
                 .WithTypeConverter(new RegexConverter())
-                .WithTypeConverter(new UnitInfoConverter())
                 .Build();
 
             return deserializer.Deserialize<ImageCasterConfig>(reader);

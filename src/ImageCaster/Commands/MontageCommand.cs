@@ -7,11 +7,10 @@ using ImageCaster.Configuration;
 using ImageCaster.Extensions;
 using ImageMagick;
 using NLog;
-using ICommand = ImageCaster.Api.ICommand;
 
 namespace ImageCaster.Commands
 {
-    public class MontageCommand : ICommand
+    public class MontageCommand : ICliCommand
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         

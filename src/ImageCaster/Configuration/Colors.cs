@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using YamlDotNet.Serialization;
 
@@ -14,6 +15,7 @@ namespace ImageCaster.Configuration
         public string Mask { get; set; }
         
         /// <summary>A list of all colors to export the image as.</summary>
+        [Required(ErrorMessage = "Must specify at least one modulation if color exists.")]
         public List<Modulate> Modulate { get; set; }
     }
 }

@@ -3,14 +3,14 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
 using System.IO.Compression;
+using ImageCaster.Api;
 using ImageCaster.Configuration;
 using ImageCaster.Extensions;
 using NLog;
-using ICommand = ImageCaster.Api.ICommand;
 
 namespace ImageCaster.Commands
 {
-    public class ArchiveCommand : ICommand
+    public class ArchiveCommand : ICliCommand
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         

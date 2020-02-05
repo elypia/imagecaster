@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using ImageMagick;
-using YamlDotNet.Serialization;
 
 namespace ImageCaster.Configuration
 {
@@ -14,10 +13,13 @@ namespace ImageCaster.Configuration
         /// <summary>The Filter to use when resizing images.</summary>
         public FilterType Filter { get; set; }
 
-        /// <summary>The unit all dimensions are relative to.</summary>
-        public UnitInfo Units { get; set; }
-        
-        /// <summary>The different dimensions required to export.</summary>
-        public List<Dimensions> Dimensions { get; set; }
+        /// <summary>
+        /// The different dimensions required to export.
+        /// See the page on ImageMagick for more information on the syntax for sizes for simple
+        /// and advance usage.
+        /// </summary>
+        /// <see href="http://www.imagemagick.org/Usage/resize/#resize"/>
+        [Required(ErrorMessage = "Must specify at least one set of dimensions if resize is configured.")]
+        public List<MagickGeometry> Dimensions { get; set; }
     }
 }

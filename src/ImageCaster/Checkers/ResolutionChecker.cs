@@ -6,17 +6,17 @@ using ImageCaster.Extensions;
 using ImageMagick;
 using NLog;
 
-namespace ImageCaster.Checks
+namespace ImageCaster.Checkers
 {
     /// <summary>Check that the resolution of images match.</summary>
-    public class MaskResolutionChecker : IChecker
+    public class ResolutionMatchesChecker : IChecker
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ICollector Collector { get; }
         public List<ResolutionMatchesConfig> Config { get; }
         
-        public MaskResolutionChecker(ICollector collector, List<ResolutionMatchesConfig> config)
+        public ResolutionMatchesChecker(ICollector collector, List<ResolutionMatchesConfig> config)
         {
             this.Collector = collector.RequireNonNull();
             this.Config = config.RequireNonNull();

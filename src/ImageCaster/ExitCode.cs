@@ -8,7 +8,7 @@ namespace ImageCaster
     /// check failures are found, or if an error occurs at runtime,
     /// for example the user does not have write permission.
     /// </summary>
-    public enum ExitCode : byte
+    public enum ExitCode
     {
         /// <summary>Normal end of console application.</summary>
         Normal = 0,

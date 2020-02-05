@@ -8,7 +8,7 @@ namespace ImageCasterTest
         [Fact]
         public void ReadExportConfig()
         {
-            const string yaml = "{export: {input: src/emote(.+)\\.png$, metadata: {exif: {tags: [{tag: OwnerName, value: 'Elypia CIC'}]}}, sizes: {dimensions: [{height: 512}, {height: 256}]}, colors: {mask: src/emote$1.mask.png, modulate: [{name: blue, hue: 0}]}}}";
+            const string yaml = "{export: {input: src/emote(.+)\\.png$, metadata: {exif: {tags: [{tag: OwnerName, value: 'Elypia CIC'}]}}, sizes: {dimensions: [512, 256]}, colors: {mask: src/emote$1.mask.png, modulate: [{name: blue, hue: 0}]}}}";
             ImageCasterConfig config = ImageCasterConfig.LoadFromString(yaml);
 
             const string expected = "src/emote(.+)\\.png$";    

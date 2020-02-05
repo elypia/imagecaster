@@ -1,6 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using ImageCaster.Extensions;
 using ImageMagick;
-using YamlDotNet.Serialization;
 
 namespace ImageCaster.Configuration
 {
@@ -11,6 +11,7 @@ namespace ImageCaster.Configuration
     public class TagConfig
     {
         /// <summary>The name of the valid Exif tag according to the 2.31 standard.</summary>
+        [Required(ErrorMessage = "Must specify a valid Exif tag name.")]
         public ExifTag Tag { get; set; }
         
         /// <summary>The value to assign to this Exif tag.</summary>

@@ -1,12 +1,11 @@
 using System;
-using System.IO;
 using ImageMagick;
 using NLog;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace ImageCaster.Converters
+namespace ImageCaster.Configuration.Converters
 {
     public class PercentageConverter : IYamlTypeConverter
     {

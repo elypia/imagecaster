@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using NLog;
 
 namespace ImageCaster.Configuration
@@ -17,9 +18,11 @@ namespace ImageCaster.Configuration
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>The name of this archive.</summary>
+        [Required(ErrorMessage = "All archives must have a name.")]
         public string Name { get; set; }
         
         /// <summary>The files to compress into the archive.</summary>
+        [Required(ErrorMessage = "Must specify at least one source.")]
         public List<string> Sources { get; set; }
     }
 }

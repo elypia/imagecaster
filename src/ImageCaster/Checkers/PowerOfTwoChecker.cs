@@ -4,7 +4,7 @@ using ImageCaster.Api;
 using ImageCaster.Extensions;
 using ImageMagick;
 
-namespace ImageCaster.Checks
+namespace ImageCaster.Checkers
 {
     /// <summary>
     /// Verify that all images are sized two powers of two.

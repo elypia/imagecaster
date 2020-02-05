@@ -6,7 +6,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace ImageCaster.Converters
+namespace ImageCaster.Configuration.Converters
 {
     public class ModulateConverter : IYamlTypeConverter
     {

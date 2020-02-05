@@ -21,27 +21,25 @@ namespace ImageCaster
         private static readonly IDictionary EnvironmentVariables = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process);
 
         /// <summary>The date format to display any information in.</summary>
-        private static readonly string DateFormat = "YYYY:MM:DD hh:mm:ss";
-        
-        /// <summary>The source file that output is generated from.</summary>
-        public FileInfo FileInfo { get; }
-        
-        /// <summary>The source image that output it generated from.</summary>
-        public IMagickImage MagickImage { get; }
-        
+        private const string DateFormat = "yyyy:MM:dd hh:mm:ss";
+
         /// <summary>A list of variables this interpolator can write.</summary>
         public Dictionary<string, object> Variables { get; }
+        
+        /// <summary>
+        /// A dictionary of variables this interpolator can write, mapped
+        /// to functions that produce the value dynamically.
+        /// </summary>
+        public Dictionary<string, Func<object>> DynamicVariables { get; }
 
         public StringInterpolator(FileInfo fileInfo, IMagickImage magickImage = null)
         {
-            FileInfo = fileInfo.RequireNonNull();
-            MagickImage = magickImage;
-
-            string filename = fileInfo.Name;
-
             Variables = new Dictionary<string, object>();
-
-            Variables.Add("IMAGECASTER", "ImageCaster " + typeof(ImageCaster).Assembly.GetName().Version);
+            DynamicVariables = new Dictionary<string, Func<object>>();
+            
+            string filename = fileInfo.Name;
+            
+            Variables.Add("IMAGECASTER", "ImageCaster " + typeof(ImageCaster).Assembly.GetName().Version.ToString(3));
             
             Variables.Add("FILE_FULL_NAME", filename);
             Variables.Add("FILE_NAME", Path.GetFileNameWithoutExtension(filename));
@@ -49,7 +47,6 @@ namespace ImageCaster
             Variables.Add("FILE_FORMAT", fileInfo.Extension);
             Variables.Add("FILE_PATH", fileInfo.FullName);
             Variables.Add("CREATION_TIME", fileInfo.CreationTimeUtc.ToString(DateFormat));
-            Variables.Add("NOW", DateTime.UtcNow.ToString(DateFormat));
 
             if (magickImage != null)
             {
@@ -59,11 +56,13 @@ namespace ImageCaster
                 Variables.Add("DELAY", magickImage.AnimationDelay);
                 Variables.Add("LOOPS", magickImage.AnimationIterations);
             }
-
+            
             foreach (DictionaryEntry entry in EnvironmentVariables)
             {
                 Variables.Add(entry.Key.ToString(), entry.Value);
             }
+            
+            DynamicVariables.Add("NOW", () => DateTime.UtcNow.ToString(DateFormat));
         }
 
         /// <summary>
@@ -76,15 +75,20 @@ namespace ImageCaster
         public string Interpolate(string source)
         {
             string result = source;
+
+            Dictionary<string, object> variables = new Dictionary<string, object>(Variables);
+            
+            foreach ((string key, Func<object> value) in DynamicVariables)
+            {
+                variables.Add(key, value.Invoke());
+            }
             
             foreach ((string key, object value) in Variables)
             {
-                if (String.IsNullOrWhiteSpace(key) || value == null)
+                if (value != null)
                 {
-                    continue;
+                    result = result.Replace("${" + key + "}", value.ToString());
                 }
-                
-                result = result.Replace("${" + key + "}", value.ToString());
             }
 
             return result;

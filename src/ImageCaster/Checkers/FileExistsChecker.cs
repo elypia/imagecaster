@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using ImageCaster.Configuration.Checkers;
 using ImageCaster.Api;
+using ImageCaster.Configuration.Checkers;
 using ImageCaster.Extensions;
 using NLog;
 
-namespace ImageCaster.Checks
+namespace ImageCaster.Checkers
 {        
     /// <summary>
     /// Check that if the source file exists, if a respective target file may exist.

@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
-using ImageCaster.Configuration;
 using ImageCaster.Api;
 using ImageCaster.BuildSteps;
-using ImageCaster.Configuration.Checkers;
+using ImageCaster.Configuration;
 using ImageCaster.Extensions;
 using ImageMagick;
 using NLog;
-using ICommand = ImageCaster.Api.ICommand;
 
 namespace ImageCaster.Commands
 {
@@ -18,7 +16,7 @@ namespace ImageCaster.Commands
     /// Using the <see cref="Export"/> configuration to export the input
     /// in all desired ouput images.
     /// </summary>
-    public class BuildCommand : ICommand
+    public class BuildCommand : ICliCommand
     {
         /// <summary>Logging with NLog.</summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -69,7 +67,6 @@ namespace ImageCaster.Commands
             
             List<ResolvedFile> resolvedFiles = Collector.Collect(input);
             Logger.Debug("Found {0} files matching collection pattern.", resolvedFiles.Count);
-            
 
             List<IBuildStep> pipeline = new List<IBuildStep>()
             {
@@ -89,7 +86,7 @@ namespace ImageCaster.Commands
                 FileInfo fileInfo = resolvedFile.FileInfo;
                 PipelineContext context = new PipelineContext(pipeline, resolvedFile);
                 context.AppendPath("export");
-                
+            
                 using (MagickImage magickImage = new MagickImage(fileInfo))
                 {
                     context.Next(magickImage);

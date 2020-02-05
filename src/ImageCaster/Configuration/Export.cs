@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using YamlDotNet.Serialization;
+using System.ComponentModel.DataAnnotations;
+using ImageMagick;
 
 namespace ImageCaster.Configuration
 {
@@ -11,6 +10,7 @@ namespace ImageCaster.Configuration
     public class Export
     {
         /// <summary>A glob matching all images to export.</summary>
+        [Required(ErrorMessage = "Must specify a pattern to discover input files.")]
         public string Input { get; set; }
         
         /// <summary>Define metadata like Exif, Itcp, or XML to add to images.</summary>

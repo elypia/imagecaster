@@ -7,7 +7,7 @@ using ImageCaster.Extensions;
 using ImageMagick;
 using NLog;
 
-namespace ImageCaster.Checks
+namespace ImageCaster.Checkers
 {
     /// <summary>
     /// Checks that a project wide naming convention is adhered two by the input

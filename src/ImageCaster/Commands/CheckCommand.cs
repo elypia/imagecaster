@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using System.Linq;
-using ImageCaster.Checks;
 using ImageCaster.Api;
+using ImageCaster.Checkers;
+using ImageCaster.Configuration;
 using ImageCaster.Extensions;
 using NLog;
-using ICommand = ImageCaster.Api.ICommand;
 
 namespace ImageCaster.Commands
 {
@@ -15,7 +13,7 @@ namespace ImageCaster.Commands
     /// Performs any validation to ensure the project structure adheres
     /// to all standards, without actually exporting any images.
     /// </summary>
-    public class CheckCommand : ICommand
+    public class CheckCommand : ICliCommand
     {
         /// <summary>The NLog logger.</summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -24,9 +22,9 @@ namespace ImageCaster.Commands
         public ICollector Collector { get; }
         
         /// <summary>The configured checks to perform.</summary>
-        public Configuration.Checks Checks { get; }
+        public Checks Checks { get; }
 
-        public CheckCommand(ICollector collector, Configuration.Checks checks)
+        public CheckCommand(ICollector collector, Checks checks)
         {
             this.Collector = collector.RequireNonNull();
             this.Checks = checks;
@@ -72,8 +70,8 @@ namespace ImageCaster.Commands
 
             if (Checks.ResolutionMatches != null)
             {
-                MaskResolutionChecker checker = new MaskResolutionChecker(Collector, Checks.ResolutionMatches);
-                failures.AddRange(checker.Check());
+                ResolutionMatchesChecker matchesChecker = new ResolutionMatchesChecker(Collector, Checks.ResolutionMatches);
+                failures.AddRange(matchesChecker.Check());
             }
             
             foreach (Failure failure in failures)
@@ -81,6 +79,7 @@ namespace ImageCaster.Commands
                 Logger.Warn(failure);
             }
 
-            return failures.Count == 0 ? 0 : 1;        }
+            return failures.Count == 0 ? 0 : 1;
+        }
     }
 }
