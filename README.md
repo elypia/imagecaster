@@ -33,6 +33,16 @@ archive images for download.
 to avoid mistakes like mismatching names.
 
 ## Example
+### Simple
+```yml
+export:
+  input: joestone/emotes/.+
+  sizes:
+    dimensions: [112, 56, 28]
+```
+> Build all of the images made in the 3 sizes, 112px, 56px, and 28px.
+
+### Advanced
 ```yml
 export:
   input: src/static/panda(.+).png
@@ -42,9 +52,7 @@ export:
         value: Elypia CIC and Contributors
   sizes:
     filter: Catrom
-    dimensions:
-      - 512
-      - 128
+    dimensions: [512, 258]
   colors:
     mask: src/static/masks/panda$1.mask.png
     modulate:
