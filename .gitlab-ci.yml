@@ -9,25 +9,25 @@ build-q16-hdri:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q16-HDRI
+    - dotnet build --configuration Release-Q16-HDRI ImageCasterCore
 
 build-q16:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q16
+    - dotnet build --configuration Release-Q16 ImageCasterCore
 
 build-q8:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q8
+    - dotnet build --configuration Release-Q8 ImageCasterCore
 
 test-q16-hdri:
   stage: test
   script: 
     - cd src
-    - dotnet test --configuration Release-Q16-HDRI
+    - dotnet test --configuration Release-Q16-HDRI ImageCasterCoreTest
   cache:
     policy: pull
 
@@ -35,7 +35,7 @@ test-q16:
   stage: test
   script: 
     - cd src
-    - dotnet test --configuration Release-Q16
+    - dotnet test --configuration Release-Q16 ImageCasterCoreTest
   cache:
     policy: pull
 
@@ -43,6 +43,6 @@ test-q8:
   stage: test
   script: 
     - cd src
-    - dotnet test --configuration Release-Q8
+    - dotnet test --configuration Release-Q8 ImageCasterCoreTest
   cache:
     policy: pull

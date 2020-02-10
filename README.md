@@ -36,7 +36,7 @@ to avoid mistakes like mismatching names.
 ### Simple
 ```yml
 export:
-  input: joestone/emotes/.+
+  input: twitch/emotes/.+
   sizes:
     dimensions: [112, 56, 28]
 ```

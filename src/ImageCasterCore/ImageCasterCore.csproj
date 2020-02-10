@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- Configuration for All Deployments -->
+    <PropertyGroup>
+        <ImageCasterVersion>0.2.2</ImageCasterVersion>
+
+        <AssemblyName>imagecaster</AssemblyName>
+        <Version>$(ImageCasterVersion)</Version>
+        <AssemblyVersion>$(ImageCasterVersion)</AssemblyVersion>
+        <FileVersion>$(ImageCasterVersion)</FileVersion>
+        
+        <Authors>Elypia CIC</Authors>
+        <Copyright>Copyright (C) 2020-2020  Elypia CIC</Copyright>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        
+        <!-- We're only supporting x64. -->
+        <Platforms>x64</Platforms>
+        <PlatformTarget>x64</PlatformTarget>
+        
+        <!-- Configuration per desired binary, per type of build. -->
+        <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI</Configurations>
+    </PropertyGroup>
+
+    <!-- Configuration for Quantum Depth 16 with HDRI -->
+    <PropertyGroup Condition="$(Configuration.Contains('Q16-HDRI'))">
+        <MagickNetPackage>Magick.NET-Q16-HDRI-x64</MagickNetPackage>
+    </PropertyGroup>
+
+    <!-- Configuration for Quantum Depth 16 without HDRI -->
+    <PropertyGroup Condition="$(Configuration.Contains('Q16')) AND !$(Configuration.Contains('HDRI'))">
+        <MagickNetPackage>Magick.NET-Q16-x64</MagickNetPackage>
+    </PropertyGroup>
+    
+    <!-- Configuration for Quantum Depth 8 -->
+    <PropertyGroup Condition="$(Configuration.Contains('Q8'))">
+        <MagickNetPackage>Magick.NET-Q8-x64</MagickNetPackage>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <Content Include="NLog.config">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        
+        <PackageReference Include="$(MagickNetPackage)" Version="7.15.1" />
+
+        <PackageReference Include="NLog" Version="4.6.8" />
+        <PackageReference Include="YamlDotNet" Version="8.1.0" />
+    </ItemGroup>
+
+</Project>

@@ -1,4 +1,7 @@
-$HEADER$namespace $NAMESPACE$
+namespace ImageCasterCore.Api
 {
-  public interface $INTERFACE$ {$END$}
+    public interface IAction
+    {
+        int Execute();
+    }
 }
