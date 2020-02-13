@@ -4,7 +4,6 @@
     <PropertyGroup>
         <ImageCasterVersion>0.2.2</ImageCasterVersion>
 
-        <AssemblyName>imagecaster</AssemblyName>
         <Version>$(ImageCasterVersion)</Version>
         <AssemblyVersion>$(ImageCasterVersion)</AssemblyVersion>
         <FileVersion>$(ImageCasterVersion)</FileVersion>

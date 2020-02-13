@@ -23,6 +23,42 @@ build-q8:
     - cd src
     - dotnet build --configuration Release-Q8 ImageCasterCore
 
+build-cli-q16-hdri:
+  stage: build
+  script: 
+    - cd src
+    - dotnet build --configuration Release-Q16-HDRI ImageCasterCli
+
+build-cli-q16:
+  stage: build
+  script: 
+    - cd src
+    - dotnet build --configuration Release-Q16 ImageCasterCli
+
+build-cli-q8:
+  stage: build
+  script: 
+    - cd src
+    - dotnet build --configuration Release-Q8 ImageCasterCli
+
+build-server-q16-hdri:
+  stage: build
+  script: 
+    - cd src
+    - dotnet build --configuration Release-Q16-HDRI ImageCasterApi
+
+build-server-q16:
+  stage: build
+  script: 
+    - cd src
+    - dotnet build --configuration Release-Q16 ImageCasterApi
+
+build-server-q8:
+  stage: build
+  script: 
+    - cd src
+    - dotnet build --configuration Release-Q8 ImageCasterApi
+    
 test-q16-hdri:
   stage: test
   script: 

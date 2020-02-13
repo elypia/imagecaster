@@ -21,6 +21,7 @@
         <!-- Configuration per desired binary, per type of build. -->
         <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI</Configurations>
 
+        <OutputType>Exe</OutputType>
         <OutputPath>bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
 

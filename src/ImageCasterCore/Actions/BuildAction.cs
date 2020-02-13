@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using ImageCasterCore.Api;
 using ImageCasterCore.BuildSteps;
 using ImageCasterCore.Configuration;
@@ -68,8 +69,8 @@ namespace ImageCasterCore.Actions
             {
                 step.Configure(Collector, Config);
             }
-
-            foreach (ResolvedFile resolvedFile in resolvedFiles)
+            
+            Parallel.ForEach(resolvedFiles, (resolvedFile) =>
             {
                 FileInfo fileInfo = resolvedFile.FileInfo;
                 PipelineContext context = new PipelineContext(pipeline, resolvedFile);
@@ -81,7 +82,7 @@ namespace ImageCasterCore.Actions
                 }
 
                 Logger.Info("Finished all exports for {0}.", resolvedFile);
-            }
+            });
 
             return 0;
         }
