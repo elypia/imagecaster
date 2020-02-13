@@ -1,0 +1,31 @@
+<Project>
+    <!-- Configuration for All Deployments -->
+    <PropertyGroup>
+        <!-- Set the version of ImageCaster. -->
+        <ImageCasterVersion>0.3.0</ImageCasterVersion>
+
+        <!-- Set version of ImageCaster. -->
+        <Version>$(ImageCasterVersion)</Version>
+        <AssemblyVersion>$(ImageCasterVersion)</AssemblyVersion>
+        <FileVersion>$(ImageCasterVersion)</FileVersion>
+        
+        <Authors>Elypia CIC</Authors>
+        <Copyright>Copyright (C) 2020-2020  Elypia CIC</Copyright>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        
+        <!-- We're only supporting x64. -->
+        <Platforms>x64</Platforms>
+        <PlatformTarget>x64</PlatformTarget>
+        
+        <!-- Configuration per desired binary, per type of build. -->
+        <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI</Configurations>
+
+        <OutputPath>bin\$(Configuration)\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(Configuration.Contains('Release'))">
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+</Project>

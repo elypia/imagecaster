@@ -1,30 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+    <Import Project="../ImageCaster.props"/>
+    
     <!-- Configuration for All Deployments -->
     <PropertyGroup>
-        <ImageCasterVersion>0.2.2</ImageCasterVersion>
-
         <AssemblyName>imagecaster-server</AssemblyName>
-        <Version>$(ImageCasterVersion)</Version>
-        <AssemblyVersion>$(ImageCasterVersion)</AssemblyVersion>
-        <FileVersion>$(ImageCasterVersion)</FileVersion>
-
-        <Authors>Elypia CIC</Authors>
-        <Copyright>Copyright (C) 2020-2020  Elypia CIC</Copyright>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-        <LangVersion>latest</LangVersion>
-
-        <!-- We're only supporting x64. -->
-        <Platforms>x64</Platforms>
-        <PlatformTarget>x64</PlatformTarget>
-
-        <!-- Configuration per desired binary, per type of build. -->
-        <Configurations>Debug-Q8;Debug-Q16;Debug-Q16-HDRI;Release-Q8;Release-Q16;Release-Q16-HDRI</Configurations>
-
         <OutputType>Exe</OutputType>
-        <OutputPath>bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
-
+    
     <ItemGroup>
         <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
             <HintPath>..\..\..\..\..\..\.nuget\packages\nlog\4.6.8\lib\netstandard2.0\NLog.dll</HintPath>
@@ -32,9 +15,7 @@
         <Reference Include="YamlDotNet, Version=8.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e">
             <HintPath>..\..\..\..\..\..\.nuget\packages\yamldotnet\8.1.0\lib\netstandard1.3\YamlDotNet.dll</HintPath>
         </Reference>
-    </ItemGroup>
 
-    <ItemGroup>
         <ProjectReference Include="..\ImageCasterCore\ImageCasterCore.csproj" />
     </ItemGroup>
 
