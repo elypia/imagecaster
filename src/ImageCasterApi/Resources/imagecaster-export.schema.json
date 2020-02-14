@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://imagecaster.org/imagecaster-export.schema.json",
+  "title": "ImageCaster",
+  "description": "The configuration for ImageCaster.",
+  "type": "object",
+  "properties": {
+    "export": {
+      "title": "Export",
+      "description": "Define the input images and how they should be exported.",
+      "type": "object",
+      "properties": {
+        "input": {
+          "title": "Input",
+          "description": "A pattern matching the input files.",
+          "type": "string",
+          "format": "data-url"
+        },
+        "metadata": {
+          "title": "Metadata",
+          "description": "Set metadata on the exported images, like Exif or IPTC data.",
+          "type": "object",
+          "properties": {
+            "exif": {
+              "title": "Exif",
+              "description": "How Exif tags should be applied to images.",
+              "type": "object",
+              "properties": {
+                "tags": {
+                  "title": "Tags",
+                  "description": "All the Exif tags to assign to exported images.",
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "tag": {
+                        "title": "Tag",
+                        "description": "The name of the tag to set.",
+                        "type": "string",
+                        "enum": [
+                          "${ALL_EXIF_TAGS}"
+                        ]
+                      },
+                      "value": {
+                        "title": "Value",
+                        "description": "The value of the tag to set.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sizes": {
+          "title": "Sizes",
+          "description": "Configuration to resize the images.",
+          "type": "object",
+          "properties": {
+            "filter": {
+              "title": "Filter",
+              "description": "The filter to use when resizing images.",
+              "type": "string",
+              "enum": [
+                "${ALL_RESIZE_FILTERS}"
+              ]
+            },
+            "dimensions": {
+              "title": "Dimensions",
+              "description": "All the sizes to export the images at.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "colors": {
+          "title": "Colors",
+          "description": "Configuration to modulate the colors of the images.",
+          "type": "object",
+          "properties": {
+            "mask": {
+              "title": "Mask",
+              "description": "A grayscale mask that marks when areas to modulate.",
+              "type": "string"
+            },
+            "modulate": {
+              "title": "Modulate",
+              "description": "All the colors to export the images as.",
+              "type": "array",
+              "items": {
+                "properties": {
+                  "name": {
+                    "title": "Name",
+                    "description": "The name of the color to export.",
+                    "type": "string"
+                  },
+                  "prefix": {
+                    "title": "Prefix",
+                    "description": "The prefix to prepend to the file name when exporting.",
+                    "type": "string"
+                  },
+                  "brightness": {
+                    "title": "Brightness",
+                    "description": "What to adjust the brightness by.",
+                    "type": "number",
+                    "default": 100,
+                    "minimum": 0,
+                    "maximum": 200
+                  },
+                  "saturation": {
+                    "title": "Saturation",
+                    "description": "What to adjust the saturation by.",
+                    "type": "number",
+                    "default": 100,
+                    "minimum": 0,
+                    "maximum": 200
+                  },
+                  "hue": {
+                    "title": "Hue",
+                    "description": "What to adjust the hue by.",
+                    "type": "number",
+                    "default": 100,
+                    "minimum": 0,
+                    "maximum": 200
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

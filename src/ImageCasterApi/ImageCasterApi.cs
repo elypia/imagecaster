@@ -11,12 +11,12 @@ namespace ImageCasterApi
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseNLog().UseStartup<Startup>();
+                webBuilder.UseStartup<Startup>();
             }).ConfigureLogging((logging) =>
             {
                 logging.ClearProviders();
                 logging.SetMinimumLevel(LogLevel.Trace);
-            });
+            }).UseNLog();
 
             builder.Build().Run();
         }

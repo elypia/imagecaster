@@ -2,15 +2,21 @@
 using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using NLog;
+using Microsoft.Extensions.Logging;
 
 namespace ImageCasterApi.Controllers
 {
     [ApiController]
-    public class ImageCasterController : ControllerBase
+    [Route("action")]
+    public class ActionController : ControllerBase
     {
-        private readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly ILogger<ActionController> _logger;
 
+        public ActionController(ILogger<ActionController> logger)
+        {
+            _logger = logger;
+        }
+        
         [HttpPost("check")]
         public int Check()
         {
