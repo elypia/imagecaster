@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 namespace ImageCasterApi
 {
@@ -9,9 +11,13 @@ namespace ImageCasterApi
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseStartup<Startup>();
+                webBuilder.UseNLog().UseStartup<Startup>();
+            }).ConfigureLogging((logging) =>
+            {
+                logging.ClearProviders();
+                logging.SetMinimumLevel(LogLevel.Trace);
             });
-                
+
             builder.Build().Run();
         }
     }

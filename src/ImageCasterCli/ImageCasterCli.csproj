@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="../ImageCaster.props"/>
+    <Import Project="../ImageCaster.props" />
     
     <!-- Configuration for All Deployments -->
     <PropertyGroup>
@@ -9,7 +9,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20104.2"/>
+        <Content Include="nlog.config">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20104.2" />
         
         <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
             <HintPath>..\..\..\..\..\..\.nuget\packages\nlog\4.6.8\lib\netstandard2.0\NLog.dll</HintPath>
@@ -18,7 +22,7 @@
             <HintPath>..\..\..\..\..\..\.nuget\packages\yamldotnet\8.1.0\lib\netstandard1.3\YamlDotNet.dll</HintPath>
         </Reference>
 
-        <ProjectReference Include="..\ImageCasterCore\ImageCasterCore.csproj"/>
+        <ProjectReference Include="..\ImageCasterCore\ImageCasterCore.csproj" />
     </ItemGroup>
 
 </Project>

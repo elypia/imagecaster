@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="../ImageCaster.props"/>
+    <Import Project="../ImageCaster.props" />
     
     <!-- Configuration for Quantum Depth 16 with HDRI -->
     <PropertyGroup Condition="$(Configuration.Contains('Q16-HDRI'))">
@@ -22,11 +22,7 @@
         <DebugType>pdbonly</DebugType>
     </PropertyGroup>
     
-    <ItemGroup>
-        <Content Include="NLog.config">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        
+    <ItemGroup>        
         <PackageReference Include="$(MagickNetPackage)" Version="7.15.1" />
 
         <PackageReference Include="NLog" Version="4.6.8" />
