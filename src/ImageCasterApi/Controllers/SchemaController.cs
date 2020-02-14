@@ -33,8 +33,14 @@ namespace ImageCasterApi.Controllers
 
             IEnumerable<string> exifTagList = ExifUtils.GetNames().Select((tag) => $"\"{tag}\"");
             string exifTags = String.Join(", ", exifTagList);
+
+            string[] filtersArray = Enum.GetNames(typeof(FilterType));
             
-            string filters = String.Join(", ", Enum.GetNames(typeof(FilterType)).Select((t) => $"\"{t}\""));
+            IEnumerable<string> filtersList = new List<string>(filtersArray)
+                .GetRange(1, filtersArray.Length - 1)
+                .Select((filter) => $"\"{filter}\"");
+            
+            string filters = String.Join(", ", filtersList);
             
             ExportSchema = SchemaFromName("export")
                 .Replace("\"${ALL_RESIZE_FILTERS}\"", exifTags)

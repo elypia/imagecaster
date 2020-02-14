@@ -287,6 +287,7 @@ namespace ImageCasterCore.Utilities
             return specifiedTag;
         }
 
+        /// <returns>The names of all Exif tags.</returns>
         public static IEnumerable<string> GetNames()
         {
             return Tags.Select((tag) => tag.ToString());

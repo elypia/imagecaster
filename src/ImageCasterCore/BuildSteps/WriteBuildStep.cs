@@ -24,7 +24,13 @@ namespace ImageCasterCore.BuildSteps
             string inputFileName = context.ResolvedFile.FileInfo.Name;
 
             string dir = Path.Combine(context.Path);
-            string outputFileName = String.Join("", context.Prefix) + Path.GetFileNameWithoutExtension(inputFileName) + String.Join("", context.Suffix) + Path.GetExtension(inputFileName);
+
+            string prefix = String.Join(String.Empty, context.Prefix);
+            string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputFileName);
+            string suffix = String.Join(String.Empty, context.Suffix);
+            string ext = Path.GetExtension(inputFileName);
+            string outputFileName = prefix + filenameWithoutExt + suffix + ext;
+                
             string path = Path.Combine(dir, outputFileName);
             
             FileInfo output = new FileInfo(path);
