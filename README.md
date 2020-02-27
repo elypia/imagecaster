@@ -1,4 +1,4 @@
-# ImageCaster [![matrix]][matrix-community] [![discord-members]][discord] [![docker]][docker-image] [![gitlab-build]][gitlab] [![gitlab-coverage]][gitlab] [![donate]][elypia-donate]
+# ImageCaster [![Matrix]][matrix-community] [![Discord]][discord-guild] [![Docker]][docker-image] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
 ## About
 ImageCaster is a small CLI application that can be used to manage
 exporting images. It's primary use case is for CI/CD where a
@@ -83,7 +83,7 @@ you're allowed and not allowed to do along with any requirements if you
 want to use or derive work from this source code!  
 
 [matrix-community]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
-[discord]: https://discordapp.com/invite/hprGMaM "Discord Invite"
+[discord-guild]: https://discordapp.com/invite/hprGMaM "Discord Invite"
 [docker-image]: https://hub.docker.com/r/elypia/imagecaster "ImageCaster on Docker"
 [gitlab]: https://gitlab.com/Elypia/imagecaster/commits/master "Repository on GitLab"
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
@@ -96,9 +96,9 @@ want to use or derive work from this source code!
 [Apache 2.0]: https://www.apache.org/licenses/LICENSE-2.0 "Apache 2.0 License"
 [TL;DR]: https://tldrlegal.com/license/apache-license-2.0-(apache-2.0) "TL;DR of Apache 2.0"
 
-[matrix]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
-[discord-members]: https://discordapp.com/api/guilds/184657525990359041/widget.png "Discord Shield"
-[docker]: https://img.shields.io/docker/pulls/elypia/imagecaster?logo=docker "Docker Shield"
-[gitlab-build]: https://gitlab.com/Elypia/imagecaster/badges/master/pipeline.svg "GitLab Build Shield"
-[gitlab-coverage]: https://gitlab.com/Elypia/imagecaster/badges/master/coverage.svg "GitLab Coverage Shield"
-[donate]: https://img.shields.io/badge/Elypia-Donate-blueviolet "Donate Shield"
+[Matrix]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
+[Discord]: https://discordapp.com/api/guilds/184657525990359041/widget.png "Discord Shield"
+[Docker]: https://img.shields.io/docker/pulls/elypia/imagecaster?logo=docker "Docker Shield"
+[Build]: https://gitlab.com/Elypia/imagecaster/badges/master/pipeline.svg "GitLab Build Shield"
+[Coverage]: https://gitlab.com/Elypia/imagecaster/badges/master/coverage.svg "GitLab Coverage Shield"
+[Donate]: https://img.shields.io/badge/Elypia-Donate-blueviolet "Donate Shield"
