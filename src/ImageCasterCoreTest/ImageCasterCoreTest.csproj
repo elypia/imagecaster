@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="../ImageCaster.props"/>
+    <Import Project="../ImageCaster.props" />
     
     <PropertyGroup>
         <IsPackable>false</IsPackable>

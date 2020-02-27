@@ -13,13 +13,13 @@ namespace ImageCasterCore.BuildSteps
 
         public bool Configure(ICollector collector, ImageCasterConfig config)
         {
-            this.Config = config?.Export?.Sizes;
+            this.Config = config?.Build?.Resize;
             return Config != null;
         }
 
         public void Execute(PipelineContext context, IMagickImage magickImage)
         {
-            foreach (MagickGeometry dimensions in Config.Dimensions)
+            foreach (MagickGeometry dimensions in Config.Geometries)
             {
                 using (IMagickImage dimensionsMagickImage = magickImage.Clone())
                 {

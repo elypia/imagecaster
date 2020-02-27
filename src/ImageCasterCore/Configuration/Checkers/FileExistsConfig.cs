@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using ImageCasterCore.Checkers;
+using ImageCasterCore.Collectors;
 
 namespace ImageCasterCore.Configuration.Checkers
 {
@@ -13,12 +16,14 @@ namespace ImageCasterCore.Configuration.Checkers
         /// This would allow for you to ensure `src/$1.ora` existed if a source is found that matches.
         /// </summary>
         [Required(ErrorMessage = "Must specify a source pattern to discover files.")]
+        [JsonPropertyName("source")]
         public string Source { get; set; }
         
         /// <summary>
         /// The target patterns, these patterns must resolve to existing files if a source is found.
         /// </summary>
         [Required(ErrorMessage = "Must specify target patterns to cross-check files.")]
+        [JsonPropertyName("patterns")]
         public List<string> Patterns { get; set; }
     }
 }

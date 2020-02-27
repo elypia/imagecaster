@@ -1,20 +1,20 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using ImageCasterCore.Extensions;
 using ImageMagick;
 
 namespace ImageCasterCore.Configuration
 {
     /// <summary>
-    /// An Exif (Exchangable Image Format) key:value pair to set while
-    /// exporting images.
+    /// A generic key value pair configuration based on the type parameter.
     /// </summary>
-    public class TagConfig
+    public class TagConfig<T>
     {
-        /// <summary>The name of the valid Exif tag according to the 2.31 standard.</summary>
-        [Required(ErrorMessage = "Must specify a valid Exif tag name.")]
-        public ExifTag Tag { get; set; }
+        [JsonPropertyName("tag")]
+        public T Tag { get; set; }
         
         /// <summary>The value to assign to this Exif tag.</summary>
+        [JsonPropertyName("value")]
         public string Value { get; set; }
 
         public TagConfig()
@@ -22,7 +22,7 @@ namespace ImageCasterCore.Configuration
             // Do nothing
         }
 
-        public TagConfig(ExifTag tag, string value = null)
+        public TagConfig(T tag, string value = null)
         {
             this.Tag = tag.RequireNonNull();
             this.Value = value;

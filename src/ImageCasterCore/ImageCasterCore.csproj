@@ -23,10 +23,9 @@
     </PropertyGroup>
     
     <ItemGroup>        
-        <PackageReference Include="$(MagickNetPackage)" Version="7.15.1" />
+        <PackageReference Include="$(MagickNetPackage)" Version="7.15.3" />
 
         <PackageReference Include="NLog" Version="4.6.8" />
-        <PackageReference Include="YamlDotNet" Version="8.1.0" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using ImageCasterCore.Actions;
 using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
+using ImageMagick;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -20,28 +21,28 @@ namespace ImageCasterApi.Controllers
         [HttpPost("check")]
         public int Check()
         {
-            CheckAction check = new CheckAction(new RegexCollector(), ImageCasterConfig.LoadFromFile().Checks);
+            CheckAction check = new CheckAction(new RegexCollector(), new ImageCasterConfig().Checks);
             return check.Execute();
         }
         
-        [HttpPost("export")]
-        public int Export()
+        [HttpPost("build")]
+        public int Build()
         {
-            BuildAction build = new BuildAction(new RegexCollector(), ImageCasterConfig.LoadFromFile());
+            BuildAction build = new BuildAction(new RegexCollector(), new ImageCasterConfig());
             return build.Execute();
         }
         
         [HttpPost("montage")]
         public int Montage()
         {
-            MontageAction montage = new MontageAction(new RegexCollector(), ImageCasterConfig.LoadFromFile());
+            MontageAction montage = new MontageAction(new RegexCollector(), new ImageCasterConfig());
             return montage.Execute();
         }
         
         [HttpPost("archive")]
         public int Archive()
         {
-            ArchiveAction archive = new ArchiveAction(ImageCasterConfig.LoadFromFile());
+            ArchiveAction archive = new ArchiveAction(new ImageCasterConfig());
             return archive.Execute();
         }
     }

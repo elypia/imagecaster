@@ -1,6 +1,13 @@
-using System.Net.Http;
+using System.Collections.Generic;
+using System.Net.Mime;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using ImageCasterApi.Json.Converters;
+using ImageCasterCore.Json.Converters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,11 +16,20 @@ namespace ImageCasterApi
 {
     public class Startup
     {
+        /// <summary>The name of the CORS configuration to use at runtime.</summary>
+        public const string CorsProfile = "CORS";
+
+        /// <summary>Origins allowed to make requests.</summary>
+        public static readonly string[] Origins =
+        {
+            "http://0.0.0.0:80", "https://0.0.0.0:443",
+            "http://localhost:3000", "http://127.0.0.1:3000"
+        };
+        
         /// <summary>All HTTP methods to allow to this application.</summary>
         public static readonly string[] Methods =
         {
-            HttpMethod.Get.ToString(),
-            HttpMethod.Post.ToString()
+            "GET", "POST"
         };
         
         public IConfiguration Configuration { get; }
@@ -27,14 +43,33 @@ namespace ImageCasterApi
         {
             services.AddCors((options) =>
             {
-                options.AddPolicy("CORS", (builder) =>
+                options.AddPolicy(CorsProfile, (builder) =>
                 {
-                    builder.WithOrigins(
-                        "http://localhost:3000",
-                        "http://127.0.0.1:3000"
-                    ).AllowAnyHeader().WithMethods(Methods);
+                    builder.WithOrigins(Origins).WithMethods(Methods).AllowAnyHeader();
                 });
-            }).AddControllers();
+            });
+
+            services.AddMvc((options) =>
+            {
+                FilterCollection filters = options.Filters;
+                filters.Add(new ProducesAttribute(MediaTypeNames.Application.Json));
+                filters.Add(new ConsumesAttribute(MediaTypeNames.Application.Json));
+            });
+
+            services.AddControllersWithViews().AddJsonOptions((options) =>
+            {
+                JsonSerializerOptions serializerOptions = options.JsonSerializerOptions;
+                serializerOptions.AllowTrailingCommas = false;
+                serializerOptions.WriteIndented = false;
+                serializerOptions.IgnoreNullValues = true;
+
+                IList<JsonConverter> converters = serializerOptions.Converters;
+                converters.Add(new FilterTypeConverter());
+                converters.Add(new FrontendFileConverter());
+                converters.Add(new PercentageConverter());
+            });
+            
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,7 +79,9 @@ namespace ImageCasterApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting().UseCors().UseEndpoints((endpoints) =>
+            app.UseRouting().UseCors(CorsProfile);
+            
+            app.UseEndpoints((endpoints) =>
             {
                 endpoints.MapControllers();
             });

@@ -16,8 +16,12 @@ namespace ImageCasterCore
     /// </summary>
     public class StringInterpolator
     {
+        private const string TimeFormat = "hh:mm:ss";
+
+        private const string DateFormat = "yyyy:MM:dd";
+        
         /// <summary>The date format to display any information in.</summary>
-        private const string DateFormat = "yyyy:MM:dd hh:mm:ss";
+        private const string DateTimeFormat = TimeFormat + " " + DateFormat;
 
         /// <summary>The `Name Major.Minor.Patch version string of ImageCaster.</summary>
         private static readonly string Version = "ImageCaster " + typeof(StringInterpolator).Assembly.GetName().Version.ToString(3);
@@ -64,7 +68,9 @@ namespace ImageCasterCore
                 Variables.Add(entry.Key.ToString(), entry.Value);
             }
             
-            DynamicVariables.Add("NOW", () => DateTime.UtcNow.ToString(DateFormat));
+            DynamicVariables.Add("NOW", () => DateTime.UtcNow.ToString(DateTimeFormat));
+            DynamicVariables.Add("NOW_TIME", () => DateTime.UtcNow.ToString(TimeFormat));
+            DynamicVariables.Add("NOW_DATE", () => DateTime.UtcNow.ToString(DateFormat));
         }
 
         /// <summary>
@@ -76,8 +82,6 @@ namespace ImageCasterCore
         /// <returns>The string with all known variables found.</returns>
         public string Interpolate(string source)
         {
-            string result = source;
-
             Dictionary<string, object> variables = new Dictionary<string, object>(Variables);
             
             foreach ((string key, Func<object> value) in DynamicVariables)
@@ -89,11 +93,11 @@ namespace ImageCasterCore
             {
                 if (value != null)
                 {
-                    result = result.Replace("${" + key + "}", value.ToString());
+                    source = source.Replace("${" + key + "}", value.ToString());
                 }
             }
 
-            return result;
+            return source;
         }
     }
 }

@@ -81,13 +81,15 @@ namespace ImageCasterCore.Actions
                     }
 
                     Logger.Debug("Finished collecting input, creating a montage of {0} images.", collection.Count);
-                    IMagickImage montage = collection.Montage(montageSettings);
+
+                    using (IMagickImage montage = collection.Montage(montageSettings))
+                    {
+                        string filepath = Path.Combine("build", "montages", name + ".png");
+                        FileInfo outputPath = new FileInfo(filepath);
+                        outputPath.Directory.Create();
                     
-                    string filepath = Path.Combine("build", "montages", name + ".png");
-                    FileInfo outputPath = new FileInfo(filepath);
-                    outputPath.Directory.Create();
-                    
-                    montage.Write(outputPath);
+                        montage.Write(outputPath);
+                    }
                 }
             }
             

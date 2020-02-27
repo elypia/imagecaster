@@ -12,7 +12,7 @@ using NLog;
 namespace ImageCasterCore.Actions
 {
     /// <summary>
-    /// Using the <see cref="Export"/> configuration to export the input
+    /// Using the <see cref="Build"/> configuration to export the input
     /// in all desired ouput images.
     /// </summary>
     public class BuildAction : IAction
@@ -40,49 +40,54 @@ namespace ImageCasterCore.Actions
         {
             Logger.Trace("Executed build command, started working.");
 
-            Export export = Config.Export;
+            Build build = Config.Build;
 
-            if (export == null)
+            if (build == null)
             {
-                Logger.Warn("Build command was called, but no export configuration was defined, doing nothing.");
+                Logger.Warn("Build command was called, but no build configuration was defined, doing nothing.");
+                return 0;
             }
-            
-            string input = export.Input;
+
+            string[] input = build.Input;
 
             if (input == null)
             {
-                Logger.Fatal("Build command was called but export.input configuration was not specified, this is required.");
+                throw new Exception("Build command was called but build.input configuration was not specified, this is required.");
             }
-            
-            List<ResolvedFile> resolvedFiles = Collector.Collect(input);
-            Logger.Debug("Found {0} files matching collection pattern.", resolvedFiles.Count);
 
-            List<IBuildStep> pipeline = new List<IBuildStep>()
+            foreach (string item in input)
             {
-                new ExifBuildStep(),
-                new ModulateBuildStep(),
-                new ResizeBuildStep(),
-                new WriteBuildStep()
-            };
-            
-            foreach (IBuildStep step in pipeline)
-            {
-                step.Configure(Collector, Config);
-            }
-            
-            Parallel.ForEach(resolvedFiles, (resolvedFile) =>
-            {
-                FileInfo fileInfo = resolvedFile.FileInfo;
-                PipelineContext context = new PipelineContext(pipeline, resolvedFile);
-                context.AppendPath("export");
-            
-                using (MagickImage magickImage = new MagickImage(fileInfo))
+                List<ResolvedFile> resolvedFiles = Collector.Collect(item);
+                Logger.Debug("Found {0} files matching collection pattern.", resolvedFiles.Count);
+
+                List<IBuildStep> pipeline = new List<IBuildStep>()
                 {
-                    context.Next(magickImage);
-                }
+                    new ExifBuildStep(),
+                    new IptcBuildStep(),
+                    new ModulateBuildStep(),
+                    new ResizeBuildStep(),
+                    new WriteBuildStep()
+                };
 
-                Logger.Info("Finished all exports for {0}.", resolvedFile);
-            });
+                foreach (IBuildStep step in pipeline)
+                {
+                    step.Configure(Collector, Config);
+                }
+            
+                Parallel.ForEach(resolvedFiles, (resolvedFile) =>
+                {
+                    FileInfo fileInfo = resolvedFile.FileInfo;
+                    PipelineContext context = new PipelineContext(pipeline, resolvedFile);
+                    context.AppendPath("export");
+            
+                    using (MagickImage magickImage = new MagickImage(fileInfo))
+                    {
+                        context.Next(magickImage);
+                    }
+
+                    Logger.Info("Finished all exports for {0}.", resolvedFile);
+                });
+            }
 
             return 0;
         }

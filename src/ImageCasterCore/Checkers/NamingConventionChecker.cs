@@ -10,7 +10,7 @@ namespace ImageCasterCore.Checkers
 {
     /// <summary>
     /// Checks that a project wide naming convention is adhered two by the input
-    /// images in the <see cref="Export"/> configuration.
+    /// images in the <see cref="Build"/> configuration.
     /// </summary>
     public class NamingConventionChecker : IChecker
     {

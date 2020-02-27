@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using ImageMagick;
 
 namespace ImageCasterCore.Configuration
@@ -11,6 +12,7 @@ namespace ImageCasterCore.Configuration
     public class Resize
     {
         /// <summary>The Filter to use when resizing images.</summary>
+        [JsonPropertyName("filter")]
         public FilterType Filter { get; set; }
 
         /// <summary>
@@ -19,7 +21,8 @@ namespace ImageCasterCore.Configuration
         /// and advance usage.
         /// </summary>
         /// <see href="http://www.imagemagick.org/Usage/resize/#resize"/>
-        [Required(ErrorMessage = "Must specify at least one set of dimensions if resize is configured.")]
-        public List<MagickGeometry> Dimensions { get; set; }
+        [Required(ErrorMessage = "Must specify at least one geometry if resize is configured.")]
+        [JsonPropertyName("geometries")]
+        public List<MagickGeometry> Geometries { get; set; }
     }
 }

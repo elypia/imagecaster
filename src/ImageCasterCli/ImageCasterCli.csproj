@@ -15,6 +15,8 @@
         
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20104.2" />
         
+        <PackageReference Include="YamlDotNet" Version="8.1.0" />
+        
         <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
             <HintPath>..\..\..\..\..\..\.nuget\packages\nlog\4.6.8\lib\netstandard2.0\NLog.dll</HintPath>
         </Reference>

@@ -12,11 +12,6 @@ namespace ImageCasterCli.Middleware
         
         public static CommandLineBuilder UseImageCaster(this CommandLineBuilder commandLineBuilder)
         {
-            commandLineBuilder.AddOption(new Option(new[] {"--collector", "-c"}, "How to find and collect files")
-            {
-                Argument = new Argument<string>("collector", () => "regex")
-            });
-                
             commandLineBuilder.AddOption(new Option(new[] {"--file", "-f"}, "Change where ImageCaster should find the configuration file")
             {
                 Argument = new Argument<FileInfo>("file", () => new FileInfo("imagecaster.yml")).ExistingOnly()

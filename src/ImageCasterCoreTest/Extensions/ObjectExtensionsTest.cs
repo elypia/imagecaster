@@ -2,7 +2,7 @@ using System;
 using ImageCasterCore.Extensions;
 using Xunit;
 
-namespace ImageCasterTest.Extensions
+namespace ImageCasterCoreTest.Extensions
 {
     public class ObjectExtensionsTest
     {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using NLog;
 
 namespace ImageCasterCore.Configuration
@@ -19,10 +20,12 @@ namespace ImageCasterCore.Configuration
 
         /// <summary>The name of this archive.</summary>
         [Required(ErrorMessage = "All archives must have a name.")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
         
         /// <summary>The files to compress into the archive.</summary>
         [Required(ErrorMessage = "Must specify at least one source.")]
+        [JsonPropertyName("sources")]
         public List<string> Sources { get; set; }
     }
 }

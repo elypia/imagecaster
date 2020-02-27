@@ -15,7 +15,7 @@ namespace ImageCasterCore.BuildSteps
 
         public bool Configure(ICollector collector, ImageCasterConfig config)
         {
-            this.Config = config?.Export?.Sizes;
+            this.Config = config?.Build?.Resize;
             return Config != null;        
         }
 

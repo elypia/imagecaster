@@ -9,7 +9,7 @@ using NLog;
 namespace ImageCasterCli.Commands
 {
     /// <summary>
-    /// Using the <see cref="Export"/> configuration to export the input
+    /// Using the <see cref="Build"/> configuration to export the input
     /// in all desired ouput images.
     /// </summary>
     public class BuildCommand : BuildAction, ICliCommand

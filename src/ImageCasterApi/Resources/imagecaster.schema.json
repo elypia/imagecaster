@@ -1,20 +1,23 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://imagecaster.org/imagecaster-export.schema.json",
+  "$id": "https://imagecaster.org/imagecaster.schema.json",
   "title": "ImageCaster",
   "description": "The configuration for ImageCaster.",
   "type": "object",
   "properties": {
-    "export": {
-      "title": "Export",
+    "build": {
+      "title": "Build",
       "description": "Define the input images and how they should be exported.",
       "type": "object",
       "properties": {
         "input": {
           "title": "Input",
-          "description": "A pattern matching the input files.",
-          "type": "string",
-          "format": "data-url"
+          "description": "All images that need to be converted.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "data-url"
+          }
         },
         "metadata": {
           "title": "Metadata",
@@ -36,9 +39,7 @@
                         "title": "Tag",
                         "description": "The name of the tag to set.",
                         "type": "string",
-                        "enum": [
-                          "${ALL_EXIF_TAGS}"
-                        ]
+                        "enum": []
                       },
                       "value": {
                         "title": "Value",
@@ -52,8 +53,8 @@
             }
           }
         },
-        "sizes": {
-          "title": "Sizes",
+        "resize": {
+          "title": "Resize",
           "description": "Configuration to resize the images.",
           "type": "object",
           "properties": {
@@ -61,13 +62,11 @@
               "title": "Filter",
               "description": "The filter to use when resizing images.",
               "type": "string",
-              "enum": [
-                "${ALL_RESIZE_FILTERS}"
-              ]
+              "enum": []
             },
-            "dimensions": {
-              "title": "Dimensions",
-              "description": "All the sizes to export the images at.",
+            "geometries": {
+              "title": "Geometries",
+              "description": "All the geometries to export the images at.",
               "type": "array",
               "items": {
                 "type": "string"
@@ -128,6 +127,92 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "montages": {
+      "title": "Montages",
+      "description": "Collect images together into montages.",
+      "type": "array",
+      "items": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "description": "The name of the this montage, this will be the file name.",
+            "type": "string"
+          },
+          "pattern": {
+            "title": "Pattern",
+            "description": "A pattern matching all images desired for montage together.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "archives": {
+      "title": "Archives",
+      "description": "Collect images together into zip archives.",
+      "type": "array",
+      "items": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "description": "The name of the this archive, this will be the file name.",
+            "type": "string"
+          },
+          "sources": {
+            "title": "Sources",
+            "description": "All files or directories that should be bundled into the archive.",
+            "type": "array",
+            "items": {
+              "title": "Source",
+              "description": "The location of a file or directory.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "checks": {
+      "title": "Checks",
+      "description": "Validate that the project structure satisfied standards.",
+      "type": "object",
+      "properties": {
+        "power-of-two": {
+          "title": "Power of Two",
+          "description": "Verify that the specified images are powers of two.",
+          "type": "array",
+          "items": {
+            "title": "Source",
+            "description": "",
+            "type": "string"
+          }
+        },
+        "resolution-matches": {
+          "title": "Resolution Matches",
+          "description": "Verify that the images resolutions match.",
+          "type": "array",
+          "items": {
+            "title": "Source",
+            "description": "",
+            "type": "object"
+          }
+        },
+        "file-exists": {
+          "title": "File Exists",
+          "description": "Verify that the a particular file exists from another file.",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "naming-convention": {
+          "title": "Naming Convention",
+          "description": "Ensure all naming conventions are followed.",
+          "type": "array",
+          "items": {
+            "type": "object"
           }
         }
       }

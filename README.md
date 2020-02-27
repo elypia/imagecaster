@@ -35,8 +35,9 @@ to avoid mistakes like mismatching names.
 ## Example
 ### Simple
 ```yml
-export:
-  input: twitch/emotes/.+
+build:
+  input: 
+    - twitch/emotes/
   sizes:
     dimensions: [112, 56, 28]
 ```
@@ -44,17 +45,18 @@ export:
 
 ### Advanced
 ```yml
-export:
-  input: src/static/panda(.+).png
+build:
+  input: 
+    - regex:src/panda(.+).png
   metadata:
     exif:
       - tag: Artist
         value: Elypia CIC and Contributors
-  sizes:
+  resize:
     filter: Catrom
-    dimensions: [512, 258]
+    geometries: [512, 258]
   colors:
-    mask: src/static/masks/panda$1.mask.png
+    mask: src/masks/panda$1.mask.png
     modulate:
       - name: blue
         hue: 0
@@ -63,8 +65,8 @@ export:
         hue: 50
 checks:
   file-exists:
-    source: src/static/panda(.+).png
-    target: src/static/projects/panda$1.ora
+    source: src/panda(.+).png
+    target: src/projects/panda$1.ora
 ```
 > First we define a pattern which matches all of our input images. For
 > each image we add the Exif tag, `Artist`, and export 6 versions of

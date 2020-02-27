@@ -17,7 +17,7 @@ namespace ImageCasterCore.BuildSteps
         public bool Configure(ICollector collector, ImageCasterConfig config)
         {
             this.Collector = collector.RequireNonNull();
-            this.Config = config?.Export?.Colors;
+            this.Config = config?.Build?.Colors;
             return Config != null;
         }
 

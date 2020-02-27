@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
+using System.Text.Json;
+using System.Transactions;
+using ImageCasterApi.Json;
 using ImageCasterCore.Utilities;
 using ImageMagick;
 using Microsoft.AspNetCore.Mvc;
@@ -9,78 +12,121 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageCasterApi.Controllers
 {
+    /// <summary>
+    /// This controllers returns information that could help a frontend
+    /// understand what data ImageCaster expectes, or fulfil any
+    /// data contracts that might help make forms stricter.
+    /// </summary>
     [ApiController]
     [Route("schema")]
     public class SchemaController : ControllerBase
-    {
+    {       
         private readonly ILogger<PreviewController> _logger;
 
-        /// <summary>The schema for the Export configuration.</summary>
-        public readonly string ExportSchema;
+        /// <summary>A list of all exif tags available.</summary>
+        private readonly List<string> _exifTags;
+
+        /// <summary>A list of all IPTC tags available.</summary>
+        private readonly List<string> _iptcTags;
         
-        /// <summary>The schema for the Check configuration.</summary>
-        public readonly string CheckSchema;
+        /// <summary>A list of all resize filters available.</summary>
+        private readonly List<string> _resizeFilters;
         
-        /// <summary>The schema for the achive configuration.</summary>
-        public readonly string ArchiveSchema;
-        
-        /// <summary>The schema for the montage configuration.</summary>
-        public readonly string MontageSchema;
-        
+        /// <summary>The schema for the ImageCaster configuration.</summary>
+        private readonly JsonSchema _schema;
+
         public SchemaController(ILogger<PreviewController> logger)
         {
             _logger = logger;
 
-            IEnumerable<string> exifTagList = ExifUtils.GetNames().Select((tag) => $"\"{tag}\"");
-            string exifTags = String.Join(", ", exifTagList);
-
+            _exifTags = ExifUtils.GetNames().ToList();
+            _exifTags.Sort();
+            
+            string[] iptcTags = Enum.GetNames(typeof(IptcTag));
+            _iptcTags = new List<string>(iptcTags);
+            _iptcTags.Remove("Unknown");
+            _iptcTags.Sort();
+            
             string[] filtersArray = Enum.GetNames(typeof(FilterType));
-            
-            IEnumerable<string> filtersList = new List<string>(filtersArray)
-                .GetRange(1, filtersArray.Length - 1)
-                .Select((filter) => $"\"{filter}\"");
-            
-            string filters = String.Join(", ", filtersList);
-            
-            ExportSchema = SchemaFromName("export")
-                .Replace("\"${ALL_RESIZE_FILTERS}\"", exifTags)
-                .Replace("\"${ALL_EXIF_TAGS}\"", filters);
+            _resizeFilters = new List<string>(filtersArray).ToList();
+            _resizeFilters.Remove("Undefined");
+            _resizeFilters.Insert(0, "Default");
+            _resizeFilters.Sort();
 
-            CheckSchema = SchemaFromName("check");
-            ArchiveSchema = SchemaFromName("archive");
-            MontageSchema = SchemaFromName("montage");
-        }
-        
-        [HttpGet("export")]
-        public IActionResult GetExportSchema()
-        {
-            _logger.LogTrace("Called for export schema; schema has length of {0}.", ExportSchema.Length);
-            return Content(ExportSchema, MediaTypeNames.Application.Json);
-        }
-        
-        [HttpGet("check")]
-        public IActionResult GetCheckSchema()
-        {
-            return Content(CheckSchema, MediaTypeNames.Application.Json);
-        }
-        
-        [HttpGet("archive")]
-        public IActionResult GetArchiveSchema()
-        {
-            return Content(ArchiveSchema, MediaTypeNames.Application.Json);
-        }
-        
-        [HttpGet("montage")]
-        public IActionResult GetMontageSchema()
-        {
-            return Content(MontageSchema, MediaTypeNames.Application.Json);
+            string schemaTemplate = System.IO.File.ReadAllText("Resources/imagecaster.schema.json");
+
+            _schema = JsonSerializer.Deserialize<JsonSchema>(schemaTemplate);
+            
+            Dictionary<string, JsonSchemaProperty> buildProperties = _schema.Properties["build"].Properties;
+            buildProperties["metadata"].Properties["exif"].Properties["tags"].Items.Properties["tag"].Enum = _exifTags;
+            buildProperties["resize"].Properties["filter"].Enum = _resizeFilters;
         }
 
-        /// <param name="name"></param>
+        /// <summary>
+        /// Receive the JSON Schema for the ImageCaster configuration, or
+        /// a partial schema from part including one or more of the properties.
+        /// </summary>
+        /// <param name="properties">The properties to obtain.</param>
         /// <returns></returns>
-        private string SchemaFromName(string name)
+        /// <exception cref="ArgumentException"></exception>
+        [HttpGet("json-schema")]
+        public ActionResult<JsonSchema> GetSchema([FromQuery] string[] properties)
         {
-            return System.IO.File.ReadAllText($"Resources/imagecaster-{name}.schema.json");
+            JsonSchema response;
+            
+            if (properties.Length == 0)
+            {
+                response = _schema;
+            }
+            else
+            {
+                response = new JsonSchema()
+                {
+                    Schema = _schema.Schema,
+                    Id = _schema.Id,
+                    Title = _schema.Title,
+                    Description = _schema.Description,
+                    Type = _schema.Type,
+                    Properties = new Dictionary<string, JsonSchemaProperty>()
+                };
+
+                Dictionary<string, JsonSchemaProperty> jsonProperties = _schema.Properties;
+
+                foreach (string property in properties)
+                {
+                    if (!jsonProperties.ContainsKey(property))
+                    {
+                        return StatusCode(404, "Property not found.");
+                    }
+                    
+                    response.Properties.Add(property, jsonProperties[property]);
+                }
+            }
+
+            return response;
+        }
+
+        /// <returns>Return all exif tags values available in ImageCaster.</returns>
+        [HttpGet("exif-tags")]
+        public IActionResult ExifTags()
+        {
+            string jsonString = JsonSerializer.Serialize(_exifTags);
+            return Content(jsonString, MediaTypeNames.Application.Json);
+        }
+
+        [HttpGet("iptc-tags")]
+        public IActionResult IptcTags()
+        {
+            string jsonString = JsonSerializer.Serialize(_iptcTags);
+            return Content(jsonString, MediaTypeNames.Application.Json);
+        }
+        
+        /// <returns>Return all resize filters available in ImageCaster.</returns>
+        [HttpGet("resize-filters")]
+        public IActionResult ResizeFilters()
+        {
+            string jsonString = JsonSerializer.Serialize(_resizeFilters);
+            return Content(jsonString, MediaTypeNames.Application.Json);
         }
     }
 }
