@@ -1,7 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using ImageMagick;
 
-namespace ImageCasterApi.Models
+namespace ImageCasterApi.Models.Request
 {
     /// <summary>Data object to map formdata from request.</summary>
     public class ResizePreviewModel : FilterPreviewModel

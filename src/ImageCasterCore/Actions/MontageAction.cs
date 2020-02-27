@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using ImageCasterCore.Api;
+using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
 using ImageCasterCore.Extensions;
 using ImageMagick;
@@ -13,16 +14,14 @@ namespace ImageCasterCore.Actions
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
         /// <summary>The collector implementation in use, determines how files are found.</summary>
-        public ICollector Collector { get; }
+        public ICollector Collector { get; } = new RegexCollector();
         
         /// <summary>The user defined configuration to export montages of images.</summary>
         public ImageCasterConfig Config { get; }
         
-        /// <param name="collector"><see cref="Collector"/></param>
         /// <param name="config"><see cref="Config"/></param>
-        public MontageAction(ICollector collector, ImageCasterConfig config)
+        public MontageAction(ImageCasterConfig config)
         {
-            this.Collector = collector.RequireNonNull();
             this.Config = config.RequireNonNull();
         }
         

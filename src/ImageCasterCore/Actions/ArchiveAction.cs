@@ -53,7 +53,7 @@ namespace ImageCasterCore.Actions
                             }
                             else
                             {
-                                Logger.Fatal("File or directory specified in configuration doesn't exist.");
+                                throw new FileNotFoundException("File or directory specified in configuration doesn't exist.");
                             }
                         }   
                     }

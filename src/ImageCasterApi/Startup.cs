@@ -64,9 +64,13 @@ namespace ImageCasterApi
                 serializerOptions.IgnoreNullValues = true;
 
                 IList<JsonConverter> converters = serializerOptions.Converters;
+                
+                // Add ImageCaster converters that we need in general.
                 converters.Add(new FilterTypeConverter());
-                converters.Add(new FrontendFileConverter());
                 converters.Add(new PercentageConverter());
+                
+                // Add converters that we need on the API specifically.
+                converters.Add(new FrontendFileConverter());
             });
             
             services.AddControllers();

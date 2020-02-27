@@ -1,7 +1,5 @@
 ﻿using ImageCasterCore.Actions;
-using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
-using ImageMagick;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -21,21 +19,21 @@ namespace ImageCasterApi.Controllers
         [HttpPost("check")]
         public int Check()
         {
-            CheckAction check = new CheckAction(new RegexCollector(), new ImageCasterConfig().Checks);
+            CheckAction check = new CheckAction(new ImageCasterConfig().Checks);
             return check.Execute();
         }
         
         [HttpPost("build")]
         public int Build()
         {
-            BuildAction build = new BuildAction(new RegexCollector(), new ImageCasterConfig());
+            BuildAction build = new BuildAction(new ImageCasterConfig());
             return build.Execute();
         }
         
         [HttpPost("montage")]
         public int Montage()
         {
-            MontageAction montage = new MontageAction(new RegexCollector(), new ImageCasterConfig());
+            MontageAction montage = new MontageAction(new ImageCasterConfig());
             return montage.Execute();
         }
         

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ImageCasterCore.Api;
 using ImageCasterCore.Checkers;
+using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
 using ImageCasterCore.Extensions;
 using NLog;
@@ -17,14 +18,13 @@ namespace ImageCasterCore.Actions
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>The collector implementation to use to collect files.</summary>
-        public ICollector Collector { get; }
+        public ICollector Collector { get; } = new RegexCollector();
         
         /// <summary>The configured checks to perform.</summary>
         public Checks Checks { get; }
 
-        public CheckAction(ICollector collector, Checks checks)
+        public CheckAction(Checks checks)
         {
-            this.Collector = collector.RequireNonNull();
             this.Checks = checks;
         }
         

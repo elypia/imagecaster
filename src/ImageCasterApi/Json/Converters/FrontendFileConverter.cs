@@ -3,7 +3,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using ImageCasterApi.Models;
+using ImageCasterApi.Models.Data;
 
 namespace ImageCasterApi.Json.Converters
 {
@@ -39,10 +39,13 @@ namespace ImageCasterApi.Json.Converters
 
             if (contentType != null)
             {
-                builder.Append(DataPrefix).Append(contentType).Append(Base64Seperator);
+                builder.Append(DataPrefix)
+                       .Append(contentType)
+                       .Append(Base64Seperator);
             }
 
-            builder.Append(Convert.ToBase64String(value.Data));
+            string base64 = Convert.ToBase64String(value.Data);
+            builder.Append(base64);
 
             writer.WriteStringValue(builder.ToString());
         }

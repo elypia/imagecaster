@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace ImageCasterApi.Json
@@ -19,6 +20,7 @@ namespace ImageCasterApi.Json
         [JsonPropertyName("description")]
         public string Description { get; set; }
 
+        [Required]
         [JsonPropertyName("type")]
         public string Type { get; set; }
 

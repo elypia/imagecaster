@@ -79,10 +79,14 @@
           "description": "Configuration to modulate the colors of the images.",
           "type": "object",
           "properties": {
-            "mask": {
-              "title": "Mask",
+            "masks": {
+              "title": "Masks",
               "description": "A grayscale mask that marks when areas to modulate.",
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "data-url"
+              }
             },
             "modulate": {
               "title": "Modulate",

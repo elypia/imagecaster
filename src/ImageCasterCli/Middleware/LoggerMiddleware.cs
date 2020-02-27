@@ -44,7 +44,7 @@ namespace ImageCasterCli.Middleware
 
                 if (timestamp)
                 {
-                    LogManager.Configuration.Variables["layout"] = "[${level:uppercase=true:padding=-5}] [${date:universalTime:true:format=MM/dd HH\\:mm\\:ss}]";
+                    LogManager.Configuration.Variables["layout"] = @"[${level:uppercase=true:padding=-5}] [${date:universalTime:true:format=MM/dd HH\:mm\:ss}]";
                 }
                 
                 await next(context);
