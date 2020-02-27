@@ -27,9 +27,6 @@ namespace ImageCasterCore.BuildSteps
             return Config != null;
         }
 
-        /// <summary>
-        /// TODO: Default DATE
-        /// </summary>
         /// <param name="context"></param>
         /// <param name="magickImage"></param>
         public void Execute(PipelineContext context, IMagickImage magickImage)

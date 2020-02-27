@@ -1,4 +1,4 @@
-# ImageCaster [![matrix-members]][matrix] [![discord-members]][discord] [![docker-shield]][docker] [![gitlab-build]][gitlab] [![gitlab-coverage]][gitlab] [![donate-shield]][elypia-donate]
+# ImageCaster [![matrix]][matrix-community] [![discord-members]][discord] [![docker]][docker-image] [![gitlab-build]][gitlab] [![gitlab-coverage]][gitlab] [![donate]][elypia-donate]
 ## About
 ImageCaster is a small CLI application that can be used to manage
 exporting images. It's primary use case is for CI/CD where a
@@ -82,9 +82,9 @@ While not legal advice, you can find a [TL;DR] that sums up what
 you're allowed and not allowed to do along with any requirements if you
 want to use or derive work from this source code!  
 
-[matrix]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
+[matrix-community]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
 [discord]: https://discordapp.com/invite/hprGMaM "Discord Invite"
-[docker]: https://hub.docker.com/r/elypia/imagecaster "ImageCaster on Docker"
+[docker-image]: https://hub.docker.com/r/elypia/imagecaster "ImageCaster on Docker"
 [gitlab]: https://gitlab.com/Elypia/imagecaster/commits/master "Repository on GitLab"
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
 [Elypia Emotes]: https://gitlab.com/Elypia/elypia-emotes "Elypia Emotes"
@@ -96,9 +96,9 @@ want to use or derive work from this source code!
 [Apache 2.0]: https://www.apache.org/licenses/LICENSE-2.0 "Apache 2.0 License"
 [TL;DR]: https://tldrlegal.com/license/apache-license-2.0-(apache-2.0) "TL;DR of Apache 2.0"
 
-[matrix-members]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
+[matrix]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
 [discord-members]: https://discordapp.com/api/guilds/184657525990359041/widget.png "Discord Shield"
-[docker-shield]: https://img.shields.io/docker/pulls/elypia/imagecaster?logo=docker "Docker Shield"
+[docker]: https://img.shields.io/docker/pulls/elypia/imagecaster?logo=docker "Docker Shield"
 [gitlab-build]: https://gitlab.com/Elypia/imagecaster/badges/master/pipeline.svg "GitLab Build Shield"
 [gitlab-coverage]: https://gitlab.com/Elypia/imagecaster/badges/master/coverage.svg "GitLab Coverage Shield"
-[donate-shield]: https://img.shields.io/badge/Elypia-Donate-blueviolet "Donate Shield"
+[donate]: https://img.shields.io/badge/Elypia-Donate-blueviolet "Donate Shield"
