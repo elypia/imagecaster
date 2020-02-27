@@ -265,10 +265,6 @@ namespace ImageCasterCore.Utilities
             ExifTag.SceneType
         };
 
-        /// <summary>
-        /// Switch case made from taking all available EXIF tags in Magick.NET
-        /// and making a switch mapping input to them.
-        /// </summary>
         /// <param name="tagName">The Exif tag as a string literal.</param>
         /// <returns>The Exif tag specified by the user if found.</returns>
         /// <exception cref="ArgumentException">If the Exif tag specified doesn't exist.</exception>

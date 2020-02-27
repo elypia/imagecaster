@@ -49,9 +49,8 @@ namespace ImageCasterCore
             this.Tokens = tokens.RequireNonNull();
         }
 
-        /// <summary>
-        /// Sort the images alphabetically.
-        /// </summary>
+        /// <inheritdoc cref="IComparable"/>
+        /// <summary>Sort the images alphabetically.</summary>
         /// <param name="other">The other resolved file to compare to.</param>
         /// <returns>A number representing if other is greater than or less than this.</returns>
         public int CompareTo(ResolvedFile other)

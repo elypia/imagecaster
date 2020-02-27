@@ -11,7 +11,8 @@ namespace ImageCasterCore.Json.Converters
         public override ExifTag Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             string value = reader.GetString();
-            return ExifUtils.FindByName(value);
+            ExifTag tag = ExifUtils.FindByName(value);
+            return (tag != null) ? tag : throw new JsonException();
         }
 
         public override void Write(Utf8JsonWriter writer, ExifTag value, JsonSerializerOptions options)
