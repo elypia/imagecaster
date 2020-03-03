@@ -10,6 +10,6 @@ namespace ImageCasterCore.Api
     {
         /// <summary>Perform the respective check for a <see cref="Check"/>.</summary>
         /// <returns>A list of failures that occured while checking.</returns>
-        List<Failure> Check();
+        IEnumerable<Failure> Check();
     }
 }

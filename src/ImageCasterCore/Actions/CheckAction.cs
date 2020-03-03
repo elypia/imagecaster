@@ -3,7 +3,6 @@ using ImageCasterCore.Api;
 using ImageCasterCore.Checkers;
 using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
-using ImageCasterCore.Extensions;
 using NLog;
 
 namespace ImageCasterCore.Actions
@@ -42,25 +41,25 @@ namespace ImageCasterCore.Actions
 
             if (Checks.FileExists != null)
             {
-                FileExistsChecker checker = new FileExistsChecker(Collector, Checks.FileExists);
+                FileExistsChecker checker = new FileExistsChecker(Checks.FileExists);
                 failures.AddRange(checker.Check());
             }
 
             if (Checks.NamingConvention != null)
             {
-                NamingConventionChecker checker = new NamingConventionChecker(Collector, Checks.NamingConvention);
+                NamingConventionChecker checker = new NamingConventionChecker(Checks.NamingConvention);
                 failures.AddRange(checker.Check());
             }
 
             if (Checks.PowerOfTwo != null)
             {
-                PowerOfTwoChecker checker = new PowerOfTwoChecker(Collector, Checks.PowerOfTwo);
+                PowerOfTwoChecker checker = new PowerOfTwoChecker(Checks.PowerOfTwo);
                 failures.AddRange(checker.Check());
             }
 
             if (Checks.ResolutionMatches != null)
             {
-                ResolutionMatchesChecker matchesChecker = new ResolutionMatchesChecker(Collector, Checks.ResolutionMatches);
+                ResolutionMatchesChecker matchesChecker = new ResolutionMatchesChecker(Checks.ResolutionMatches);
                 failures.AddRange(matchesChecker.Check());
             }
             

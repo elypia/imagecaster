@@ -17,28 +17,27 @@ namespace ImageCasterCore.Checkers
         /// <summary>Logging with NLog.</summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ICollector Collector { get; }
         public List<NamingConventionConfig> Config { get; }
         
-        public NamingConventionChecker(ICollector collector, List<NamingConventionConfig> config)
+        public NamingConventionChecker(List<NamingConventionConfig> config)
         {
-            this.Collector = collector.RequireNonNull();
             this.Config = config.RequireNonNull();
         }
         
-        public List<Failure> Check()
+        public IEnumerable<Failure> Check()
         {
             List<Failure> failures = new List<Failure>();
             
             foreach (NamingConventionConfig config in Config)
             {
-                List<ResolvedFile> resolvedFiles = Collector.Collect(config.Source);
+                DataResolver resolver = new DataResolver(config.Source);
+                List<ResolvedData> resolvedFiles = resolver.Data;
 
-                foreach (ResolvedFile resolvedFile in resolvedFiles)
+                foreach (ResolvedData resolvedFile in resolvedFiles)
                 {
                     Regex regex = config.Pattern;
                     
-                    if (!regex.IsMatch(resolvedFile.FileInfo.Name))
+                    if (!regex.IsMatch(resolvedFile.Name))
                     {
                         failures.Add(new Failure(resolvedFile, $"filename doesn't adhere to the naming convention (pattern) /{regex}/."));
                     }

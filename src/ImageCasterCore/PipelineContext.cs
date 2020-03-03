@@ -12,12 +12,15 @@ namespace ImageCasterCore
     /// </summary>
     public class PipelineContext
     {
+        /// <summary>Resolve input or additional data needed for the build.</summary>
+        public DataResolver DataResolver { get; }
+        
         /// <summary>
         /// The steps in this pipeline.
         /// </summary>
         public List<IBuildStep> Pipeline { get; }
 
-        public ResolvedFile ResolvedFile { get; }
+        public ResolvedData ResolvedData { get; }
         
         /// <summary>
         /// Append directories to the path the images will be exported to.
@@ -25,7 +28,7 @@ namespace ImageCasterCore
         /// a folder per color.
         /// <code>build/export/red/@128px/emoteHappy.png</code>
         /// </summary>
-        public string[] Path { get; set; }
+        public IEnumerable<string> Path { get; set; }
 
         /// <summary>
         /// Add a prefix to the filenames.
@@ -33,7 +36,7 @@ namespace ImageCasterCore
         /// add the color name in front of each image. 
         /// <code>remoteHappy.png</code>
         /// </summary>
-        public string[] Prefix { get; set; }
+        public string Prefix { get; set; }
 
         /// <summary>
         /// Add a suffix to the filenames.
@@ -41,22 +44,20 @@ namespace ImageCasterCore
         /// add the filesize at the end of each image.
         /// <code>emoteHappy@128px.png</code>
         /// </summary>
-        public string[] Suffix { get; set; }
+        public string Suffix { get; set; }
 
         /// <summary>
         /// The step of the pipeline this context is currently on.
         /// </summary>
         private int Step { get; set; }
         
-        public PipelineContext(List<IBuildStep> pipeline, ResolvedFile resolvedFile, string path = "build")
+        public PipelineContext(DataResolver resolver, List<IBuildStep> pipeline, ResolvedData resolvedData, string path = "build")
         {
             path.RequireNonNull();
-
+            this.DataResolver = resolver.RequireNonNull();
             this.Pipeline = pipeline.RequireNonNull();
-            this.ResolvedFile = resolvedFile.RequireNonNull();
-            Path = new[] {path};
-            Prefix = new string[0];
-            Suffix = new string[0];
+            this.ResolvedData = resolvedData.RequireNonNull();
+            Path = new List<string>(){path};
             Step = 0;
         }
 
@@ -73,27 +74,27 @@ namespace ImageCasterCore
         
         public void AppendPath(params string[] path)
         {
-            this.Path = this.Path.Concat(path).ToArray();
+            Path = this.Path.Concat(path);
         }
 
-        public void AppendPrefix(params string[] prefix)
+        public void AppendPrefix(string prefix)
         {
-            this.Prefix = this.Prefix.Concat(prefix).ToArray();
+            this.Prefix = (this.Prefix == null) ? prefix : this.Prefix + prefix;
         }
         
-        public void AppendSuffix(params string[] suffx)
+        public void AppendSuffix(string suffix)
         {
-            this.Suffix = this.Suffix.Concat(suffx).ToArray();
+            this.Suffix = (this.Suffix == null) ? suffix : this.Suffix + suffix;
         }
         
         public PipelineContext Clone()
         {
-            return new PipelineContext(Pipeline, ResolvedFile)
+            return new PipelineContext(DataResolver, Pipeline, ResolvedData)
             {
-                Path = Path,
-                Prefix = Prefix,
-                Suffix = Suffix,
-                Step = Step
+                Path = new List<string>(this.Path),
+                Prefix = this.Prefix,
+                Suffix = this.Suffix,
+                Step = this.Step
             };
         }
     }

@@ -26,27 +26,40 @@
           "properties": {
             "exif": {
               "title": "Exif",
-              "description": "How Exif tags should be applied to images.",
-              "type": "object",
-              "properties": {
-                "tags": {
-                  "title": "Tags",
-                  "description": "All the Exif tags to assign to exported images.",
-                  "type": "array",
-                  "items": {
-                    "properties": {
-                      "tag": {
-                        "title": "Tag",
-                        "description": "The name of the tag to set.",
-                        "type": "string",
-                        "enum": []
-                      },
-                      "value": {
-                        "title": "Value",
-                        "description": "The value of the tag to set.",
-                        "type": "string"
-                      }
-                    }
+              "description": "All the Exif tags to assign to exported images.",
+              "type": "array",
+              "items": {
+                "properties": {
+                  "tag": {
+                    "title": "Tag",
+                    "description": "The name of the tag to set.",
+                    "type": "string",
+                    "enum": []
+                  },
+                  "value": {
+                    "title": "Value",
+                    "description": "The value of the tag to set.",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "iptc": {
+              "title": "IPTC",
+              "description": "All the IPTC tags to assign to exported images.",
+              "type": "array",
+              "items": {
+                "properties": {
+                  "tag": {
+                    "title": "Tag",
+                    "description": "The name of the tag to set.",
+                    "type": "string",
+                    "enum": []
+                  },
+                  "value": {
+                    "title": "Value",
+                    "description": "The value of the tag to set.",
+                    "type": "string"
                   }
                 }
               }
@@ -74,22 +87,31 @@
             }
           }
         },
-        "colors": {
-          "title": "Colors",
+        "recolor": {
+          "title": "Recolor",
           "description": "Configuration to modulate the colors of the images.",
           "type": "object",
           "properties": {
-            "masks": {
-              "title": "Masks",
-              "description": "A grayscale mask that marks when areas to modulate.",
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "data-url"
+            "mask": {
+              "title": "Mask",
+              "description": "Define a mask to dictate what parts of the image should change or not",
+              "type": "object",
+              "properties": {
+                "pattern": {
+                  "title": "Pattern",
+                  "description": "A pattern that maps the name of an input file to the name of a mask.",
+                  "type": "string"
+                },
+                "sources": {
+                  "title": "Mask",
+                  "description": "A list of all masks to give to ImageCaster along with the inputs.",
+                  "type": "string",
+                  "format": "data-url"
+                }
               }
             },
-            "modulate": {
-              "title": "Modulate",
+            "modulation": {
+              "title": "Modulation",
               "description": "All the colors to export the images as.",
               "type": "array",
               "items": {

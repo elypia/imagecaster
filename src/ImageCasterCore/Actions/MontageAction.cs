@@ -48,7 +48,7 @@ namespace ImageCasterCore.Actions
             foreach (PatternConfig pattern in patterns)
             {
                 string name = pattern.Name;
-                List<ResolvedFile> resolvedFiles = Collector.Collect(pattern.Pattern);
+                List<ResolvedData> resolvedFiles = Collector.Collect(pattern.Pattern);
                 
                 if (resolvedFiles.Count == 0)
                 {
@@ -59,13 +59,12 @@ namespace ImageCasterCore.Actions
                 
                 using (MagickImageCollection collection = new MagickImageCollection())
                 {
-                    foreach (ResolvedFile resolvedFile in resolvedFiles)
+                    foreach (ResolvedData resolvedFile in resolvedFiles)
                     {
-                        FileInfo fileInfo = resolvedFile.FileInfo;
-                        string filename = fileInfo.Name;
+                        string filename = resolvedFile.Name;
                         string fileShortName = Path.GetFileNameWithoutExtension(filename);
                         
-                        MagickImage magickImage = new MagickImage(fileInfo, magickSettings);
+                        IMagickImage magickImage = resolvedFile.ToMagickImage(magickSettings);
                         magickImage.Extent(128, 144, MagickColors.None);
 
                         MagickColor color = MagickColor.FromRgba(0, 0, 0, 88);

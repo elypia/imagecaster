@@ -1,5 +1,7 @@
 using System.IO;
 using ImageCasterCore;
+using ImageCasterCore.Collectors;
+using ImageMagick;
 using Xunit;
 
 namespace ImageCasterCoreTest
@@ -10,10 +12,10 @@ namespace ImageCasterCoreTest
         public void TestToString()
         {
             FileInfo fileInfo = new FileInfo("src/emoteHappy.png");
-            ResolvedFile resolvedFile = new ResolvedFile(fileInfo, "src/emote(.+).png", "Happy");
+            ResolvedData resolvedData = new ResolvedData(fileInfo, "src/emote(.+).png", (o, s) => new MagickImage((FileInfo)o, s), "emoteHappy.png", null, "Happy");
 
             const string expected = "src/emoteHappy.png resolved from src/emote(.+).png with tokens: Happy";
-            string actual = resolvedFile.ToString();
+            string actual = resolvedData.ToString();
 
             Assert.Equal(expected, actual);
         }

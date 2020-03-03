@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 
 namespace ImageCasterCore.Api
 {
@@ -13,25 +12,11 @@ namespace ImageCasterCore.Api
         /// <summary>
         /// Collect all files that match the pattern provided.
         /// </summary>
-        /// <param name="pattern">
-        /// A string that represents all desired files
-        /// relative to where the application was run.
+        /// <param name="data">
+        /// A string that represents the data to obtain
+        /// or means to locate it.
         /// </param>
         /// <returns>A collection of files matching the pattern.</returns>
-        List<ResolvedFile> Collect(string pattern);
-
-        /// <summary>
-        /// Find another file, relative to a resolved file.
-        /// For example if a file was matched using the pattern
-        /// panda*.png, and matched the file pandaAww.png,
-        /// it was create a <see cref="ResolvedFile"/> representing this file
-        /// with Aww as a deferenceable token which can later be accessed
-        /// deeper the configuration with $1, for example panda$1.mask.png
-        /// which might be where the masks are located.
-        /// </summary>
-        /// <param name="resolvedFile">The file that was resolved in <see cref="Collect"/></param>
-        /// <param name="pattern">A pattern matching the file required."/></param>
-        /// <returns>The file matching the pattern, or null if no such file exists.</returns>
-        FileInfo Resolve(ResolvedFile resolvedFile, string pattern);
+        List<ResolvedData> Collect(string data);
     }
 }

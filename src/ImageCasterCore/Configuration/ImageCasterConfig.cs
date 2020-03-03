@@ -6,8 +6,15 @@ namespace ImageCasterCore.Configuration
 {
     public class ImageCasterConfig
     {
-        private static Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// A set of variables that can be referenced in other parts of the
+        /// configuration, namely areas using the <see cref="StringInterpolator"/>.
+        /// </summary>
+        [JsonPropertyName("variables")]
+        public Dictionary<string, string> Variables { get; set; }
+        
         [JsonPropertyName("build")]
         public Build Build { get; set; }
 

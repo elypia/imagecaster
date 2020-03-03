@@ -6,6 +6,7 @@ using NLog;
 
 namespace ImageCasterCli.Middleware
 {
+    /// <summary>Parse global ImageCaster arguments.</summary>
     public static class ImageCasterMiddleware
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

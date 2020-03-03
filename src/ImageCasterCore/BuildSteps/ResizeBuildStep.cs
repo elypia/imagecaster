@@ -1,5 +1,6 @@
 using ImageCasterCore.Api;
 using ImageCasterCore.Configuration;
+using ImageCasterCore.Extensions;
 using ImageMagick;
 using NLog;
 
@@ -11,12 +12,11 @@ namespace ImageCasterCore.BuildSteps
 
         public Resize Config { get; set; }
 
-        public bool Configure(ICollector collector, ImageCasterConfig config)
+        public ResizeBuildStep(ImageCasterConfig config)
         {
-            this.Config = config?.Build?.Resize;
-            return Config != null;
+            this.Config = config.Build.Resize.RequireNonNull();
         }
-
+        
         public void Execute(PipelineContext context, IMagickImage magickImage)
         {
             foreach (MagickGeometry dimensions in Config.Geometries)

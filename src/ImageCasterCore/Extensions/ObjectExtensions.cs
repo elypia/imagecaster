@@ -15,7 +15,7 @@ namespace ImageCasterCore.Extensions
         {
             if (o == null)
             {
-                throw new ArgumentNullException(message);
+                throw new ArgumentNullException(message, (Exception)null);
             }
 
             return o;

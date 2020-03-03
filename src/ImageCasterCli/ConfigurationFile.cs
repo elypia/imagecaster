@@ -3,7 +3,6 @@ using System.IO;
 using System.Text.Json;
 using ImageCasterCore.Configuration;
 using ImageCasterCore.Extensions;
-using ImageCasterCore.Json.Converters;
 using YamlDotNet.Serialization;
 
 namespace ImageCasterCli
@@ -55,21 +54,11 @@ namespace ImageCasterCli
             ISerializer serializer = new SerializerBuilder().JsonCompatible().Build();
             string json = serializer.Serialize(yamlObject);
             
-            JsonSerializerOptions options = new JsonSerializerOptions()
-            {
-                Converters =
-                {
-                    new ExifTagConverter(),
-                    new FileInfoConverter(),
-                    new FilterTypeConverter(),
-                    new GeometryConverter(),
-                    new IptcTagConverter(),
-                    new PercentageConverter(),
-                    new RegexConverter()
-                }
-            };
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.AddImageCasterConverters();
 
-            return JsonSerializer.Deserialize<ImageCasterConfig>(json, options);
+            ImageCasterConfig config = JsonSerializer.Deserialize<ImageCasterConfig>(json, options);
+            return config;
         }
     }
 }

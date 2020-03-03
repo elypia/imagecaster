@@ -10,13 +10,13 @@ namespace ImageCasterCoreTest.Collectors
         [Fact]
         public void TestDirectoryCollectorResolvesFile()
         {
-            FileInfo fileInfo = new FileInfo("src/emoteHappy.png");
-            ResolvedFile resolvedFile = new ResolvedFile(fileInfo, "src/", "emoteHappy.png");
+            FileInfo[] fileInfo = { new FileInfo("src/emoteHappy.png") };
 
-            DirectoryCollector collector = new DirectoryCollector();
+            FileCollector collector = new FileCollector();
+            ResolvedData resolvedData = collector.Collect("src/emote(.+).png", fileInfo)[0];
 
-            string expected = new FileInfo("src/masks/emoteHappy.png").Name;
-            string actual = collector.Resolve(resolvedFile, "src/masks/").Name;
+            const string expected = "emoteHappy.png";
+            string actual = resolvedData.Name;
             
             Assert.Equal(expected, actual);
         }

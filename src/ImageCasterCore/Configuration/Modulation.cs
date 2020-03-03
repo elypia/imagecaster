@@ -8,7 +8,7 @@ namespace ImageCasterCore.Configuration
     /// A single exporting color.
     /// </summary>
     /// <see cref="http://www.imagemagick.org/Usage/color_mods/#modulate_hue"/>
-    public class Modulate
+    public class Modulation
     {
         /// <summary>The name of this color.</summary>
         [Required(ErrorMessage = "Must specify a name for all modulations.")]

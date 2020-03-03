@@ -24,13 +24,9 @@ namespace ImageCasterCli
         /// This method also times the time taken to perform
         /// the command to help optimizations in development
         /// or user configurations.
-        ///
-        /// We postpone logging until after calling InvokeAsync so that
-        /// any user defined logging configurations (ie from CLI arguments)
-        /// have already been set.
         /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
+        /// <param name="args">Command line arguments.</param>
+        /// <returns>The exit code.</returns>
         public static async Task<int> Main(string[] args)
         {
             Stopwatch stopWatch = Stopwatch.StartNew();

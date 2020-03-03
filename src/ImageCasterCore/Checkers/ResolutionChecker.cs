@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using ImageCasterCore.Api;
 using ImageCasterCore.Configuration.Checkers;
 using ImageCasterCore.Extensions;
@@ -13,39 +12,38 @@ namespace ImageCasterCore.Checkers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ICollector Collector { get; }
         public List<ResolutionMatchesConfig> Config { get; }
         
-        public ResolutionMatchesChecker(ICollector collector, List<ResolutionMatchesConfig> config)
+        public ResolutionMatchesChecker(List<ResolutionMatchesConfig> config)
         {
-            this.Collector = collector.RequireNonNull();
             this.Config = config.RequireNonNull();
         }
         
-        public List<Failure> Check()
+        public IEnumerable<Failure> Check()
         {
             List<Failure> failures = new List<Failure>();
             
             foreach (ResolutionMatchesConfig config in Config)
             {
-                List<ResolvedFile> resolvedFiles = Collector.Collect(config.Source);
-
-                foreach (ResolvedFile resolvedFile in resolvedFiles)
+                DataResolver resolver = new DataResolver(config.Source);
+                resolver.ResolveAdditional("target", config.Target);
+                
+                foreach (ResolvedData resolvedFile in resolver.Data)
                 {
-                    using (MagickImage magickSource = new MagickImage(resolvedFile.FileInfo))
+                    using (IMagickImage magickSource = resolvedFile.ToMagickImage())
                     {
-                        FileInfo fileInfo = Collector.Resolve(resolvedFile, config.Target);
+                        ResolvedData resolvedData = resolver.ResolvedData("target", resolvedFile, config.Pattern);
 
-                        if (!fileInfo.Exists)
+                        if (resolvedData == null)
                         {
                             continue;
                         }
 
-                        using (MagickImage magickTarget = new MagickImage(fileInfo))
+                        using (IMagickImage magickTarget = resolvedData.ToMagickImage())
                         {
                             if (magickSource.Height != magickTarget.Height || magickSource.Width != magickTarget.Width)
                             {
-                                failures.Add(new Failure(resolvedFile, "resolutions does not much with target"));
+                                failures.Add(new Failure(resolvedFile, "resolutions does not much with target."));
                             }
                         }
                     }

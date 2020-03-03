@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using ImageCasterCore.Api;
 using ImageCasterCore.Configuration.Checkers;
 using ImageCasterCore.Extensions;
@@ -14,32 +13,31 @@ namespace ImageCasterCore.Checkers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ICollector Collector { get; }
         public List<FileExistsConfig> Config { get; }
         
-        public FileExistsChecker(ICollector collector, List<FileExistsConfig> config)
+        public FileExistsChecker(List<FileExistsConfig> config)
         {
-            this.Collector = collector.RequireNonNull();
             this.Config = config.RequireNonNull();
         }
         
-        public List<Failure> Check()
+        public IEnumerable<Failure> Check()
         {
             List<Failure> failures = new List<Failure>();
             
             foreach (FileExistsConfig config in Config)
             {
-                List<ResolvedFile> resolvedFiles = Collector.Collect(config.Source);
+                DataResolver resolver = new DataResolver(config.Source);
+                resolver.ResolveAdditional("target", config.Target);
 
-                foreach (ResolvedFile resolvedFile in resolvedFiles)
+                foreach (ResolvedData resolvedFile in resolver.Data)
                 {
                     foreach (string pattern in config.Patterns)
                     {
-                        FileInfo fileInfo = Collector.Resolve(resolvedFile, pattern);
+                        ResolvedData resolvedData = resolver.ResolvedData("target", resolvedFile, pattern);
                         
-                        if (!fileInfo.Exists)
+                        if (resolvedData == null)
                         {
-                            failures.Add(new Failure(resolvedFile, $"{fileInfo} does not exist"));
+                            failures.Add(new Failure(resolvedFile, $"{pattern} does not exist in target data."));
                         }
                     }
                 }

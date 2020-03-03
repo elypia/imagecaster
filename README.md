@@ -47,26 +47,25 @@ build:
 ```yml
 build:
   input: 
-    - regex:src/panda(.+).png
+    - src/emotes/
   metadata:
-    exif:
-      - tag: Artist
-        value: Elypia CIC and Contributors
+    exif: 
+      - {tag: Artist, value: Elypia CIC and Contributors}
   resize:
     filter: Catrom
     geometries: [512, 258]
-  colors:
-    mask: src/masks/panda$1.mask.png
-    modulate:
-      - name: blue
-        hue: 0
-      - name: violet
-        saturation: 70
-        hue: 50
+  recolor:
+    mask: 
+      sources: 
+        - src/masks/
+    modulation:
+      - {name: blue, hue: 0}
+      - {name: violet, saturation: 70, hue: 50}
 checks:
   file-exists:
-    source: src/panda(.+).png
-    target: src/projects/panda$1.ora
+    source: src/masks/
+    target: src/emotes/
+    pattern: $1.ora
 ```
 > First we define a pattern which matches all of our input images. For
 > each image we add the Exif tag, `Artist`, and export 6 versions of

@@ -3,7 +3,7 @@ using System.Net.Mime;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ImageCasterApi.Json.Converters;
-using ImageCasterCore.Json.Converters;
+using ImageCasterCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +19,9 @@ namespace ImageCasterApi
         /// <summary>The name of the CORS configuration to use at runtime.</summary>
         public const string CorsProfile = "CORS";
 
+        /// <summary>The Content-Type we Consume and Produce.</summary>
+        public const string ContentType = MediaTypeNames.Application.Json;
+        
         /// <summary>Origins allowed to make requests.</summary>
         public static readonly string[] Origins =
         {
@@ -52,8 +55,8 @@ namespace ImageCasterApi
             services.AddMvc((options) =>
             {
                 FilterCollection filters = options.Filters;
-                filters.Add(new ProducesAttribute(MediaTypeNames.Application.Json));
-                filters.Add(new ConsumesAttribute(MediaTypeNames.Application.Json));
+                filters.Add(new ProducesAttribute(ContentType));
+                filters.Add(new ConsumesAttribute(ContentType));
             });
 
             services.AddControllersWithViews().AddJsonOptions((options) =>
@@ -62,14 +65,12 @@ namespace ImageCasterApi
                 serializerOptions.AllowTrailingCommas = false;
                 serializerOptions.WriteIndented = false;
                 serializerOptions.IgnoreNullValues = true;
-
-                IList<JsonConverter> converters = serializerOptions.Converters;
                 
                 // Add ImageCaster converters that we need in general.
-                converters.Add(new FilterTypeConverter());
-                converters.Add(new PercentageConverter());
+                serializerOptions.AddImageCasterConverters();
                 
                 // Add converters that we need on the API specifically.
+                IList<JsonConverter> converters = serializerOptions.Converters;
                 converters.Add(new FrontendFileConverter());
             });
             

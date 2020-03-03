@@ -1,25 +1,22 @@
 using System;
 using System.Net.Mime;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ImageCasterApi.Models.Data;
+using ImageCasterCore.Collectors;
 
 namespace ImageCasterApi.Json.Converters
 {
     public class FrontendFileConverter : JsonConverter<FrontendFile>
-    {
-        private const string DataPrefix = "data:";
-        private const string Base64Seperator = "base64,";
-        
+    {       
         public override FrontendFile Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             string value = reader.GetString();
 
-            if (value.StartsWith(DataPrefix))
+            if (value.StartsWith(Base64Collector.DataPrefix))
             {
-                string data = value.Substring(DataPrefix.Length);
-                string[] split = data.Split(Base64Seperator);
+                string data = value.Substring(Base64Collector.DataPrefix.Length);
+                string[] split = data.Split(Base64Collector.Base64Seperator);
                 ContentType contentType = new ContentType(split[0]);
                 byte[] bytes = Convert.FromBase64String(split[1]);
                 return new FrontendFile(contentType, bytes);
@@ -33,21 +30,8 @@ namespace ImageCasterApi.Json.Converters
 
         public override void Write(Utf8JsonWriter writer, FrontendFile value, JsonSerializerOptions options)
         {
-            StringBuilder builder = new StringBuilder();
-            
-            ContentType contentType = value.ContentType;
-
-            if (contentType != null)
-            {
-                builder.Append(DataPrefix)
-                       .Append(contentType)
-                       .Append(Base64Seperator);
-            }
-
-            string base64 = Convert.ToBase64String(value.Data);
-            builder.Append(base64);
-
-            writer.WriteStringValue(builder.ToString());
+            string serialized = value.ToString();
+            writer.WriteStringValue(serialized);
         }
     }
 }

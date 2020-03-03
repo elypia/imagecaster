@@ -10,13 +10,13 @@ namespace ImageCasterCoreTest.Collectors
         [Fact]
         public void TestRegexCollectorResolvesFile()
         {
-            FileInfo fileInfo = new FileInfo("src/emoteHappy.png");
-            ResolvedFile resolvedFile = new ResolvedFile(fileInfo, "src/emote(.+).png", "Happy");
-
+            FileInfo[] fileInfo = { new FileInfo("src/emoteHappy.png") };
+            
             RegexCollector collector = new RegexCollector();
-
-            string expected = new FileInfo("src/emoteHappy.mask.png").Name;
-            string actual = collector.Resolve(resolvedFile, "src/emote$1.mask.png").Name;
+            ResolvedData resolvedData = collector.Collect("src/emote(.+).png", fileInfo)[0];
+            
+            const string expected = "emoteHappy.png";
+            string actual = resolvedData.Name;
             
             Assert.Equal(expected, actual);
         }

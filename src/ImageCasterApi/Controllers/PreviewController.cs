@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ImageCasterApi.Models.Data;
 using ImageCasterApi.Models.Request;
 using ImageMagick;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace ImageCasterApi.Controllers
         }
         
         [HttpPost("resize")]
-        public ActionResult<string> ResizePreview([FromBody] ResizePreviewModel model)
+        public ActionResult<FrontendFile> ResizePreview([FromBody] ResizePreviewModel model)
         {
             FilterType filter = model.Filter;
             string geometry = model.Geometry;
@@ -33,24 +34,12 @@ namespace ImageCasterApi.Controllers
             {
                 magickImage.FilterType = filter;
                 magickImage.Resize(magickGeometry);
-
-                string response;
-                
-                if (model.Image.ContentType != null)
-                {
-                    response = "data:" + model.Image.ContentType + ";base64," + magickImage.ToBase64();
-                }
-                else
-                {
-                    response = magickImage.ToBase64();
-                }
-
-                return response;
+                return new FrontendFile(model.Image.ContentType, magickImage.ToByteArray());
             }
         }
 
         [HttpPost("resize-all-filters")]
-        public ActionResult<string> ResizeAllFilters([FromBody] FilterPreviewModel model)
+        public ActionResult<FrontendFile> ResizeAllFilters([FromBody] FilterPreviewModel model)
         {
             string geometry = model.Geometry;
             
@@ -81,26 +70,14 @@ namespace ImageCasterApi.Controllers
                     using (IMagickImage montage = collection.Montage(montageSettings))
                     {
                         montage.Format = magickImage.Format;
-                    
-                        string response;
-
-                        if (model.Image.ContentType != null)
-                        {
-                            response = "data:" + model.Image.ContentType + ";base64," + montage.ToBase64();
-                        }
-                        else
-                        {
-                            response = montage.ToBase64();
-                        }
-
-                        return response;
+                        return new FrontendFile(model.Image.ContentType, montage.ToByteArray());
                     }
                 }
             }
         }
         
-        [HttpPost("modulate")]
-        public ActionResult<string> ModulatePreview([FromBody] ModulatePreviewModel model)
+        [HttpPost("recolor")]
+        public ActionResult<FrontendFile> ModulatePreview([FromBody] RecolorPreviewModel model)
         {
             using (IMagickImage magickImage = new MagickImage(model.Image.Data))
             {
@@ -113,19 +90,7 @@ namespace ImageCasterApi.Controllers
                 }
 
                 magickImage.Modulate(model.Brightness, model.Saturation, model.Hue);
-                
-                string response;
-                
-                if (model.Image.ContentType != null)
-                {
-                    response = "data:" + model.Image.ContentType + ";base64," + magickImage.ToBase64();
-                }
-                else
-                {
-                    response = magickImage.ToBase64();
-                }
-
-                return response;
+                return new FrontendFile(model.Image.ContentType, magickImage.ToByteArray());
             }
         }
     }

@@ -16,32 +16,32 @@ namespace ImageCasterApi.Controllers
             _logger = logger;
         }
         
-        [HttpPost("check")]
-        public int Check()
-        {
-            CheckAction check = new CheckAction(new ImageCasterConfig().Checks);
-            return check.Execute();
-        }
-        
         [HttpPost("build")]
-        public int Build()
+        public int Build([FromBody] ImageCasterConfig config)
         {
-            BuildAction build = new BuildAction(new ImageCasterConfig());
+            BuildAction build = new BuildAction(config);
             return build.Execute();
         }
         
         [HttpPost("montage")]
-        public int Montage()
+        public int Montage([FromBody] ImageCasterConfig config)
         {
-            MontageAction montage = new MontageAction(new ImageCasterConfig());
+            MontageAction montage = new MontageAction(config);
             return montage.Execute();
         }
         
         [HttpPost("archive")]
-        public int Archive()
+        public int Archive([FromBody] ImageCasterConfig config)
         {
-            ArchiveAction archive = new ArchiveAction(new ImageCasterConfig());
+            ArchiveAction archive = new ArchiveAction(config);
             return archive.Execute();
+        }
+        
+        [HttpPost("check")]
+        public int Check([FromBody] ImageCasterConfig config)
+        {
+            CheckAction check = new CheckAction(config.Checks);
+            return check.Execute();
         }
     }
 }

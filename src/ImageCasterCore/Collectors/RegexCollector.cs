@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using ImageCasterCore.Api;
 using ImageCasterCore.Extensions;
+using ImageMagick;
 using NLog;
 
 namespace ImageCasterCore.Collectors
@@ -16,16 +17,22 @@ namespace ImageCasterCore.Collectors
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
-        public List<ResolvedFile> Collect(string pattern)
+        private static readonly Func<object, MagickReadSettings, IMagickImage> ToMagickImage = (o, settings) => new MagickImage((FileInfo)o, settings);
+        
+        public List<ResolvedData> Collect(string data)
         {
-            pattern.RequireNonNull("A pattern is required to match files.");
-            Regex regex = new Regex(pattern);
-            
+            data.RequireNonNull("A pattern is required to match files.");
             DirectoryInfo dir = new DirectoryInfo(".");
             FileInfo[] files = dir.GetFiles("*", SearchOption.AllDirectories);
+            return Collect(data, files);
+        }
+
+        public List<ResolvedData> Collect(string data, FileInfo[] files)
+        {
+            Regex regex = new Regex(data);
             Logger.Debug("Collecting from directory with {0} files.", files.Length);
 
-            List<ResolvedFile> resolvedFiles = new List<ResolvedFile>();
+            List<ResolvedData> resolvedFiles = new List<ResolvedData>();
             Logger.Debug("Checking which of the files match the regex: /{0}/.", regex);
             
             foreach (FileInfo file in files)
@@ -39,31 +46,15 @@ namespace ImageCasterCore.Collectors
                 GroupCollection groups = match.Groups;
                 List<string> tokens = new List<string>();
                 
-                for (int i = 1; i < groups .Count; i++)
+                for (int i = 0; i < groups .Count; i++)
                     tokens.Add(groups [i].Value);
                 
-                ResolvedFile resolvedFile = new ResolvedFile(file, pattern, tokens);
-                resolvedFiles.Add(resolvedFile);
-                Logger.Debug("Resolved {0} with tokens: {1}", resolvedFile.FileInfo, String.Join(", ", resolvedFile.Tokens));
+                ResolvedData resolvedData = new ResolvedData(file, data, ToMagickImage, file.Name, null, tokens.ToArray());
+                resolvedFiles.Add(resolvedData);
+                Logger.Debug("Resolved {0} with tokens: {1}", resolvedData.Data, String.Join(", ", resolvedData.Tokens));
             }
 
             return resolvedFiles;
-        }
-
-        public FileInfo Resolve(ResolvedFile resolvedFile, string pattern)
-        {
-            resolvedFile.RequireNonNull();
-            string resolution = pattern.RequireNonNull();
-            string[] tokens = resolvedFile.Tokens;
-            
-            for (int i = tokens.Length - 1; i >= 0; i--)
-            {
-                string token = tokens[i];
-                resolution = resolution.Replace("$" + (i + 1), token);
-            }
-
-            Logger.Trace("Resolved file: {0}", resolution);
-            return new FileInfo(resolution);
         }
     }
 }

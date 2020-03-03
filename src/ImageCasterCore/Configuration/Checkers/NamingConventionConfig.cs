@@ -12,7 +12,7 @@ namespace ImageCasterCore.Configuration.Checkers
         /// <summary>Pattern for a <see cref="ICollector"/> to use to find files.</summary>
         [Required(ErrorMessage = "Must specify source pattern to discover images.")]
         [JsonPropertyName("source")]
-        public string Source { get; set; }
+        public DataSource Source { get; set; }
         
         /// <summary>Regular expression to validate filename.</summary>
         [Required(ErrorMessage = "Must specify naming convension in the form of a regular expression.")]

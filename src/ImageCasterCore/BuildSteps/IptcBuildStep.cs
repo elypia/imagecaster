@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ImageCasterCore.Api;
 using ImageCasterCore.Configuration;
+using ImageCasterCore.Extensions;
 using ImageMagick;
 using NLog;
 
@@ -19,22 +20,50 @@ namespace ImageCasterCore.BuildSteps
             new TagConfig<IptcTag>(IptcTag.CreatedTime, "${NOW_TIME}")
         }; 
         
-        public List<TagConfig<IptcTag>> Config { get; set; }
+        public Metadata Config { get; set; }
 
-        public bool Configure(ICollector collector, ImageCasterConfig config)
+        public StringInterpolator Interpolator { get; }
+
+        public IptcBuildStep(ImageCasterConfig config) : this(config, new StringInterpolator())
         {
-            Config = config?.Build?.Metadata?.Iptc;
-            return Config != null;
+            
         }
 
+        public IptcBuildStep(ImageCasterConfig config, StringInterpolator interpolator)
+        {
+            this.Config = config.Build.Metadata.RequireNonNull();
+            Interpolator = interpolator.RequireNonNull();
+            
+            Dictionary<string, string> variables = config.Variables;
+            
+            if (config.Variables != null)
+            {
+                foreach ((string key, string value) in variables)
+                {
+                    Interpolator.Add(key, value);
+                }
+            }
+        }
+        
         /// <param name="context"></param>
         /// <param name="magickImage"></param>
         public void Execute(PipelineContext context, IMagickImage magickImage)
         {
-            StringInterpolator interpolator = new StringInterpolator(context.ResolvedFile.FileInfo, magickImage);
+            StringInterpolator interpolator = Interpolator.Branch(context.ResolvedData, magickImage);
             IIptcProfile iptcProfile = magickImage.GetIptcProfile() ?? new IptcProfile();
-            IEnumerable<TagConfig<IptcTag>> tags = DefaultIptcTags.Concat(Config);
+            
+            IEnumerable<TagConfig<IptcTag>> tags = new List<TagConfig<IptcTag>>();
 
+            if (Config.Defaults)
+            {
+                tags = tags.Concat(DefaultIptcTags);
+            }
+
+            if (Config.Iptc != null)
+            {
+                tags = tags.Concat(Config.Iptc);
+            }
+            
             foreach (TagConfig<IptcTag> tag in tags)
             {
                 string value = interpolator.Interpolate(tag.Value);

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
 using ImageCasterCore.Api;
-using ImageCasterCore.Configuration;
 using ImageMagick;
 using NLog;
 
@@ -11,19 +11,11 @@ namespace ImageCasterCore.BuildSteps
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public Resize Config { get; set; }
-
-        public bool Configure(ICollector collector, ImageCasterConfig config)
-        {
-            this.Config = config?.Build?.Resize;
-            return Config != null;        
-        }
-
         public void Execute(PipelineContext context, IMagickImage magickImage)
         {
-            string inputFileName = context.ResolvedFile.FileInfo.Name;
+            string inputFileName = context.ResolvedData.Name ?? context.ResolvedData.Data.GetHashCode().ToString();
 
-            string dir = Path.Combine(context.Path);
+            string dir = Path.Combine(context.Path.ToArray());
 
             string prefix = String.Join(String.Empty, context.Prefix);
             string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputFileName);
@@ -44,7 +36,6 @@ namespace ImageCasterCore.BuildSteps
             }
 
             directoryInfo.Create();
-
             magickImage.Write(output);
             Logger.Debug("Written file to: {0}", output);
 

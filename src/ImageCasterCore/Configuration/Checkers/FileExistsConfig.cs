@@ -17,12 +17,15 @@ namespace ImageCasterCore.Configuration.Checkers
         /// </summary>
         [Required(ErrorMessage = "Must specify a source pattern to discover files.")]
         [JsonPropertyName("source")]
-        public string Source { get; set; }
+        public DataSource Source { get; set; }
+        
+        [Required(ErrorMessage = "Must specify a target pattern to discover files.")]
+        [JsonPropertyName("target")]
+        public DataSource Target { get; set; }
         
         /// <summary>
         /// The target patterns, these patterns must resolve to existing files if a source is found.
         /// </summary>
-        [Required(ErrorMessage = "Must specify target patterns to cross-check files.")]
         [JsonPropertyName("patterns")]
         public List<string> Patterns { get; set; }
     }

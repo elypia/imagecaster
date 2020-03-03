@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using System.Text.Json;
-using System.Transactions;
 using ImageCasterApi.Json;
 using ImageCasterCore.Utilities;
 using ImageMagick;
@@ -50,16 +48,19 @@ namespace ImageCasterApi.Controllers
             string[] filtersArray = Enum.GetNames(typeof(FilterType));
             _resizeFilters = new List<string>(filtersArray).ToList();
             _resizeFilters.Remove("Undefined");
-            _resizeFilters.Insert(0, "Default");
             _resizeFilters.Sort();
+            _resizeFilters.Insert(0, "Default");
 
             string schemaTemplate = System.IO.File.ReadAllText("Resources/imagecaster.schema.json");
 
             _schema = JsonSerializer.Deserialize<JsonSchema>(schemaTemplate);
             
             Dictionary<string, JsonSchemaProperty> buildProperties = _schema.Properties["build"].Properties;
-            buildProperties["metadata"].Properties["exif"].Properties["tags"].Items.Properties["tag"].Enum = _exifTags;
             buildProperties["resize"].Properties["filter"].Enum = _resizeFilters;
+
+            JsonSchemaProperty metadataProperties = buildProperties["metadata"];
+            metadataProperties.Properties["exif"].Items.Properties["tag"].Enum = _exifTags;
+            metadataProperties.Properties["iptc"].Items.Properties["tag"].Enum = _iptcTags;
         }
 
         /// <summary>
@@ -106,27 +107,25 @@ namespace ImageCasterApi.Controllers
             return response;
         }
 
-        /// <returns>Return all exif tags values available in ImageCaster.</returns>
+        /// <returns>All exif tags values available in ImageCaster.</returns>
         [HttpGet("exif-tags")]
-        public IActionResult ExifTags()
+        public ActionResult<List<string>> ExifTags()
         {
-            string jsonString = JsonSerializer.Serialize(_exifTags);
-            return Content(jsonString, MediaTypeNames.Application.Json);
+            return _exifTags;
         }
 
+        /// <returns>All IPTC tags in ImageCaster.</returns>
         [HttpGet("iptc-tags")]
-        public IActionResult IptcTags()
+        public ActionResult<List<string>> IptcTags()
         {
-            string jsonString = JsonSerializer.Serialize(_iptcTags);
-            return Content(jsonString, MediaTypeNames.Application.Json);
+            return _iptcTags;
         }
         
-        /// <returns>Return all resize filters available in ImageCaster.</returns>
+        /// <returns>All resize filters available in ImageCaster.</returns>
         [HttpGet("resize-filters")]
-        public IActionResult ResizeFilters()
+        public ActionResult<List<string>> ResizeFilters()
         {
-            string jsonString = JsonSerializer.Serialize(_resizeFilters);
-            return Content(jsonString, MediaTypeNames.Application.Json);
+            return _resizeFilters;
         }
     }
 }

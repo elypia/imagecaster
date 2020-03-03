@@ -9,7 +9,7 @@ namespace ImageCasterApi.Models.Request
     /// This doesn't include all modulate fields as some
     /// aren't required for the preview.
     /// </summary>
-    public class ModulatePreviewModel
+    public class RecolorPreviewModel
     {
         /// <summary>
         /// The default value for any of the percentages.

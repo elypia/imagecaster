@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -9,10 +10,10 @@ namespace ImageCasterCore.Configuration
     /// </summary>
     public class Build
     {
-        /// <summary>A glob matching all images to export.</summary>
-        [Required(ErrorMessage = "Must specify a pattern to discover input files.")]
+        /// <summary>A list of all data sources.</summary>
+        [Required(ErrorMessage = "Must specify at least one data source.")]
         [JsonPropertyName("input")]
-        public string[] Input { get; set; }
+        public List<DataSource> Input { get; set; }
         
         /// <summary>Define metadata like Exif, Itcp, or XML to add to images.</summary>
         [JsonPropertyName("metadata")]
@@ -23,7 +24,7 @@ namespace ImageCasterCore.Configuration
         public Resize Resize { get; set; }
         
         /// <summary>A list of desired colors to export the image as.</summary>
-        [JsonPropertyName("colors")]
-        public Colors Colors { get; set; }
+        [JsonPropertyName("recolor")]
+        public Recolor Recolor { get; set; }
     }
 }

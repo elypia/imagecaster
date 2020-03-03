@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using ImageCasterCore.Checkers;
 
 namespace ImageCasterCore.Configuration.Checkers
 {
@@ -9,11 +10,15 @@ namespace ImageCasterCore.Configuration.Checkers
         /// <summary>The source pattern to discover images.</summary>
         [Required(ErrorMessage = "Must specify a source pattern to discover images.")]
         [JsonPropertyName("source")]
-        public string Source { get; set; }
-        
-        /// <summary>The target pattern to compare the source pattern and groups against.</summary>
-        [Required(ErrorMessage = "Must specify a target pattern to match images against.")]
+        public DataSource Source { get; set; }
+
+        /// <summary>The target pattern to discover images to compare to.</summary>
+        [Required(ErrorMessage = "Must specify a target source to compare against.")]
         [JsonPropertyName("target")]
-        public string Target { get; set; }
+        public DataSource Target { get; set; }
+
+        /// <summary>A pattern to match names to compare against, or null if to use the file name.</summary>
+        [JsonPropertyName("pattern")]
+        public string Pattern { get; set; }
     }
 }

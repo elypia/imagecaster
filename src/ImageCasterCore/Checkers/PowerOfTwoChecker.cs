@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using ImageCasterCore.Api;
 using ImageCasterCore.Configuration.Checkers;
@@ -14,30 +15,29 @@ namespace ImageCasterCore.Checkers
     /// </summary>
     public class PowerOfTwoChecker : IChecker
     {
-        public ICollector Collector { get; }
         public List<PowerOfTwoConfig> Config { get; }
         
-        public PowerOfTwoChecker(ICollector collector, List<PowerOfTwoConfig> config)
+        public PowerOfTwoChecker(List<PowerOfTwoConfig> config)
         {
-            this.Collector = collector.RequireNonNull();
             this.Config = config.RequireNonNull();
         }
         
-        public List<Failure> Check()
+        public IEnumerable<Failure> Check()
         {
             List<Failure> failures = new List<Failure>();
             
             foreach (PowerOfTwoConfig config in Config)
             {
-                List<ResolvedFile> resolvedFiles = Collector.Collect(config.Source);
+                DataResolver resolver = new DataResolver(config.Source);
+                List<ResolvedData> resolvedFiles = resolver.Data;
 
-                foreach (ResolvedFile resolvedFile in resolvedFiles)
+                foreach (ResolvedData resolvedFile in resolvedFiles)
                 {
-                    using (MagickImage magickImage = new MagickImage(resolvedFile.FileInfo))
+                    using (IMagickImage magickImage = resolvedFile.ToMagickImage())
                     {
                         if (!IsPowerOfTwo((uint) magickImage.Height, (uint) magickImage.Width))
                         {
-                            failures.Add(new Failure(resolvedFile, "dimensions are not powers of 2"));
+                            failures.Add(new Failure(resolvedFile, "dimensions are not powers of 2."));
                         }
                     }
                 }
@@ -46,7 +46,7 @@ namespace ImageCasterCore.Checkers
             return failures;
         }
 
-        private bool IsPowerOfTwo(params uint[] values)
+        public bool IsPowerOfTwo(params uint[] values)
         {
             foreach (uint value in values)
             {
