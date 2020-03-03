@@ -17,7 +17,7 @@ namespace ImageCasterCore.Configuration
         /// The pattern pattern to match all required files.
         /// </summary>
         [Required(ErrorMessage = "Must specify a pattern for all montages.")]
-        [JsonPropertyName("pattern")]
-        public string Pattern { get; set; }
+        [JsonPropertyName("source")]
+        public DataSource Source { get; set; }
     }
 }

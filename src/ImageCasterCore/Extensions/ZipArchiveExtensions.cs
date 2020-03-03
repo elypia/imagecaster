@@ -23,7 +23,7 @@ namespace ImageCasterCore.Extensions
             
             foreach (FileInfo file in files)
             {
-                o.CreateEntryFromFile(file.FullName, Path.GetRelativePath(".", file.FullName));
+                o.CreateEntryFromFile(file.FullName, Path.GetRelativePath(dirInfo.Parent.FullName, file.FullName));
             }
         }
     }

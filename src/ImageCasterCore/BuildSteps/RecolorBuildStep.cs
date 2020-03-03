@@ -1,5 +1,3 @@
-using System.IO;
-using System.Net.Mime;
 using ImageCasterCore.Api;
 using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
@@ -15,7 +13,6 @@ namespace ImageCasterCore.BuildSteps
         
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ICollector Collector { get; set; } = new RegexCollector();
         public Recolor Config { get; set; }
 
         public RecolorBuildStep(ImageCasterConfig config)
@@ -27,19 +24,19 @@ namespace ImageCasterCore.BuildSteps
         {
             ResolvedData maskFileInfo = context.DataResolver.ResolvedData("masks", context.ResolvedData, Config.Mask.Pattern);
 
+            if (Config.Original)
+            {
+                PipelineContext contextClone = context.Clone();
+                contextClone.AppendPath(OriginalDirectory);
+                contextClone.Next(magickImage);
+            }
+            
             if (maskFileInfo != null)
             {
                 using (IMagickImage maskMagickImage = maskFileInfo.ToMagickImage())
                 {
                     magickImage.SetWriteMask(maskMagickImage);
                 }
-            }
-
-            if (Config.Original)
-            {
-                PipelineContext contextClone = context.Clone();
-                contextClone.AppendPath(OriginalDirectory);
-                contextClone.Next(magickImage);
             }
             
             foreach (Modulation modulate in Config.Modulation)

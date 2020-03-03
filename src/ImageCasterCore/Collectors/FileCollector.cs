@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ImageCasterCore.Api;
 using ImageCasterCore.Extensions;
 using ImageMagick;
@@ -22,15 +23,36 @@ namespace ImageCasterCore.Collectors
         public List<ResolvedData> Collect(string data)
         {
             data.RequireNonNull("A path is required to collect files from the directory.");
-            DirectoryInfo dir = new DirectoryInfo(data);
 
-            if (!dir.Exists)
+            if (Directory.Exists(data))
             {
-                throw new ArgumentException("The directory specified doesn't exist: " + data);
-            }
+                DirectoryInfo dir = new DirectoryInfo(data);
+                FileInfo[] files = dir.GetFiles();
 
-            FileInfo[] files = dir.GetFiles();
-            return Collect(data, files);
+                if (files.Length == 0)
+                {
+                    throw new FileNotFoundException("No files found in the specified directory.");
+                }
+                
+                return Collect(data, files);
+            }
+            else if (File.Exists(data))
+            {
+                FileInfo[] files = { new FileInfo(data) };
+                return Collect(data, files);
+            }
+            else
+            {
+                string[] paths = Directory.GetDirectories(".", data, SearchOption.AllDirectories);
+
+                if (paths.Length == 0)
+                {
+                    throw new FileNotFoundException("No files match the specified search pattern.");
+                }
+                
+                FileInfo[] files = paths.Select((path) => new FileInfo(path)).ToArray();
+                return Collect(data, files);
+            }
         }
 
         public List<ResolvedData> Collect(string data, FileInfo[] files)

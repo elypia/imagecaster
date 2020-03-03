@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using ImageCasterCore.Api;
-using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
 using ImageCasterCore.Extensions;
 using ImageMagick;
@@ -12,9 +11,6 @@ namespace ImageCasterCore.Actions
     public class MontageAction : IAction
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        
-        /// <summary>The collector implementation in use, determines how files are found.</summary>
-        public ICollector Collector { get; } = new RegexCollector();
         
         /// <summary>The user defined configuration to export montages of images.</summary>
         public ImageCasterConfig Config { get; }
@@ -48,18 +44,19 @@ namespace ImageCasterCore.Actions
             foreach (PatternConfig pattern in patterns)
             {
                 string name = pattern.Name;
-                List<ResolvedData> resolvedFiles = Collector.Collect(pattern.Pattern);
+                DataResolver resolver = new DataResolver(pattern.Source);
+                List<ResolvedData> resolverData = resolver.Data;
                 
-                if (resolvedFiles.Count == 0)
+                if (resolverData.Count == 0)
                 {
                     Logger.Error("The pattern for montage `{0}` doesn't match any files, exiting the application.", name);
                 }
                 
-                resolvedFiles.Sort();
+                resolverData.Sort();
                 
                 using (MagickImageCollection collection = new MagickImageCollection())
                 {
-                    foreach (ResolvedData resolvedFile in resolvedFiles)
+                    foreach (ResolvedData resolvedFile in resolverData)
                     {
                         string filename = resolvedFile.Name;
                         string fileShortName = Path.GetFileNameWithoutExtension(filename);

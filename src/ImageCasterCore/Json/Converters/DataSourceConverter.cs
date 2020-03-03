@@ -17,9 +17,11 @@ namespace ImageCasterCore.Json.Converters
 
             if (value.Contains(DataSource.DataSourceDelimeter))
             {
-                string[] split = value.Split(DataSource.DataSourceDelimeter);
-                Logger.Debug("Receiving source where collector is specified: {0}", split[0]);
-                return new DataSource(split[0], split[1]);
+                int index = value.IndexOf(DataSource.DataSourceDelimeter);
+                string collector = value.Substring(0, index);
+                string data = value.Substring(index + 1);
+                Logger.Debug("Receiving source where collector is specified: {0}", collector);
+                return new DataSource(collector, data);
             }
             
             return new DataSource("file", value);

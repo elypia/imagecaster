@@ -16,9 +16,6 @@ namespace ImageCasterCore.Actions
         /// <summary>The NLog logger.</summary>
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        /// <summary>The collector implementation to use to collect files.</summary>
-        public ICollector Collector { get; } = new RegexCollector();
-        
         /// <summary>The configured checks to perform.</summary>
         public Checks Checks { get; }
 
