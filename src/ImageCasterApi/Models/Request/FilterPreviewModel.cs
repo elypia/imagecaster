@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using ImageCasterApi.Models.Data;
+using ImageMagick;
 
 namespace ImageCasterApi.Models.Request
 {
@@ -13,6 +14,6 @@ namespace ImageCasterApi.Models.Request
         /// <summary>The geometry to set the image size to.</summary>
         [Required]
         [RegularExpression(@"(?:x\d+|\d+x?)(?:\d+|%)?[!<>^@]?")]
-        public string Geometry { get; set; }
+        public MagickGeometry Geometry { get; set; }
     }
 }

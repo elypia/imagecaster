@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mime;
 using System.Security.Cryptography;
 using System.Text;
@@ -29,6 +30,7 @@ namespace ImageCasterCore.Collectors
         public List<ResolvedData> Collect(string data)
         {
             string name;
+            string base64;
             
             if (data.StartsWith(DataPrefix))
             {
@@ -36,17 +38,26 @@ namespace ImageCasterCore.Collectors
                 string contentType = split[0].Substring(DataPrefix.Length);
                 ContentType type = new ContentType(contentType);
                 name = type.Name;
+                base64 = split[1];
             }
             else
             {
                 Logger.Warn("Base64 source with no name specified, generating a name from checksum.");
                 Logger.Warn("It's recommended you prefix a content-type and name like: {0}image/png;name=myimage{1};{2}...", DataPrefix, DefaultFileFormat, Base64Seperator);
                 name = GenerateName(data);
+                base64 = data;
             }
 
+            string[] tokens =
+            {
+                name,
+                Path.GetFileNameWithoutExtension(name),
+                Path.GetExtension(name)
+            };
+            
             List<ResolvedData> resolvedDatas = new List<ResolvedData>
             {
-                new ResolvedData(data, data, ToMagickImage, name, null)
+                new ResolvedData(base64, data, ToMagickImage, name, null, tokens)
             };
             
             return resolvedDatas;

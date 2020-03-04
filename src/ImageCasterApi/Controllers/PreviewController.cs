@@ -23,17 +23,14 @@ namespace ImageCasterApi.Controllers
         public ActionResult<FrontendFile> ResizePreview([FromBody] ResizePreviewModel model)
         {
             FilterType filter = model.Filter;
-            string geometry = model.Geometry;
+            MagickGeometry geometry = model.Geometry;
             
             _logger.LogTrace("HTTP request received at preview/resize with filter of {0}, and geometery of {1}.", filter, geometry);
-            
-            MagickGeometry magickGeometry = new MagickGeometry(geometry);
-            _logger.LogInformation("User specified geometry translates to: {0}", magickGeometry);
 
             using (IMagickImage magickImage = new MagickImage(model.Image.Data))
             {
                 magickImage.FilterType = filter;
-                magickImage.Resize(magickGeometry);
+                magickImage.Resize(geometry);
                 return new FrontendFile(model.Image.ContentType, magickImage.ToByteArray());
             }
         }
@@ -41,13 +38,10 @@ namespace ImageCasterApi.Controllers
         [HttpPost("resize-all-filters")]
         public ActionResult<FrontendFile> ResizeAllFilters([FromBody] FilterPreviewModel model)
         {
-            string geometry = model.Geometry;
+            MagickGeometry geometry = model.Geometry;
             
             _logger.LogTrace("HTTP request received at preview/resize with geometery of {0}.", geometry);
             
-            MagickGeometry magickGeometry = new MagickGeometry(geometry);
-            _logger.LogInformation("User specified geometry translates to: {0}", magickGeometry);
-
             MontageSettings montageSettings = new MontageSettings()
             {
                 BackgroundColor = MagickColors.None,
@@ -63,7 +57,7 @@ namespace ImageCasterApi.Controllers
                     {
                         IMagickImage magickImageClone = magickImage.Clone();
                         magickImageClone.FilterType = filter;
-                        magickImageClone.Resize(magickGeometry);
+                        magickImageClone.Resize(geometry);
                         collection.Add(magickImageClone);
                     });
 

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Text;
@@ -42,10 +43,11 @@ namespace ImageCasterApi.Models.Data
             {
                 builder.Append(Base64Collector.DataPrefix)
                        .Append(ContentType)
+                       .Append(";")
                        .Append(Base64Collector.Base64Seperator);
             }
 
-            builder.Append(Data);
+            builder.Append(Convert.ToBase64String(Data));
             return builder.ToString();
         }
     }

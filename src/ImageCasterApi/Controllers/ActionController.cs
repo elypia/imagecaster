@@ -20,7 +20,8 @@ namespace ImageCasterApi.Controllers
         public int Build([FromBody] ImageCasterConfig config)
         {
             BuildAction build = new BuildAction(config);
-            return build.Execute();
+            int exitCode = build.Execute();
+            return exitCode;
         }
         
         [HttpPost("montage")]

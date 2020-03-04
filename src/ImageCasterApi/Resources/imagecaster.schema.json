@@ -34,6 +34,7 @@
                     "title": "Tag",
                     "description": "The name of the tag to set.",
                     "type": "string",
+                    "uniqueItems": true,
                     "enum": []
                   },
                   "value": {
@@ -54,6 +55,7 @@
                     "title": "Tag",
                     "description": "The name of the tag to set.",
                     "type": "string",
+                    "uniqueItems": true,
                     "enum": []
                   },
                   "value": {
@@ -105,8 +107,11 @@
                 "sources": {
                   "title": "Mask",
                   "description": "A list of all masks to give to ImageCaster along with the inputs.",
-                  "type": "string",
-                  "format": "data-url"
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "data-url"
+                  }
                 }
               }
             },
