@@ -18,3 +18,6 @@ coverage.json
 ###############
 bin/
 obj/
+
+# Build directory is in project working directory when testing.
+build/
