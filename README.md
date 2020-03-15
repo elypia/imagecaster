@@ -63,9 +63,9 @@ build:
       - {name: violet, saturation: 70, hue: 50}
 checks:
   file-exists:
-    source: src/masks/
+    source: regex:src/mask/(.+?)\\..+
     target: src/emotes/
-    pattern: $1.ora
+    pattern: $1.png
 ```
 > First we define a pattern which matches all of our input images. For
 > each image we add the Exif tag, `Artist`, and export 6 versions of
@@ -74,6 +74,7 @@ checks:
 > you. You may wish to use `imagecaster check` first to perform all 
 > checks, in this case only one check is defined which states if a mask
 > exists, then an image must also exist with the respective name.
+> By default the full filename is $0, the main name
 
 ## Open-Source
 This project is open-source under the [Apache 2.0] license!  

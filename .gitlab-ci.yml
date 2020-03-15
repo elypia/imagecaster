@@ -1,9 +1,6 @@
-image: mcr.microsoft.com/dotnet/core/sdk:3.1.101-bionic
+image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-bionic
 
-cache:
-  paths:
-    - src/*/bin/
-    - src/*/obj/
+# Build Library
 
 build-q16-hdri:
   stage: build
@@ -23,42 +20,160 @@ build-q8:
     - cd src
     - dotnet build --configuration Release-Q8 ImageCasterCore
 
+# Non-Self-Contained Cross-Platform Builds
+
 build-cli-q16-hdri:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q16-HDRI ImageCasterCli
+    - dotnet publish --configuration Release-Q16-HDRI ImageCasterCli
 
 build-cli-q16:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q16 ImageCasterCli
+    - dotnet publish --configuration Release-Q16 ImageCasterCli
 
 build-cli-q8:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q8 ImageCasterCli
+    - dotnet publish --configuration Release-Q8 ImageCasterCli
 
 build-server-q16-hdri:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q16-HDRI ImageCasterApi
+    - dotnet publish --configuration Release-Q16-HDRI ImageCasterApi
 
 build-server-q16:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q16 ImageCasterApi
+    - dotnet publish --configuration Release-Q16 ImageCasterApi
 
 build-server-q8:
   stage: build
   script: 
     - cd src
-    - dotnet build --configuration Release-Q8 ImageCasterApi
-    
+    - dotnet publish --configuration Release-Q8 ImageCasterApi
+
+# Non-Self-Contained Linux Builds
+
+build-cli-q16-hdri-linux:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16-HDRI --runtime linux-x64 --self-contained false ImageCasterCli
+
+build-cli-q16-linux:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16 --runtime linux-x64 --self-contained false ImageCasterCli
+
+build-cli-q8-linux:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q8 --runtime linux-x64 --self-contained false ImageCasterCli
+
+build-server-q16-hdri-linux:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16-HDRI --runtime linux-x64 --self-contained false ImageCasterApi
+
+build-server-q16-linux:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16 --runtime linux-x64 --self-contained false ImageCasterApi
+
+build-server-q8-linux:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q8 --runtime linux-x64 --self-contained false ImageCasterApi
+
+# Non-Self-Contained Windows Builds
+
+build-cli-q16-hdri-windows:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16-HDRI --runtime win-x64 --self-contained false ImageCasterCli
+
+build-cli-q16-windows:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16 --runtime win-x64 --self-contained false ImageCasterCli
+
+build-cli-q8-windows:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q8 --runtime win-x64 --self-contained false ImageCasterCli
+
+build-server-q16-hdri-windows:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16-HDRI --runtime win-x64 --self-contained false ImageCasterApi
+
+build-server-q16-windows:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16 --runtime win-x64 --self-contained false ImageCasterApi
+
+build-server-q8-windows:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q8 --runtime win-x64 --self-contained false ImageCasterApi
+
+# Non-Self-Contained macOS Builds
+
+build-cli-q16-hdri-mac:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16-HDRI --runtime osx-x64 --self-contained false ImageCasterCli
+
+build-cli-q16-mac:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16 --runtime osx-x64 --self-contained false ImageCasterCli
+
+build-cli-q8-mac:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q8 --runtime osx-x64 --self-contained false ImageCasterCli
+
+build-server-q16-hdri-mac:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16-HDRI --runtime osx-x64 --self-contained false ImageCasterApi
+
+build-server-q16-mac:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q16 --runtime osx-x64 --self-contained false ImageCasterApi
+
+build-server-q8-mac:
+  stage: build
+  script: 
+    - cd src
+    - dotnet publish --configuration Release-Q8 --runtime osx-x64 --self-contained false ImageCasterApi
+
+# Testing
+
 test-q16-hdri:
   stage: test
   script: 

@@ -26,7 +26,8 @@ namespace ImageCasterApi
         public static readonly string[] Origins =
         {
             "http://0.0.0.0:80", "https://0.0.0.0:443",
-            "http://localhost:3000", "http://127.0.0.1:3000"
+            "http://localhost:3000", "http://127.0.0.1:3000",
+            "http://localhost:5500", "http://127.0.0.1:5500"
         };
         
         /// <summary>All HTTP methods to allow to this application.</summary>

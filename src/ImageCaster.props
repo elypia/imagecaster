@@ -2,7 +2,7 @@
     <!-- Configuration for All Deployments -->
     <PropertyGroup>
         <!-- Set the version of ImageCaster. -->
-        <ImageCasterVersion>0.4.0</ImageCasterVersion>
+        <ImageCasterVersion>0.4.2</ImageCasterVersion>
 
         <!-- Set version of ImageCaster. -->
         <Version>$(ImageCasterVersion)</Version>

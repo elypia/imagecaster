@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using ImageCasterApi.Json;
 using ImageCasterCore.Utilities;
@@ -18,7 +20,16 @@ namespace ImageCasterApi.Controllers
     [ApiController]
     [Route("schema")]
     public class SchemaController : ControllerBase
-    {       
+    {
+        /// <summary>The relative location from the executable that the resources live.</summary>
+        private static readonly string RelativeSchemaLocation = Path.DirectorySeparatorChar + "Resources" + Path.DirectorySeparatorChar + "imagecaster.schema.json";
+
+        /// <summary>The directory the executable resides in.</summary>
+        private static readonly string ExecutableDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        
+        /// <summary>An absolute path to the schema resource.</summary>
+        private static readonly string SchemaLocation = ExecutableDirectory + RelativeSchemaLocation;
+        
         private readonly ILogger<PreviewController> _logger;
 
         /// <summary>A list of all exif tags available.</summary>
@@ -51,7 +62,8 @@ namespace ImageCasterApi.Controllers
             _resizeFilters.Sort();
             _resizeFilters.Insert(0, "Default");
 
-            string schemaTemplate = System.IO.File.ReadAllText("Resources/imagecaster.schema.json");
+            _logger.LogInformation("Loading JSON Schema from: {0}", SchemaLocation);
+            string schemaTemplate = System.IO.File.ReadAllText(SchemaLocation);
 
             _schema = JsonSerializer.Deserialize<JsonSchema>(schemaTemplate);
             
