@@ -18,6 +18,19 @@ ImageCaster is an abstraction of the two to provide the features though
 a declarative configuration file instead for simpler CI/CD usage as
 well as some management for consecutive builds and quality assurance.
 
+## Download
+There are 3 versions available of ImageCaster which correlate with the 3 [ImageMagick] versions.  
+Q16-HDRI is the default version and recommended for general use, however Q16 and Q8 
+are available for environments where limited resources are available, or minimal
+resource usage and build times are critical so long as they are appropriate for your use case.
+More information can be found here on the [ImageMagick website].
+
+### ImageCaster Command Line Interface (CLI)
+![Download Q16-HDRI] ![Download Q16] ![Download Q8]
+
+### ImageCaster Server
+![Download Q16-HDRI] ![Download Q16] ![Download Q8]
+
 ## Features
 * Instead of scripting, define a declarative configuration that
 describes the output you want.
@@ -36,7 +49,7 @@ to avoid mistakes like mismatching names.
 ### Simple
 ```yml
 build:
-  input: 
+  input:
     - twitch/emotes/
   sizes:
     dimensions: [112, 56, 28]
@@ -46,17 +59,17 @@ build:
 ### Advanced
 ```yml
 build:
-  input: 
+  input:
     - src/emotes/
   metadata:
-    exif: 
+    exif:
       - {tag: Artist, value: Elypia CIC and Contributors}
   resize:
     filter: Catrom
     geometries: [512, 258]
   recolor:
-    mask: 
-      sources: 
+    mask:
+      sources:
         - src/masks/
     modulation:
       - {name: blue, hue: 0}
@@ -71,16 +84,16 @@ checks:
 > each image we add the Exif tag, `Artist`, and export 6 versions of
 > each image to accommodate original, blue, and violet colors, in 512px,
 > and 128px sizes. Doing `imagecaster build` will do all of this for
-> you. You may wish to use `imagecaster check` first to perform all 
+> you. You may wish to use `imagecaster check` first to perform all
 > checks, in this case only one check is defined which states if a mask
 > exists, then an image must also exist with the respective name.
 > By default the full filename is $0, the main name
 
 ## Open-Source
-This project is open-source under the [Apache 2.0] license!  
+This project is open-source under the [Apache 2.0] license!
 While not legal advice, you can find a [TL;DR] that sums up what
 you're allowed and not allowed to do along with any requirements if you
-want to use or derive work from this source code!  
+want to use or derive work from this source code!
 
 [matrix-community]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
 [discord-guild]: https://discordapp.com/invite/hprGMaM "Discord Invite"
@@ -90,6 +103,7 @@ want to use or derive work from this source code!
 [Elypia Emotes]: https://gitlab.com/Elypia/elypia-emotes "Elypia Emotes"
 [Magick.NET]: https://github.com/dlemstra/Magick.NET "Magick.NET on GitHub"
 [ImageMagick]: https://github.com/ImageMagick "ImageMagick on GitHub"
+[ImageMagick website]: https://imagemagick.org/ "ImageMagick Website"
 [Exif]: https://en.wikipedia.org/wiki/Exif "Exif on Wikipedia"
 [glob]: https://en.wikipedia.org/wiki/Glob_(programming) "Glob on Wikipedia"
 [regex]: https://en.wikipedia.org/wiki/Regular_expression "Regular Expression on Wikipedia"
@@ -102,3 +116,6 @@ want to use or derive work from this source code!
 [Build]: https://gitlab.com/Elypia/imagecaster/badges/master/pipeline.svg "GitLab Build Shield"
 [Coverage]: https://gitlab.com/Elypia/imagecaster/badges/master/coverage.svg "GitLab Coverage Shield"
 [Donate]: https://img.shields.io/badge/Elypia-Donate-blueviolet "Donate Shield"
+[Download Q16-HDRI]: https://img.shields.io/badge/Download-Q16--HDRI-blue "Download Q16-HDRI"
+[Download Q16]: https://img.shields.io/badge/Download-Q16-blue "Download Q16"
+[Download Q8]: https://img.shields.io/badge/Download-Q8-blue "Download Q8"
