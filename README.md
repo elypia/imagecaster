@@ -26,10 +26,10 @@ resource usage and build times are critical so long as they are appropriate for 
 More information can be found here on the [ImageMagick website].
 
 ### ImageCaster Command Line Interface (CLI)
-![Download Q16-HDRI] ![Download Q16] ![Download Q8]
+[![Download Q16-HDRI]][cli-q16-hdri-download] [![Download Q16]][cli-q16-download] [![Download Q8]][cli-q8-download]
 
 ### ImageCaster Server
-![Download Q16-HDRI] ![Download Q16] ![Download Q8]
+[![Download Q16-HDRI]][api-q16-hdri-download] [![Download Q16]][api-q16-download] [![Download Q8]][api-q8-download]
 
 ## Features
 * Instead of scripting, define a declarative configuration that
@@ -104,6 +104,12 @@ want to use or derive work from this source code!
 [Magick.NET]: https://github.com/dlemstra/Magick.NET "Magick.NET on GitHub"
 [ImageMagick]: https://github.com/ImageMagick "ImageMagick on GitHub"
 [ImageMagick website]: https://imagemagick.org/ "ImageMagick Website"
+[cli-q16-hdri-download]: https://gitlab.com/Elypia/imagecaster/-/jobs/artifacts/master/download?job=build-cli-q16-hdri "Download ImageCaster CLI with ImageMagick Q16-HDRI"
+[cli-q16-download]: https://gitlab.com/Elypia/imagecaster/-/jobs/artifacts/master/download?job=build-cli-q16 "Download ImageCaster CLI with ImageMagick Q16"
+[cli-q8-download]: https://gitlab.com/Elypia/imagecaster/-/jobs/artifacts/master/download?job=build-cli-q8 "Download ImageCaster CLI with ImageMagick Q8"
+[api-q16-hdri-download]: https://gitlab.com/Elypia/imagecaster/-/jobs/artifacts/master/download?job=build-api-q16-hdri "Download ImageCaster API with ImageMagick Q16-HDRI"
+[api-q16-download]: https://gitlab.com/Elypia/imagecaster/-/jobs/artifacts/master/download?job=build-api-q16 "Download ImageCaster API with ImageMagick Q16"
+[api-q8-download]: https://gitlab.com/Elypia/imagecaster/-/jobs/artifacts/master/download?job=build-api-q8 "Download ImageCaster API with ImageMagick Q8"
 [Exif]: https://en.wikipedia.org/wiki/Exif "Exif on Wikipedia"
 [glob]: https://en.wikipedia.org/wiki/Glob_(programming) "Glob on Wikipedia"
 [regex]: https://en.wikipedia.org/wiki/Regular_expression "Regular Expression on Wikipedia"
