@@ -64,7 +64,6 @@ build-api-q16-hdri:
 build-api-q16:
   stage: build
   script: 
-    - cd src
     - dotnet publish --configuration Release-Q16 src/ImageCasterApi
     - mv ${API_PATH}16/${NETCORE}/${ARTIFACTS} public/
   artifacts:
