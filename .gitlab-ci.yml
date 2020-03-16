@@ -1,5 +1,11 @@
 image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-bionic
 
+variables:
+  CLI_PATH: src/ImageCasterCli/bin/Release-Q
+  API_PATH: src/ImageCasterApi/bin/Release-Q
+  NETCORE_PATH: netcoreapp3.1
+  ARTIFACTS: publish/
+
 # Build Library
 
 build-q16-hdri:
@@ -29,7 +35,7 @@ build-cli-q16-hdri:
     - dotnet publish --configuration Release-Q16-HDRI ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q16-HDRI/netcoreapp3.1/publish/*
+      - ${CLI_PATH}16-HDRI/${NETCORE}/${ARTIFACTS}
 
 build-cli-q16:
   stage: build
@@ -38,7 +44,7 @@ build-cli-q16:
     - dotnet publish --configuration Release-Q16 ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q16/netcoreapp3.1/publish/*
+      - ${CLI_PATH}16/${NETCORE}/${ARTIFACTS}
 
 build-cli-q8:
   stage: build
@@ -47,34 +53,34 @@ build-cli-q8:
     - dotnet publish --configuration Release-Q8 ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q8/netcoreapp3.1/publish/*
+      - ${CLI_PATH}8/${NETCORE}/${ARTIFACTS}
 
-build-server-q16-hdri:
+build-api-q16-hdri:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q16-HDRI ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q16-HDRI/netcoreapp3.1/publish/*
+      - ${API_PATH}16-HDRI/${NETCORE}/${ARTIFACTS}
 
-build-server-q16:
+build-api-q16:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q16 ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q16/netcoreapp3.1/publish/*
+      - ${API_PATH}16/${NETCORE}/${ARTIFACTS}
 
-build-server-q8:
+build-api-q8:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q8 ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q8/netcoreapp3.1/publish/*
+      - ${API_PATH}8/${NETCORE}/${ARTIFACTS}
 
 # Non-Self-Contained Linux Builds
 
@@ -85,7 +91,7 @@ build-cli-q16-hdri-linux:
     - dotnet publish --configuration Release-Q16-HDRI --runtime linux-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q16-HDRI/netcoreapp3.1/linux-x64/publish/*
+      - ${CLI_PATH}16-HDRI/${NETCORE}/linux-x64/${ARTIFACTS}
 
 build-cli-q16-linux:
   stage: build
@@ -94,7 +100,7 @@ build-cli-q16-linux:
     - dotnet publish --configuration Release-Q16 --runtime linux-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q16/netcoreapp3.1/linux-x64/publish/*
+      - ${CLI_PATH}16/${NETCORE}/linux-x64/${ARTIFACTS}
 
 build-cli-q8-linux:
   stage: build
@@ -103,34 +109,34 @@ build-cli-q8-linux:
     - dotnet publish --configuration Release-Q8 --runtime linux-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q8/netcoreapp3.1/linux-x64/publish/*
+      - ${CLI_PATH}8/${NETCORE}/linux-x64/${ARTIFACTS}
 
-build-server-q16-hdri-linux:
+build-api-q16-hdri-linux:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q16-HDRI --runtime linux-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q16-HDRI/netcoreapp3.1/linux-x64/publish/*
+      - ${API_PATH}16-HDRI/${NETCORE}/linux-x64/${ARTIFACTS}
 
-build-server-q16-linux:
+build-api-q16-linux:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q16 --runtime linux-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q16/netcoreapp3.1/linux-x64/publish/*
+      - ${API_PATH}16/${NETCORE}/linux-x64/${ARTIFACTS}
 
-build-server-q8-linux:
+build-api-q8-linux:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q8 --runtime linux-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q8/netcoreapp3.1/linux-x64/publish/*
+      - ${API_PATH}8/${NETCORE}/linux-x64/${ARTIFACTS}
 
 # Non-Self-Contained Windows Builds
 
@@ -141,7 +147,7 @@ build-cli-q16-hdri-windows:
     - dotnet publish --configuration Release-Q16-HDRI --runtime win-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q16-HDRI/netcoreapp3.1/win-x64/publish/*
+      - ${CLI_PATH}16-HDRI/${NETCORE}/win-x64/${ARTIFACTS}
 
 build-cli-q16-windows:
   stage: build
@@ -150,7 +156,7 @@ build-cli-q16-windows:
     - dotnet publish --configuration Release-Q16 --runtime win-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q16/netcoreapp3.1/win-x64/publish/*
+      - ${CLI_PATH}16/${NETCORE}/win-x64/${ARTIFACTS}
 
 build-cli-q8-windows:
   stage: build
@@ -159,34 +165,34 @@ build-cli-q8-windows:
     - dotnet publish --configuration Release-Q8 --runtime win-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q8/netcoreapp3.1/win-x64/publish/*
+      - ${CLI_PATH}8/${NETCORE}/win-x64/${ARTIFACTS}
 
-build-server-q16-hdri-windows:
+build-api-q16-hdri-windows:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q16-HDRI --runtime win-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q16-HDRI/netcoreapp3.1/win-x64/publish/*
+      - ${API_PATH}16-HDRI/${NETCORE}/win-x64/${ARTIFACTS}
 
-build-server-q16-windows:
+build-api-q16-windows:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q16 --runtime win-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q16/netcoreapp3.1/win-x64/publish/*
+      - ${API_PATH}16/${NETCORE}/win-x64/${ARTIFACTS}
 
-build-server-q8-windows:
+build-api-q8-windows:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q8 --runtime win-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q8/netcoreapp3.1/win-x64/publish/*
+      - ${API_PATH}8/${NETCORE}/win-x64/${ARTIFACTS}
 
 # Non-Self-Contained macOS Builds
 
@@ -197,7 +203,7 @@ build-cli-q16-hdri-mac:
     - dotnet publish --configuration Release-Q16-HDRI --runtime osx-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q16-HDRI/netcoreapp3.1/osx-x64/publish/*
+      - ${CLI_PATH}16-HDRI/${NETCORE}/osx-x64/${ARTIFACTS}
 
 build-cli-q16-mac:
   stage: build
@@ -206,7 +212,7 @@ build-cli-q16-mac:
     - dotnet publish --configuration Release-Q16 --runtime osx-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q16/netcoreapp3.1/osx-x64/publish/*
+      - ${CLI_PATH}16/${NETCORE}/osx-x64/${ARTIFACTS}
 
 build-cli-q8-mac:
   stage: build
@@ -215,34 +221,34 @@ build-cli-q8-mac:
     - dotnet publish --configuration Release-Q8 --runtime osx-x64 --self-contained false ImageCasterCli
   artifacts:
     paths:
-      - src/ImageCasterCli/bin/Release-Q8/netcoreapp3.1/osx-x64/publish/*
+      - ${CLI_PATH}8/${NETCORE}/osx-x64/${ARTIFACTS}
 
-build-server-q16-hdri-mac:
+build-api-q16-hdri-mac:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q16-HDRI --runtime osx-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q16-HDRI/netcoreapp3.1/osx-x64/publish/*
+      - ${API_PATH}16-HDRI/${NETCORE}/osx-x64/${ARTIFACTS}
 
-build-server-q16-mac:
+build-api-q16-mac:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q16 --runtime osx-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q16/netcoreapp3.1/osx-x64/publish/*
+      - ${API_PATH}16/${NETCORE}/osx-x64/${ARTIFACTS}
 
-build-server-q8-mac:
+build-api-q8-mac:
   stage: build
   script: 
     - cd src
     - dotnet publish --configuration Release-Q8 --runtime osx-x64 --self-contained false ImageCasterApi
   artifacts:
     paths:
-      - src/ImageCasterApi/bin/Release-Q8/netcoreapp3.1/osx-x64/publish/*
+      - ${API_PATH}8/${NETCORE}/osx-x64/${ARTIFACTS}
 
 # Testing
 
