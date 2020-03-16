@@ -1,8 +1,8 @@
 image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-bionic
 
 variables:
-  CLI_PATH: src/ImageCasterCli/bin/Release-Q
-  API_PATH: src/ImageCasterApi/bin/Release-Q
+  CLI_PATH: ImageCasterCli/bin/Release-Q
+  API_PATH: ImageCasterApi/bin/Release-Q
   NETCORE_PATH: netcoreapp3.1
   ARTIFACTS: publish/
 
