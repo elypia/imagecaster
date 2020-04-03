@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <Import Project="../ImageCaster.props" />
     
@@ -23,9 +23,17 @@
     </PropertyGroup>
     
     <ItemGroup>        
-        <PackageReference Include="$(MagickNetPackage)" Version="7.15.3" />
+        <PackageReference Include="$(MagickNetPackage)" Version="7.15.5" />
 
-        <PackageReference Include="NLog" Version="4.6.8" />
+        <PackageReference Include="NLog" Version="4.7.0" />
+
+        <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Reference Include="System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+        <HintPath>..\..\..\..\..\..\.nuget\packages\system.drawing.common\4.5.0\ref\netstandard2.0\System.Drawing.Common.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

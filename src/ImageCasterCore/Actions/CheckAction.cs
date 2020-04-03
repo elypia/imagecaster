@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using ImageCasterCore.Api;
 using ImageCasterCore.Checkers;
-using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
+using ImageCasterCore.Exceptions;
 using NLog;
 
 namespace ImageCasterCore.Actions
@@ -24,14 +25,13 @@ namespace ImageCasterCore.Actions
             this.Checks = checks;
         }
         
-        public int Execute()
+        public void Execute()
         {
             Logger.Debug("Executed Check command, running checks.");
 
             if (Checks == null)
             {
-                Logger.Info("Executed check command, however no checks are defined in the configuration; doing nothing.");
-                return 0;
+                throw new ConfigurationException("Executed check command, however no checks are defined in the configuration; doing nothing.");
             }
 
             List<Failure> failures = new List<Failure>();
@@ -65,7 +65,10 @@ namespace ImageCasterCore.Actions
                 Logger.Warn(failure);
             }
 
-            return failures.Count == 0 ? 0 : 1;
+            if (failures.Count != 0)
+            {
+                throw new ValidationException("Failures occured during validation.");
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ namespace ImageCasterCore.Api
 {
     public interface IAction
     {
-        int Execute();
+        /// <summary>Execute the command.</summary>
+        void Execute();
     }
 }

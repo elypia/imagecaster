@@ -168,15 +168,28 @@
       "type": "array",
       "items": {
         "properties": {
-          "name": {
-            "title": "Name",
-            "description": "The name of the this montage, this will be the file name.",
-            "type": "string"
+          "font-family": {
+            "title": "Font Family",
+            "description": "The font to use if appending names to the montage.",
+            "type": "string",
+            "enum": []
           },
-          "source": {
-            "title": "Source",
-            "description": "A pattern matching all images desired for montage together.",
-            "type": "string"
+          "patterns": {
+            "title": "Patterns",
+            "description": "All the montages to create.",
+            "type": "array",
+            "properties": {
+              "name": {
+                "title": "Name",
+                "description": "The name of the this montage, this will be the file name.",
+                "type": "string"
+              },
+              "source": {
+                "title": "Source",
+                "description": "A pattern matching all images desired for montage together.",
+                "type": "string"
+              }
+            }
           }
         }
       }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ImageCasterCore.Api;
 using ImageCasterCore.BuildSteps;
 using ImageCasterCore.Configuration;
+using ImageCasterCore.Exceptions;
 using ImageCasterCore.Extensions;
 using ImageMagick;
 using NLog;
@@ -30,7 +31,7 @@ namespace ImageCasterCore.Actions
 
         /// <summary>Start building all images.</summary>
         /// <exception cref="InvalidOperationException">If the configuration is malformed.</exception>
-        public int Execute()
+        public void Execute()
         {
             Logger.Trace("Executed build command, started working.");
 
@@ -38,15 +39,14 @@ namespace ImageCasterCore.Actions
 
             if (build == null)
             {
-                Logger.Warn("Build command was called, but no build configuration was defined, doing nothing.");
-                return 0;
+                throw new ConfigurationException("Build command was called, but no build configuration was defined, doing nothing.");
             }
 
             List<DataSource> input = build.Input;
 
             if (input == null)
             {
-                throw new Exception("Build command was called but build.input configuration was not specified, this is required.");
+                throw new ConfigurationException("Build command was called but build.input configuration was not specified, this is required.");
             }
 
             DataResolver resolver = new DataResolver(input);
@@ -90,8 +90,6 @@ namespace ImageCasterCore.Actions
 
                 Logger.Info("Finished all exports for {0}.", resolvedData);
             });
-
-            return 0;
         }
     }
 }

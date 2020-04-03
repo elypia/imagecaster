@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using ImageCasterCore.Configuration;
 using ImageCasterCore.Extensions;
+using NLog;
 using YamlDotNet.Serialization;
 
 namespace ImageCasterCli
@@ -11,6 +12,9 @@ namespace ImageCasterCli
     {
         /// <summary>The default file name for the configuration.</summary>
         private const string DefaultConfigFileName = "imagecaster.yml";
+     
+        /// <summary>Instance of the NLog logger for this class.</summary>
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
         /// <summary>Overload of <see cref="Load"/> that loads a file.</summary>
         /// <param name="path">The path to the file which represents the configuration.</param>

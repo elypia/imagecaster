@@ -19,7 +19,7 @@ namespace ImageCasterCore.Configuration
         public Build Build { get; set; }
 
         [JsonPropertyName("montages")]
-        public List<PatternConfig> Montages { get; set; }
+        public MontageConfig Montages { get; set; }
         
         [JsonPropertyName("archives")]
         public List<Archive> Archives { get; set; }

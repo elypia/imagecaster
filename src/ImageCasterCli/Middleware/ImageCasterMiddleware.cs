@@ -17,6 +17,11 @@ namespace ImageCasterCli.Middleware
             {
                 Argument = new Argument<FileInfo>("file", () => new FileInfo("imagecaster.yml")).ExistingOnly()
             });
+            
+            commandLineBuilder.AddOption(new Option(new[] {"--output", "-o"}, "Change where ImageCaster should output created files")
+            {
+                Argument = new Argument<DirectoryInfo>("output", () => new DirectoryInfo(Directory.GetCurrentDirectory())).ExistingOnly()
+            });
                
             commandLineBuilder.UseMiddleware(async (context, next) =>
             {

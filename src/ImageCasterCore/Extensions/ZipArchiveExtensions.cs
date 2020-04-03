@@ -12,18 +12,21 @@ namespace ImageCasterCore.Extensions
         /// <param name="level">The compression level to use when archiving files.</param>
         public static void CreateEntriesFromDirectory(this ZipArchive o, string source, CompressionLevel level = CompressionLevel.Optimal)
         {
+            source.RequireNonNull();
             DirectoryInfo dirInfo = new DirectoryInfo(source);
 
             if (!dirInfo.Exists)
             {
                 throw new DirectoryNotFoundException("Source directory specified does not exist.");
             }
-            
+
             FileInfo[] files = dirInfo.GetFiles("*", SearchOption.AllDirectories);
+            DirectoryInfo dirParent = dirInfo.Parent;
+            string relativeTo = (dirParent != null) ? dirParent.FullName : dirInfo.FullName;
             
             foreach (FileInfo file in files)
             {
-                o.CreateEntryFromFile(file.FullName, Path.GetRelativePath(dirInfo.Parent.FullName, file.FullName));
+                o.CreateEntryFromFile(file.FullName, Path.GetRelativePath(relativeTo, file.FullName), level);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -29,6 +30,9 @@ namespace ImageCasterApi.Controllers
         
         /// <summary>An absolute path to the schema resource.</summary>
         private static readonly string SchemaLocation = ExecutableDirectory + RelativeSchemaLocation;
+
+        /// <summary>An array of all available fonts on the system.</summary>
+        private static readonly FontFamily[] FontFamilies = FontFamily.Families;
         
         private readonly ILogger<PreviewController> _logger;
 
@@ -40,6 +44,8 @@ namespace ImageCasterApi.Controllers
         
         /// <summary>A list of all resize filters available.</summary>
         private readonly List<string> _resizeFilters;
+
+        private readonly List<string> _fontFamilies;
         
         /// <summary>The schema for the ImageCaster configuration.</summary>
         private readonly JsonSchema _schema;
@@ -62,6 +68,10 @@ namespace ImageCasterApi.Controllers
             _resizeFilters.Sort();
             _resizeFilters.Insert(0, "Default");
 
+            _fontFamilies = FontFamilies.Select((family) => family.Name).Distinct().ToList();
+            _fontFamilies.Sort();
+            _fontFamilies.Insert(0, "Default");
+            
             _logger.LogInformation("Loading JSON Schema from: {0}", SchemaLocation);
             string schemaTemplate = System.IO.File.ReadAllText(SchemaLocation);
 
@@ -73,6 +83,9 @@ namespace ImageCasterApi.Controllers
             JsonSchemaProperty metadataProperties = buildProperties["metadata"];
             metadataProperties.Properties["exif"].Items.Properties["tag"].Enum = _exifTags;
             metadataProperties.Properties["iptc"].Items.Properties["tag"].Enum = _iptcTags;
+
+            Dictionary<string, JsonSchemaProperty> montageProperties = _schema.Properties["montages"].Items.Properties;
+            montageProperties["font-family"].Enum = _fontFamilies;
         }
 
         /// <summary>
@@ -138,6 +151,13 @@ namespace ImageCasterApi.Controllers
         public ActionResult<List<string>> ResizeFilters()
         {
             return _resizeFilters;
+        }
+
+        /// <returns>All fonts available on the server.</returns>
+        [HttpGet("fonts")]
+        public ActionResult<List<string>> ServerFonts()
+        {
+            return _fontFamilies;
         }
     }
 }

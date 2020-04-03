@@ -124,7 +124,8 @@ namespace ImageCasterCore
         {
             switch (collector)
             {
-                case null: case "file":
+                case null:
+                case "file":
                     return new FileCollector();
                 case "base64":
                     return new Base64Collector();

@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using ImageCasterCore.Api;
 using ImageCasterCore.Configuration;
+using ImageCasterCore.Exceptions;
 using ImageCasterCore.Extensions;
 using ImageMagick;
 using NLog;
@@ -12,6 +15,9 @@ namespace ImageCasterCore.Actions
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
+        /// <summary>An array of all available fonts on the system.</summary>
+        private static readonly FontFamily[] FontFamilies = FontFamily.Families;
+
         /// <summary>The user defined configuration to export montages of images.</summary>
         public ImageCasterConfig Config { get; }
         
@@ -21,27 +27,28 @@ namespace ImageCasterCore.Actions
             this.Config = config.RequireNonNull();
         }
         
-        public int Execute()
+        public void Execute()
         {
-            List<PatternConfig> patterns = Config.Montages;
+            MontageConfig montageConfig = Config.Montages;
+            string font = montageConfig.Font ?? DefaultFontFamily();
 
             MontageSettings montageSettings = new MontageSettings()
             {
                 BackgroundColor = MagickColors.None,
                 Geometry = new MagickGeometry(2, 2, 0, 0),
                 TileGeometry = new MagickGeometry(8, 0),
-                Font = "DejaVu-Sans-Mono-Bold",
+                Font = font
             };
 
             MagickReadSettings magickSettings = new MagickReadSettings()
             {
-                Font = "DejaVu-Sans-Mono-Bold",
+                FontFamily = font,
                 FontPointsize = 14,
                 BackgroundColor = MagickColors.None,
                 FillColor = MagickColors.White
             };
             
-            foreach (PatternConfig pattern in patterns)
+            foreach (PatternConfig pattern in montageConfig.Patterns)
             {
                 string name = pattern.Name;
                 DataResolver resolver = new DataResolver(pattern.Source);
@@ -49,7 +56,7 @@ namespace ImageCasterCore.Actions
                 
                 if (resolverData.Count == 0)
                 {
-                    Logger.Error("The pattern for montage `{0}` doesn't match any files, exiting the application.", name);
+                    throw new ConfigurationException($"The pattern for montage {name} doesn't match any files, exiting the application.");
                 }
                 
                 resolverData.Sort();
@@ -80,15 +87,39 @@ namespace ImageCasterCore.Actions
                     using (IMagickImage montage = collection.Montage(montageSettings))
                     {
                         string filepath = Path.Combine("build", "montages", name + ".png");
+                        
                         FileInfo outputPath = new FileInfo(filepath);
-                        outputPath.Directory.Create();
-                    
+                        outputPath.Directory?.Create();
+                        
+                        Logger.Debug("Writing monatage with name {0} to {1}.", name, filepath);
                         montage.Write(outputPath);
                     }
                 }
             }
+        }
+
+        /// <returns>
+        /// The name of a font specified in the list, or a
+        /// system fault if none of the fonts specified can be found.
+        /// </returns>
+        private string DefaultFontFamily()
+        {
+            if (FontFamilies.Length == 0)
+            {
+                throw new Exception("There is no font available in the system, unable to create montage.");
+            }
             
-            return 0;
+            if (FontFamily.GenericMonospace != null)
+            {
+                return FontFamily.GenericMonospace.Name;
+            }
+            
+            if (FontFamily.GenericSansSerif != null)
+            {
+                return FontFamily.GenericSansSerif.Name;
+            }
+            
+            return FontFamily.GenericSerif != null ? FontFamily.GenericSerif.Name : FontFamilies[0].Name;
         }
     }
 }

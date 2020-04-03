@@ -7,9 +7,7 @@ namespace ImageCasterCore.Extensions
 {
     public static class JsonSerializerOptionsExtensions
     {
-        /// <summary>
-        /// Register all ImageCaster defined <see cref="JsonConverter"/>.
-        /// </summary>
+        /// <summary>Register all ImageCaster defined <see cref="JsonConverter"/>.</summary>
         /// <param name="o">The <see cref="JsonSerializerOptions"/> to add the converters to.</param>
         public static void AddImageCasterConverters(this JsonSerializerOptions o)
         {
@@ -17,6 +15,7 @@ namespace ImageCasterCore.Extensions
             
             JsonConverter[] newConverters =
             {
+                new CompressionLevelConverter(), 
                 new DataSourceConverter(),
                 new ExifTagConverter(),
                 new FileInfoConverter(),

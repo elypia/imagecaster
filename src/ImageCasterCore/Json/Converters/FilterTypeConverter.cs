@@ -7,6 +7,7 @@ namespace ImageCasterCore.Json.Converters
 {
     public class FilterTypeConverter : JsonConverter<FilterType>
     {
+        /// <summary>The string that represents the default enum value.</summary>
         private const string DefaultFilter = "Default";
         
         public override FilterType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO.Compression;
 using System.Text.Json.Serialization;
 using NLog;
 
@@ -22,7 +23,14 @@ namespace ImageCasterCore.Configuration
         [Required(ErrorMessage = "All archives must have a name.")]
         [JsonPropertyName("name")]
         public string Name { get; set; }
-        
+
+        /// <summary>
+        /// The compression level to use, this can affect speed of archiving
+        /// and the final size of the archive.
+        /// </summary>
+        [JsonPropertyName("level")]
+        public CompressionLevel Level { get; set; } = CompressionLevel.Optimal;
+
         /// <summary>The files to compress into the archive.</summary>
         [Required(ErrorMessage = "Must specify at least one source.")]
         [JsonPropertyName("sources")]

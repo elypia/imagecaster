@@ -3,11 +3,16 @@ using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ImageCasterCli.Middleware;
 using ImageCasterCore.Actions;
+using ImageCasterCore.Api;
 using ImageCasterCore.Configuration;
+using ImageCasterCore.Exceptions;
 using NLog;
 
 namespace ImageCasterCli
@@ -42,32 +47,134 @@ namespace ImageCasterCli
                 {
                     Handler = CommandHandler.Create(() =>
                     {
-                        ImageCasterConfig config = ConfigurationFile.LoadFromFile();
-                        return new ArchiveAction(config).Execute();
+                        try
+                        {
+                            ImageCasterConfig config = ConfigurationFile.LoadFromFile();
+                            IAction action = new ArchiveAction(config);
+
+                            try
+                            {
+                                action.Execute();
+                            }
+                            catch (ConfigurationException ex)
+                            {
+                                Logger.Error(ex.Message);
+                                return (int)ExitCode.MalformedConfigFields;
+                            }
+                            catch (FileNotFoundException ex)
+                            {
+                                Logger.Error(ex.Message);
+                                return (int)ExitCode.MalformedConfigFields;
+                            }
+                            catch (Exception ex)
+                            {
+                                return OnInternalException(ex);
+                            }
+                        }
+                        catch (JsonException ex)
+                        {
+                            return OnJsonException(ex);
+                        }
+
+                        return (int)ExitCode.Normal;
                     })
                 },
                 new Command("build", "Export the output images from the source")
                 {
                     Handler = CommandHandler.Create(() =>
                     {
-                        ImageCasterConfig config = ConfigurationFile.LoadFromFile();
-                        return new BuildAction(config).Execute();
+                        try
+                        {
+                            ImageCasterConfig config = ConfigurationFile.LoadFromFile();
+                            IAction action = new BuildAction(config);
+
+                            try
+                            {
+                                action.Execute();
+                            }
+                            catch (ConfigurationException ex)
+                            {
+                                Logger.Error(ex.Message);
+                                return (int)ExitCode.MalformedConfigFields;
+                            }
+                            catch (Exception ex)
+                            {
+                                return OnInternalException(ex);
+                            }
+                        
+                            return (int)ExitCode.Normal;
+                        }
+                        catch (JsonException ex)
+                        {
+                            return OnJsonException(ex);
+                        }
                     })
                 },
                 new Command("check", "Validate that the project structure and standards are maintained")
                 {
                     Handler = CommandHandler.Create(() =>
                     {
-                        ImageCasterConfig config = ConfigurationFile.LoadFromFile();
-                        return new CheckAction(config.Checks).Execute();
+                        try
+                        {
+                            ImageCasterConfig config = ConfigurationFile.LoadFromFile();
+                            IAction action = new CheckAction(config.Checks);
+
+                            try
+                            {
+                                action.Execute();
+                            }
+                            catch (ConfigurationException ex)
+                            {
+                                Logger.Error(ex.Message);
+                                return (int)ExitCode.MalformedConfigFields;
+                            }
+                            catch (ValidationException ex)
+                            {
+                                Logger.Error(ex.Message);
+                                return (int)ExitCode.CheckFailures;
+                            }
+                            catch (Exception ex)
+                            {
+                                return OnInternalException(ex);
+                            }
+                        }
+                        catch (JsonException ex)
+                        {
+                            return OnJsonException(ex);
+                        }
+                        
+                        return (int)ExitCode.Normal;
                     })
                 },
                 new Command("montage", "Export a single image comprised of all matching output images")
                 {
                     Handler = CommandHandler.Create(() =>
                     {
-                        ImageCasterConfig config = ConfigurationFile.LoadFromFile();
-                        return new MontageAction(config).Execute();
+                        try
+                        {
+                            ImageCasterConfig config = ConfigurationFile.LoadFromFile();
+                            IAction action = new MontageAction(config);
+                        
+                            try
+                            {
+                                action.Execute();
+                            }
+                            catch (ConfigurationException ex)
+                            {
+                                Logger.Error(ex.Message);
+                                return (int)ExitCode.MalformedConfigFields;
+                            }
+                            catch (Exception ex)
+                            {
+                                return OnInternalException(ex);
+                            }
+                        }
+                        catch (JsonException ex)
+                        {
+                            return OnJsonException(ex);
+                        }
+                        
+                        return (int)ExitCode.Normal;
                     })
                 }
             };
@@ -87,6 +194,30 @@ namespace ImageCasterCli
 
             Parser parser = commandLineBuilder.Build();
             return await parser.InvokeAsync(args);
+        }
+
+        /// <summary>
+        /// Generic method to call when an internal exception occurs.
+        /// </summary>
+        /// <param name="ex">The internal exception that occured.</param>
+        /// <returns>The exit code for an internal exception.</returns>
+        private static int OnInternalException(Exception ex)
+        {
+            Logger.Error(ex);
+            return (int)ExitCode.InternalError;
+        }
+        
+        /// <summary>
+        /// Generic method to call when the JSON configuration
+        /// provided to ImageCaster is invalid.
+        /// </summary>
+        /// <param name="ex">The exception that occured.</param>
+        /// <returns>The exit code for an invalid configuration.</returns>
+        private static int OnJsonException(JsonException ex)
+        {
+            Logger.Error("The configuration file is malformed. Please check the documentation and verify your configuration is valid.");
+            Logger.Error("The JSON value for {0} could not be converted propertly.", ex.Path);
+            return (int)ExitCode.MalformedConfigFields;
         }
     }
 }
