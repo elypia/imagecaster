@@ -30,24 +30,33 @@ namespace ImageCasterCli.Middleware
             commandLineBuilder.UseMiddleware(async (context, next) =>
             {
                 CommandResult rootCommandResult = context.ParseResult.RootCommandResult;
-                string level = rootCommandResult.ValueForOption<string>("-l");
-                
-                if (LogLevel.AllLevels.All(lvl => lvl.Name != level))
+
+                try
                 {
-                    Logger.Fatal("An invalid log level was passed to -l ({0}).", level ?? "null");
+                    string level = rootCommandResult.ValueForOption<string>("-l");
+                    
+                    if (LogLevel.AllLevels.All(lvl => lvl.Name != level))
+                    {
+                        Logger.Fatal("An invalid log level was passed to -l ({0}).", level ?? "null");
+                        Environment.Exit((int)ExitCode.InvalidLogLevel);
+                    }
+            
+                    LogManager.Configuration.Variables["level"] = level;
+                
+                    bool timestamp = rootCommandResult.ValueForOption<bool>("-t");
+
+                    if (timestamp)
+                    {
+                        LogManager.Configuration.Variables["layout"] = @"[${level:uppercase=true:padding=-5}] [${date:universalTime:true:format=MM/dd HH\:mm\:ss}]";
+                    }
+                
+                    await next(context);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    Logger.Fatal(ex.Message);
                     Environment.Exit((int)ExitCode.InvalidLogLevel);
                 }
-            
-                LogManager.Configuration.Variables["level"] = level;
-                
-                bool timestamp = rootCommandResult.ValueForOption<bool>("-t");
-
-                if (timestamp)
-                {
-                    LogManager.Configuration.Variables["layout"] = @"[${level:uppercase=true:padding=-5}] [${date:universalTime:true:format=MM/dd HH\:mm\:ss}]";
-                }
-                
-                await next(context);
             }, MiddlewareOrder.Configuration);
 
             return commandLineBuilder;

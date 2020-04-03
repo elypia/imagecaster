@@ -1,3 +1,4 @@
+using System;
 using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
@@ -13,6 +14,11 @@ namespace ImageCasterCli.Middleware
         
         public static CommandLineBuilder UseImageCaster(this CommandLineBuilder commandLineBuilder)
         {
+            commandLineBuilder.AddOption(new Option(new[] {"--config", "-c"}, "Define the configration in part or in whole through arguments")
+            {
+                Argument = new Argument<string>("config")
+            });
+            
             commandLineBuilder.AddOption(new Option(new[] {"--file", "-f"}, "Change where ImageCaster should find the configuration file")
             {
                 Argument = new Argument<FileInfo>("file", () => new FileInfo("imagecaster.yml")).ExistingOnly()
@@ -22,12 +28,22 @@ namespace ImageCasterCli.Middleware
             {
                 Argument = new Argument<DirectoryInfo>("output", () => new DirectoryInfo(Directory.GetCurrentDirectory())).ExistingOnly()
             });
-               
+    
             commandLineBuilder.UseMiddleware(async (context, next) =>
             {
                 CommandResult rootCommandResult = context.ParseResult.RootCommandResult;
-                FileInfo file = rootCommandResult.ValueForOption<FileInfo>("-f");
-                await next(context);
+
+                try
+                {
+                    FileInfo file = rootCommandResult.ValueForOption<FileInfo>("-f");
+                    Logger.Debug("Executed ImageCaster using configuration file at: {0}", file.FullName);
+                    await next(context);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    Logger.Fatal(ex.Message);
+                    Environment.Exit((int)ExitCode.NoConfig);
+                }
             });
 
             return commandLineBuilder;
