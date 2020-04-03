@@ -26,7 +26,7 @@
             <HintPath>..\..\..\..\..\..\.nuget\packages\nlog\4.6.8\lib\netstandard2.0\NLog.dll</HintPath>
         </Reference>
         <Reference Include="System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
-          <HintPath>..\..\..\..\..\..\.nuget\packages\system.drawing.common\4.7.0\ref\netstandard2.0\System.Drawing.Common.dll</HintPath>
+          <HintPath>..\..\..\..\..\..\.nuget\packages\system.drawing.common\4.7.0\ref\netcoreapp3.0\System.Drawing.Common.dll</HintPath>
         </Reference>
         <Reference Include="YamlDotNet, Version=8.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e">
             <HintPath>..\..\..\..\..\..\.nuget\packages\yamldotnet\8.1.0\lib\netstandard1.3\YamlDotNet.dll</HintPath>
