@@ -24,9 +24,7 @@
     
     <ItemGroup>        
         <PackageReference Include="$(MagickNetPackage)" Version="7.15.5" />
-
         <PackageReference Include="NLog" Version="4.7.0" />
-
         <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     </ItemGroup>
     
