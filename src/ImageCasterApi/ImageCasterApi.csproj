@@ -19,9 +19,6 @@
         
         <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
         
-        <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
-          <HintPath>..\..\..\..\..\..\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\3.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-        </Reference>
         <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
             <HintPath>..\..\..\..\..\..\.nuget\packages\nlog\4.6.8\lib\netstandard2.0\NLog.dll</HintPath>
         </Reference>
