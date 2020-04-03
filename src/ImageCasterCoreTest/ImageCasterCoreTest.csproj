@@ -15,10 +15,6 @@
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
 
-        <Reference Include="YamlDotNet, Version=8.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e">
-            <HintPath>..\..\..\..\..\..\.nuget\packages\yamldotnet\8.0.0\lib\netstandard1.3\YamlDotNet.dll</HintPath>
-        </Reference>
-
         <ProjectReference Include="..\ImageCasterCore\ImageCasterCore.csproj" />
     </ItemGroup>
 
