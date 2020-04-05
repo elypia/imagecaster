@@ -4,7 +4,6 @@ using System.CommandLine.Builder;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -33,23 +32,16 @@ namespace ImageCasterCli
         /// <param name="args">Command line arguments.</param>
         /// <returns>The exit code.</returns>
         public static async Task<int> Main(string[] args)
-        {
-            Stopwatch stopWatch = Stopwatch.StartNew();
-            AppDomain.CurrentDomain.ProcessExit += (s, e) =>
-            {
-                stopWatch.Stop();
-                Logger.Debug("Finished running after: {0}", stopWatch.Elapsed);
-            };
-            
+        {           
             RootCommand command = new RootCommand("Perform aggregate tasks against a collection of images")
             {               
                 new Command("archive", "Archive collections of images or files into compressed archives")
                 {
-                    Handler = CommandHandler.Create(() =>
+                    Handler = CommandHandler.Create<FileInfo>((file) =>
                     {
                         try
                         {
-                            ImageCasterConfig config = ConfigurationFile.LoadFromFile();
+                            ImageCasterConfig config = ConfigurationFile.LoadFromFile(file.FullName);
                             IAction action = new ArchiveAction(config);
 
                             try
@@ -81,11 +73,11 @@ namespace ImageCasterCli
                 },
                 new Command("build", "Export the output images from the source")
                 {
-                    Handler = CommandHandler.Create(() =>
+                    Handler = CommandHandler.Create<FileInfo>((file) =>
                     {
                         try
                         {
-                            ImageCasterConfig config = ConfigurationFile.LoadFromFile();
+                            ImageCasterConfig config = ConfigurationFile.LoadFromFile(file.FullName);
                             IAction action = new BuildAction(config);
 
                             try
@@ -112,11 +104,11 @@ namespace ImageCasterCli
                 },
                 new Command("check", "Validate that the project structure and standards are maintained")
                 {
-                    Handler = CommandHandler.Create(() =>
+                    Handler = CommandHandler.Create<FileInfo>((file) =>
                     {
                         try
                         {
-                            ImageCasterConfig config = ConfigurationFile.LoadFromFile();
+                            ImageCasterConfig config = ConfigurationFile.LoadFromFile(file.FullName);
                             IAction action = new CheckAction(config.Checks);
 
                             try
@@ -148,11 +140,11 @@ namespace ImageCasterCli
                 },
                 new Command("montage", "Export a single image comprised of all matching output images")
                 {
-                    Handler = CommandHandler.Create(() =>
+                    Handler = CommandHandler.Create<FileInfo>((file) =>
                     {
                         try
                         {
-                            ImageCasterConfig config = ConfigurationFile.LoadFromFile();
+                            ImageCasterConfig config = ConfigurationFile.LoadFromFile(file.FullName);
                             IAction action = new MontageAction(config);
                         
                             try
@@ -190,7 +182,7 @@ namespace ImageCasterCli
             commandLineBuilder.UseVersionOption().UseHelp().UseParseErrorReporting().CancelOnProcessTermination();
             
             // These are our own defined middlewares.
-            commandLineBuilder.UseLogger().UseLicense().UseImageCaster();
+            commandLineBuilder.UseLogger().UseTimer().UseLicense().UseImageCaster();
 
             Parser parser = commandLineBuilder.Build();
             return await parser.InvokeAsync(args);

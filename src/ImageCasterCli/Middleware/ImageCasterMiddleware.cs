@@ -24,9 +24,14 @@ namespace ImageCasterCli.Middleware
                 Argument = new Argument<FileInfo>("file", () => new FileInfo("imagecaster.yml")).ExistingOnly()
             });
             
+            commandLineBuilder.AddOption(new Option(new[] {"--input", "-i"}, "Change where ImageCaster should look for files")
+            {
+                Argument = new Argument<DirectoryInfo>("input", () => new DirectoryInfo(Directory.GetCurrentDirectory())).ExistingOnly()
+            });
+            
             commandLineBuilder.AddOption(new Option(new[] {"--output", "-o"}, "Change where ImageCaster should output created files")
             {
-                Argument = new Argument<DirectoryInfo>("output", () => new DirectoryInfo(Directory.GetCurrentDirectory())).ExistingOnly()
+                Argument = new Argument<DirectoryInfo>("output", () => new DirectoryInfo(Directory.GetCurrentDirectory()))
             });
     
             commandLineBuilder.UseMiddleware(async (context, next) =>
@@ -37,6 +42,12 @@ namespace ImageCasterCli.Middleware
                 {
                     FileInfo file = rootCommandResult.ValueForOption<FileInfo>("-f");
                     Logger.Debug("Executed ImageCaster using configuration file at: {0}", file.FullName);
+
+                    if (!file.Exists)
+                    {
+                        throw new InvalidOperationException("The configuration path specified at -f points to a location that doesn't exist.");
+                    }
+                    
                     await next(context);
                 }
                 catch (InvalidOperationException ex)

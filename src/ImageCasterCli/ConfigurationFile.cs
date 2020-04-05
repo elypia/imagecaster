@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Text.Json;
 using ImageCasterCore.Configuration;
@@ -25,7 +24,7 @@ namespace ImageCasterCli
 
             if (!fileInfo.Exists)
             {
-                throw new Exception();
+                throw new FileNotFoundException("The configuration file doesn't exist.");
             }
             
             using (StreamReader reader = new StreamReader(path))

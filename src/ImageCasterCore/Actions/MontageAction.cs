@@ -30,6 +30,12 @@ namespace ImageCasterCore.Actions
         public void Execute()
         {
             MontageConfig montageConfig = Config.Montages;
+
+            if (montageConfig == null)
+            {
+                throw new ConfigurationException("Montage action performed, but no montages are defined in the configuration.");
+            }
+            
             string font = montageConfig.Font ?? DefaultFontFamily();
 
             MontageSettings montageSettings = new MontageSettings()
