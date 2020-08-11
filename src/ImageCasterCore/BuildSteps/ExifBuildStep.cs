@@ -53,7 +53,7 @@ namespace ImageCasterCore.BuildSteps
             }
         }
         
-        public void Execute(PipelineContext context, IMagickImage magickImage)
+        public void Execute(PipelineContext context, MagickImage magickImage)
         {
             StringInterpolator interpolator = Interpolator.Branch(context.ResolvedData, magickImage);
             IExifProfile exifProfile = magickImage.GetExifProfile() ?? new ExifProfile();
@@ -75,8 +75,8 @@ namespace ImageCasterCore.BuildSteps
                 string value = interpolator.Interpolate(tag.Value);
                 exifProfile.SetValue((ExifTag<string>)tag.Tag, value);
             }
-            
-            magickImage.AddProfile(exifProfile);
+
+            magickImage.SetProfile(exifProfile);
             context.Next(magickImage);
         }
     }

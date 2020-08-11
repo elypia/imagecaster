@@ -25,7 +25,7 @@ namespace ImageCasterCore.Collectors
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
         /// <summary>Function to convert the data to an IMagickImage instance.</summary>
-        private static readonly Func<object, MagickReadSettings, IMagickImage> ToMagickImage = (o, settings) => MagickImage.FromBase64((string)o);
+        private static readonly Func<object, MagickReadSettings, MagickImage> ToMagickImage = (o, settings) => (MagickImage)MagickImage.FromBase64((string)o);
         
         public List<ResolvedData> Collect(string data)
         {

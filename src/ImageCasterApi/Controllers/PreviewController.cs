@@ -49,13 +49,13 @@ namespace ImageCasterApi.Controllers
                 TileGeometry = new MagickGeometry(6, 6)
             };
 
-            using (IMagickImage magickImage = new MagickImage(model.Image.Data))
+            using (MagickImage magickImage = new MagickImage(model.Image.Data))
             {
                 using (MagickImageCollection collection = new MagickImageCollection())
                 {
                     Parallel.ForEach((IEnumerable<FilterType>)typeof(FilterType).GetEnumValues(), (filter) =>
                     {
-                        IMagickImage magickImageClone = magickImage.Clone();
+                        MagickImage magickImageClone = (MagickImage)magickImage.Clone();
                         magickImageClone.FilterType = filter;
                         magickImageClone.Resize(geometry);
                         collection.Add(magickImageClone);
@@ -73,11 +73,11 @@ namespace ImageCasterApi.Controllers
         [HttpPost("recolor")]
         public ActionResult<FrontendFile> ModulatePreview([FromBody] RecolorPreviewModel model)
         {
-            using (IMagickImage magickImage = new MagickImage(model.Image.Data))
+            using (MagickImage magickImage = new MagickImage(model.Image.Data))
             {
                 if (model.Mask != null)
                 {
-                    using (IMagickImage magickImageMask = new MagickImage(model.Mask.Data))
+                    using (MagickImage magickImageMask = new MagickImage(model.Mask.Data))
                     {
                         magickImage.SetWriteMask(magickImageMask);
                     }

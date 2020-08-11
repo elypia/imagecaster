@@ -6,7 +6,7 @@
     <PropertyGroup Condition="$(Configuration.Contains('Q16-HDRI'))">
         <MagickNetPackage>Magick.NET-Q16-HDRI-x64</MagickNetPackage>
     </PropertyGroup>
-
+    
     <!-- Configuration for Quantum Depth 16 without HDRI -->
     <PropertyGroup Condition="$(Configuration.Contains('Q16')) AND !$(Configuration.Contains('HDRI'))">
         <MagickNetPackage>Magick.NET-Q16-x64</MagickNetPackage>
@@ -23,8 +23,8 @@
     </PropertyGroup>
     
     <ItemGroup>        
-        <PackageReference Include="$(MagickNetPackage)" Version="7.15.5" />
-        <PackageReference Include="NLog" Version="4.7.0" />
+        <PackageReference Include="$(MagickNetPackage)" Version="7.21.1" />
+        <PackageReference Include="NLog" Version="4.7.3" />
         <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     </ItemGroup>
 

@@ -11,7 +11,7 @@ namespace ImageCasterCore.BuildSteps
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public void Execute(PipelineContext context, IMagickImage magickImage)
+        public void Execute(PipelineContext context, MagickImage magickImage)
         {
             string inputFileName = context.ResolvedData.Name ?? context.ResolvedData.Data.GetHashCode().ToString();
 

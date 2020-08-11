@@ -96,7 +96,7 @@ you're allowed and not allowed to do along with any requirements if you
 want to use or derive work from this source code!
 
 [matrix-community]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
-[discord-guild]: https://discordapp.com/invite/hprGMaM "Discord Invite"
+[discord-guild]: https://discord.com/invite/hprGMaM "Discord Invite"
 [docker-image]: https://hub.docker.com/r/elypia/imagecaster "ImageCaster on Docker"
 [gitlab]: https://gitlab.com/Elypia/imagecaster/commits/master "Repository on GitLab"
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
@@ -116,12 +116,12 @@ want to use or derive work from this source code!
 [Apache 2.0]: https://www.apache.org/licenses/LICENSE-2.0 "Apache 2.0 License"
 [TL;DR]: https://tldrlegal.com/license/apache-license-2.0-(apache-2.0) "TL;DR of Apache 2.0"
 
-[Matrix]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
-[Discord]: https://discordapp.com/api/guilds/184657525990359041/widget.png "Discord Shield"
+[Matrix]: https://img.shields.io/matrix/elypia:matrix.org?logo=matrix "Matrix Shield"
+[Discord]: https://discord.com/api/guilds/184657525990359041/widget.png "Discord Shield"
 [Docker]: https://img.shields.io/docker/pulls/elypia/imagecaster?logo=docker "Docker Shield"
 [Build]: https://gitlab.com/Elypia/imagecaster/badges/master/pipeline.svg "GitLab Build Shield"
 [Coverage]: https://gitlab.com/Elypia/imagecaster/badges/master/coverage.svg "GitLab Coverage Shield"
-[Donate]: https://img.shields.io/badge/Elypia-Donate-blueviolet "Donate Shield"
+[Donate]: https://img.shields.io/badge/elypia-donate-blueviolet "Donate Shield"
 [Download Q16-HDRI]: https://img.shields.io/badge/Download-Q16--HDRI-blue "Download Q16-HDRI"
 [Download Q16]: https://img.shields.io/badge/Download-Q16-blue "Download Q16"
 [Download Q8]: https://img.shields.io/badge/Download-Q8-blue "Download Q8"

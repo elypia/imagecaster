@@ -74,7 +74,7 @@ namespace ImageCasterCore.Actions
                         string filename = resolvedFile.Name;
                         string fileShortName = Path.GetFileNameWithoutExtension(filename);
                         
-                        IMagickImage magickImage = resolvedFile.ToMagickImage(magickSettings);
+                        MagickImage magickImage = resolvedFile.ToMagickImage(magickSettings);
                         magickImage.Extent(128, 144, MagickColors.None);
 
                         MagickColor color = MagickColor.FromRgba(0, 0, 0, 88);

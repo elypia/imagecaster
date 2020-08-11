@@ -17,11 +17,11 @@ namespace ImageCasterCore.BuildSteps
             this.Config = config.Build.Resize.RequireNonNull();
         }
         
-        public void Execute(PipelineContext context, IMagickImage magickImage)
+        public void Execute(PipelineContext context, MagickImage magickImage)
         {
             foreach (MagickGeometry dimensions in Config.Geometries)
             {
-                using (IMagickImage dimensionsMagickImage = magickImage.Clone())
+                using (MagickImage dimensionsMagickImage = (MagickImage)magickImage.Clone())
                 {
                     PipelineContext contextClone = context.Clone();
                     contextClone.AppendPath(dimensions.ToString());

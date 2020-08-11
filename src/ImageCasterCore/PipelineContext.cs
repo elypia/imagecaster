@@ -61,7 +61,7 @@ namespace ImageCasterCore
             Step = 0;
         }
 
-        public void Next(IMagickImage magickImage)
+        public void Next(MagickImage magickImage)
         {
             if (Step >= Pipeline.Count)
             {

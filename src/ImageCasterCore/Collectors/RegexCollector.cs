@@ -17,7 +17,7 @@ namespace ImageCasterCore.Collectors
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         
-        private static readonly Func<object, MagickReadSettings, IMagickImage> ToMagickImage = (o, settings) => new MagickImage((FileInfo)o, settings);
+        private static readonly Func<object, MagickReadSettings, MagickImage> ToMagickImage = (o, settings) => new MagickImage((FileInfo)o, settings);
         
         public List<ResolvedData> Collect(string data)
         {

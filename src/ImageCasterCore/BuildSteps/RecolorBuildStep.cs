@@ -1,5 +1,4 @@
 using ImageCasterCore.Api;
-using ImageCasterCore.Collectors;
 using ImageCasterCore.Configuration;
 using ImageCasterCore.Extensions;
 using ImageMagick;
@@ -20,7 +19,7 @@ namespace ImageCasterCore.BuildSteps
             this.Config = config.Build.Recolor.RequireNonNull();
         }
         
-        public void Execute(PipelineContext context, IMagickImage magickImage)
+        public void Execute(PipelineContext context, MagickImage magickImage)
         {
             ResolvedData maskFileInfo = context.DataResolver.ResolvedData("masks", context.ResolvedData, Config.Mask.Pattern);
 
@@ -33,7 +32,7 @@ namespace ImageCasterCore.BuildSteps
             
             if (maskFileInfo != null)
             {
-                using (IMagickImage maskMagickImage = maskFileInfo.ToMagickImage())
+                using (MagickImage maskMagickImage = maskFileInfo.ToMagickImage())
                 {
                     magickImage.SetWriteMask(maskMagickImage);
                 }
@@ -41,7 +40,7 @@ namespace ImageCasterCore.BuildSteps
             
             foreach (Modulation modulate in Config.Modulation)
             {
-                using (IMagickImage modulatedMagickImage = magickImage.Clone())
+                using (MagickImage modulatedMagickImage = (MagickImage)magickImage.Clone())
                 {
                     PipelineContext contextClone = context.Clone();
                     contextClone.AppendPath($"{modulate.Name}");

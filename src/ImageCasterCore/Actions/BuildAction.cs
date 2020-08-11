@@ -83,7 +83,7 @@ namespace ImageCasterCore.Actions
                 PipelineContext context = new PipelineContext(resolver, pipeline, resolvedData);
                 context.AppendPath("export");
         
-                using (IMagickImage magickImage = resolvedData.ToMagickImage())
+                using (MagickImage magickImage = resolvedData.ToMagickImage())
                 {
                     context.Next(magickImage);
                 }

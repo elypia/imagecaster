@@ -36,14 +36,14 @@ namespace ImageCasterCore
         public Dictionary<string, object> Properties { get; }
 
         /// <summary>How to convert this resolved data to an IMagickImage object.</summary>
-        public Func<object, MagickReadSettings, IMagickImage> GetMagickImage { get; }
+        public Func<object, MagickReadSettings, MagickImage> GetMagickImage { get; }
 
         /// <summary>Construct an object that represents the resolution of the a file.</summary>
         /// <param name="data">The data that was matched.</param>
         /// <param name="pattern">The pattern used to match it.</param>
         /// <param name="name">The name of this file if applicable, can be null if no name could be resolved.</param>
         /// <param name="tokens">Any tokens that were inferred from the pattern.</param>
-        public ResolvedData(object data, string pattern, Func<object, MagickReadSettings, IMagickImage> getMagickImage, string name, Dictionary<string, object> properties, params string[] tokens)
+        public ResolvedData(object data, string pattern, Func<object, MagickReadSettings, MagickImage> getMagickImage, string name, Dictionary<string, object> properties, params string[] tokens)
         {
             this.Data = data.RequireNonNull();
             this.Pattern = pattern.RequireNonNull();
@@ -53,7 +53,7 @@ namespace ImageCasterCore
             this.Tokens = tokens;
         }
 
-        public IMagickImage ToMagickImage(MagickReadSettings settings = null)
+        public MagickImage ToMagickImage(MagickReadSettings settings = null)
         {
             return GetMagickImage.Invoke(Data, settings);
         }

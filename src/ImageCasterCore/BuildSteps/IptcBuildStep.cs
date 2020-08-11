@@ -47,7 +47,7 @@ namespace ImageCasterCore.BuildSteps
         
         /// <param name="context"></param>
         /// <param name="magickImage"></param>
-        public void Execute(PipelineContext context, IMagickImage magickImage)
+        public void Execute(PipelineContext context, MagickImage magickImage)
         {
             StringInterpolator interpolator = Interpolator.Branch(context.ResolvedData, magickImage);
             IIptcProfile iptcProfile = magickImage.GetIptcProfile() ?? new IptcProfile();
@@ -69,8 +69,8 @@ namespace ImageCasterCore.BuildSteps
                 string value = interpolator.Interpolate(tag.Value);
                 iptcProfile.SetValue(tag.Tag, value);
             }
-            
-            magickImage.AddProfile(iptcProfile);
+
+            magickImage.SetProfile(iptcProfile);
             context.Next(magickImage);
         }
     }
