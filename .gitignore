@@ -13,11 +13,17 @@ out/
 ####################
 coverage.json
 
-###############
-# ImageCaster #
-###############
+######################
+# Visual Studio Code #
+######################
+.vscode/
+
+###########
+# Project #
+###########
 bin/
 obj/
+*.user
 
 # Build directory is in project working directory when testing.
 build/

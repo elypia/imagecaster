@@ -1,4 +1,9 @@
-# ImageCaster [![Matrix]][matrix-community] [![Discord]][discord-guild] [![Docker]][docker-image] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
+<div align="center">
+
+# ImageCaster
+[![Matrix]][matrix-community] [![Discord]][discord-guild] [![Docker]][docker-image] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
+</div>
+
 ## About
 ImageCaster is a small CLI application that can be used to manage
 exporting images. It's primary use case is for CI/CD where a
