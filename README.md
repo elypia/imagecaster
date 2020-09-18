@@ -24,8 +24,8 @@ a declarative configuration file instead for simpler CI/CD usage as
 well as some management for consecutive builds and quality assurance.
 
 ## Download
-There are 3 versions available of ImageCaster which correlate with the 3 [ImageMagick] versions.  
-Q16-HDRI is the default version and recommended for general use, however Q16 and Q8 
+There are 3 versions available of ImageCaster which correlate with the 3 [ImageMagick] versions.
+Q16-HDRI is the default version and recommended for general use, however Q16 and Q8
 are available for environments where limited resources are available, or minimal
 resource usage and build times are critical so long as they are appropriate for your use case.
 More information can be found here on the [ImageMagick website].
@@ -98,7 +98,7 @@ checks:
 This project is open-source under the [Apache 2.0] license!
 While not legal advice, you can find a [TL;DR] that sums up what
 you're allowed and not allowed to do along with any requirements if you
-want to use or derive work from this source code!
+want to use or derive work from this repository!
 
 [matrix-community]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
 [discord-guild]: https://discord.com/invite/hprGMaM "Discord Invite"
