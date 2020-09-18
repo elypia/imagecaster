@@ -7,6 +7,7 @@ build:
   parallel:
     matrix:
       - QUANTUM_DEPTH: [Q16-HDRI, Q16, Q8]
+        WORKAROUND: https://gitlab.com/gitlab-org/gitlab/-/issues/26362
 
 build-cross-platform:
   stage: build
@@ -58,3 +59,4 @@ test:
   parallel:
     matrix:
       - QUANTUM_DEPTH: [Q16-HDRI, Q16, Q8]
+        WORKAROUND: https://gitlab.com/gitlab-org/gitlab/-/issues/26362
